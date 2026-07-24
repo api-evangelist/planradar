@@ -1,0 +1,218 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 Invitations API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Invitations
+paths:
+  /api/{customer_id}/invitations/{id}:
+    delete:
+      summary: Delete an invitation
+      tags:
+      - Invitations
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Invitation Not Found
+  /api/{customer_id}/invitations/{id}/resend_invitation:
+    put:
+      summary: Resende invitation
+      tags:
+      - Invitations
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Invitation Not Found
+  /api/{customer_id}/invitations/search:
+    get:
+      summary: Search for invitations
+      tags:
+      - Invitations
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: order_by
+        in: query
+        type: string
+      - name: order_how
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: integer
+      - name: pageSize
+        in: query
+        type: integer
+      - name: searchterm
+        in: query
+        type: string
+      responses:
+        '404':
+          description: Customer Not Found
+  /api/{customer_id}/invitations/accept:
+    post:
+      summary: Accept invitation
+      tags:
+      - Invitations
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: time_zone_name
+        in: query
+        type: string
+      - name: invitation
+        in: body
+        schema:
+          type: object
+          properties:
+            password:
+              type: string
+            retype_password:
+              type: string
+            terms:
+              type: boolean
+            uuid:
+              type: string
+          required:
+          - password
+          - retype_password
+          - terms
+      responses:
+        '404':
+          description: Invitation Not Found
+  /api/{customer_id}/invitations/count_pending_invitations:
+    get:
+      summary: Retrieve number of pending invitations
+      tags:
+      - Invitations
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: last_sync_date
+        in: query
+        type: string
+      - name: sort
+        in: query
+        type: string
+      - name: pagesize
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: string
+      - name: search
+        in: query
+        type: string
+      responses:
+        '404':
+          description: Customer Not Found
+  /api/:customer_id/invitations:
+    post:
+      summary: Create new invitation
+      tags:
+      - Invitations
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: invitation
+        in: body
+        schema:
+          type: object
+          properties:
+            company:
+              type: string
+            firstname:
+              type: string
+            group_ids:
+              type: array
+              items:
+                type: string
+            lastname:
+              type: string
+            mail:
+              type: string
+            permissions:
+              type: object
+              properties:
+                defects:
+                  type: boolean
+            project_ids:
+              type: array
+              items:
+                type: string
+            role_ids:
+              type: array
+              items:
+                type: string
+            selected_is_mobile_syncs:
+              type: array
+              items:
+                type: string
+            subcontractor:
+              type: boolean
+            watcher:
+              type: boolean
+      responses:
+        '404':
+          description: Customer Not Found
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

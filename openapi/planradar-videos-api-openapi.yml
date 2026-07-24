@@ -1,0 +1,203 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 videos API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: videos
+paths:
+  /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos/list:
+    get:
+      summary: Retrieves all videos by ticket
+      tags:
+      - videos
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: blog not found
+        '406':
+          description: unsupported accept header
+  /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos/{video_uuid}:
+    put:
+      summary: Update Video caption
+      tags:
+      - videos
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: video_uuid
+        in: path
+        type: string
+        required: true
+      - name: video
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    caption:
+                      type: string
+        description: Caption cannot exceed 250 chars, validation error will be returned
+      responses:
+        '404':
+          description: Ticket Not found
+    delete:
+      summary: Delete an video from a ticket
+      tags:
+      - videos
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: video_uuid
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Ticket Not found
+    get:
+      summary: Get the details of one video
+      tags:
+      - videos
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: video_uuid
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Ticket Not found
+  /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos:
+    post:
+      summary: Create video with base64 or file attachement)
+      tags:
+      - videos
+      description: "\n        -Video duration should not exceed 30 sec.\n        -If you will upload video as base64 attach the value to `base64` key and you must fill video-content-type key.\n        -If you will upload video as binary attach the value to `video` key and you donot need to fill video-content-type key.\n        -Caption cannot exceed 250 chars, validation error will be returned.<br/>\n        When the video belongs to a form field attachment, validation errors may be returned (e.g. field does not exist, max attachments exceeded, ticket locked, or field permission denied).\n      "
+      x-websocket-response:
+        channel: user_{customerId}_{authorId}
+        message_type: videos
+        payload:
+          type: object
+          description: Serialized video object (V2::VideoSerializer) sent after async processing completes
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: video
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    video:
+                      type: string
+                    base64:
+                      type: string
+                    video-content-type:
+                      type: string
+                    caption:
+                      type: string
+                    uuid:
+                      type: string
+      responses:
+        '404':
+          description: Ticket Not found
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

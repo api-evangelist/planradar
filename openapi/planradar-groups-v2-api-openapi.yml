@@ -1,0 +1,265 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 Groups V2 API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Groups V2
+paths:
+  /api/v2/{customer_id}/groups:
+    get:
+      summary: List groups
+      tags:
+      - Groups V2
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        nullable: false
+        description: Customer ID
+        example: ymjxnx
+        required: true
+      - name: page
+        in: query
+        type: integer
+        required: false
+        description: Page number
+        example: 1
+      - name: pagesize
+        in: query
+        type: integer
+        required: false
+        description: Number of records per page
+        example: 25
+      - name: check_inhouse
+        in: query
+        type: boolean
+        required: false
+        description: Include groups_have_inhouse_users in meta
+      - name: q
+        in: query
+        type: object
+        required: false
+        description: Ransack search parameter. Use q[search_i_cont] to search across name, leader name, leader email, and project name.
+        example:
+          search_i_cont: john
+      - name: filters
+        in: query
+        type: object
+        required: false
+        description: 'On-fly filters using field IDs from the filterable_fields endpoint (type=groups). Each filter specifies a field ID, a predicate, and one or more values.<br/><br/><b>Format:</b> <code>filters[{field-id}][0][predicate]={predicate}&filters[{field-id}][0][value]={value}</code><br/><br/><b>Available Fields:</b><br/>- <code>id</code> (integer): Group ID. Predicates: eq, le, ge, neq, between<br/>- <code>name</code> (short_text): Group name. Predicates: eq, neq, starts_with, ends_with, like, not_like<br/>- <code>created-on</code> (date): Creation date. Predicates: eq, le, ge, neq, between, plus relative date predicates<br/>- <code>updated-on</code> (date): Last update date. Predicates: eq, le, ge, neq, between, plus relative date predicates<br/>- <code>leader-id</code> (list): Group leader. Predicates: in, not_in<br/>- <code>leader-email</code> (short_text): Leader email. Predicates: eq, neq, starts_with, ends_with, like, not_like<br/>- <code>leader-tel</code> (short_text): Leader phone number. Predicates: eq, neq, starts_with, ends_with, like, not_like<br/>- <code>members</code> (list): Group members. Predicates: in, not_in<br/>- <code>projects</code> (list): Linked projects. Predicates: in, not_in<br/><br/><b>Examples:</b><br/>- Filter by leader: <code>filters[leader-id][0][predicate]=in&filters[leader-id][0][value][0]=abc</code><br/>- Filter by name: <code>filters[name][0][predicate]=like&filters[name][0][value]=engineering</code><br/>- Filter by date: <code>filters[created-on][0][predicate]=ge&filters[created-on][0][value]=2024-01-01</code><br/>- Multiple filters: <code>filters[leader-id][0][predicate]=in&filters[leader-id][0][value][0]=abc&filters[name][0][predicate]=like&filters[name][0][value]=test</code>'
+      responses:
+        '200':
+          description: Groups list
+        '401':
+          description: Request unauthorized
+    post:
+      summary: Create group
+      tags:
+      - Groups V2
+      security:
+      - apiKey: []
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        nullable: false
+        description: Customer ID
+        example: ymjxnx
+        required: true
+      - name: group_params
+        in: body
+        schema:
+          type: object
+          required:
+          - data
+          properties:
+            data:
+              type: object
+              required:
+              - attributes
+              properties:
+                attributes:
+                  type: object
+                  required:
+                  - name
+                  - leader_id
+                  properties:
+                    name:
+                      type: string
+                      example: Group Name
+                    leader_id:
+                      type: string
+                      example: oll
+                    user_ids:
+                      type: array
+                      items:
+                        type: string
+                      example:
+                      - abc
+                      - def
+                      description: Encoded user IDs to assign as group members
+      responses:
+        '201':
+          description: Group created with members
+        '401':
+          description: Request unauthorized for invalid customer
+        '422':
+          description: Invalid member user_ids
+        '404':
+          description: Non-existing member user_ids
+  /api/v2/{customer_id}/groups/{id}:
+    parameters:
+    - name: customer_id
+      in: path
+      type: string
+      nullable: false
+      description: Customer ID
+      example: ymjxnx
+      required: true
+    - name: id
+      in: path
+      type: string
+      nullable: false
+      description: Group ID
+      example: grp123
+      required: true
+    get:
+      summary: Show group
+      tags:
+      - Groups V2
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: page
+        in: query
+        type: integer
+        required: false
+        description: Projects page number (1-indexed). Paginates the projects relationship.
+        example: 1
+      - name: pagesize
+        in: query
+        type: integer
+        required: false
+        description: Projects page size (max 200, default 50)
+        example: 50
+      - name: q[name_i_cont]
+        in: query
+        type: string
+        required: false
+        description: Case-insensitive substring filter applied to the projects relationship
+        example: alpha
+      responses:
+        '200':
+          description: Group with project associations
+        '404':
+          description: Group not found
+    patch:
+      summary: Update group
+      tags:
+      - Groups V2
+      security:
+      - apiKey: []
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: group_params
+        in: body
+        schema:
+          type: object
+          required:
+          - data
+          properties:
+            data:
+              type: object
+              required:
+              - attributes
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: Group Name
+                    leader_id:
+                      type: string
+                      example: oll
+                    user_ids:
+                      type: array
+                      items:
+                        type: string
+                      example:
+                      - abc
+                      - def
+                      description: Encoded user IDs to assign as group members. Full replacement -- service computes diff.
+                    remove_users_from_projects:
+                      type: boolean
+                      example: false
+                      description: If true, removed members are also removed from associated projects and their ticket assignments are cleaned up via background jobs
+      responses:
+        '200':
+          description: Group updated with cascade removal
+        '422':
+          description: Invalid member user_ids on update
+    delete:
+      summary: Delete group
+      tags:
+      - Groups V2
+      security:
+      - apiKey: []
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: destroy_params
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    remove_users_from_projects:
+                      type: boolean
+                      example: false
+                      description: If true, group members are also removed from associated projects and their ticket assignments are cleaned up via background jobs
+        required: false
+      responses:
+        '204':
+          description: Group deleted with cascade removal from projects
+        '422':
+          description: Group linked to inaccessible projects
+        '404':
+          description: Group not found
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

@@ -1,0 +1,167 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 Projects V2 API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Projects V2
+  description: Read your projects
+paths:
+  /api/v2/{customer_id}/projects/{project_id}/project_groups:
+    get:
+      summary: Get project groups for selected project
+      tags:
+      - Projects V2
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: order_by
+        in: query
+        type: string
+      - name: order_how
+        in: query
+        type: string
+      responses:
+        '404':
+          description: Project Not Found
+  /api/v2/{customer_id}/projects/{project_id}/memberships:
+    get:
+      summary: Returns all memberships of a specific project
+      tags:
+      - Projects V2
+      produces:
+      - application/json
+      description: 'This API returns all the users that are members of a specific project and their permissions. '
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        description: use 0 to return the memberships of all projects of the logged in customer
+        required: true
+      responses:
+        '404':
+          description: Memberships Not Found
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/my_projects:
+    get:
+      summary: Returns all projects
+      tags:
+      - Projects V2
+      description: This API returns all projects of the logged in customer.
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Projects Not Found
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects:
+    get:
+      summary: Returns a paginated list of projects
+      tags:
+      - Projects V2
+      description: Returns projects the current user has access to, scoped by their customer permission. Users with the report_templates permission (and without limited_projects) receive all account projects so templates can be assigned across the account.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+        default: '100000'
+      - name: page
+        in: query
+        type: integer
+        required: false
+        description: Page number for pagination.
+      - name: pagesize
+        in: query
+        type: integer
+        required: false
+        description: Number of projects per page.
+      - name: sort
+        in: query
+        type: string
+        required: false
+        description: Sort expression. Defaults to project name ascending.
+      - name: search
+        in: query
+        type: string
+        required: false
+        description: Filters projects by name.
+      - name: include_archived
+        in: query
+        type: boolean
+        required: false
+        description: When present, archived projects are included in the result.
+      - name: load_all
+        in: query
+        type: boolean
+        required: false
+        description: When present, returns all matching projects without pagination.
+      - name: load_template
+        in: query
+        type: boolean
+        required: false
+        description: When true, scopes the result to projects relevant for the templates flow.
+      responses:
+        '200':
+          description: Projects Found
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - id
+                  - type
+                  - attributes
+              meta:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Total number of matching projects.
+                  page:
+                    type: integer
+                    description: Current page number.
+        '406':
+          description: Unsupported Accept Header
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

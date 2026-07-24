@@ -1,0 +1,261 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 Forms / Project API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Forms / Project
+  description: Manage forms assigned to projects
+paths:
+  /api/v1/{customer_id}/projects/{project_id}/ticket_types_project:
+    get:
+      summary: Returns all project ticket types of a specific project
+      tags:
+      - Forms / Project
+      description: This API returns all the ticket types that are assigned to a specific project based on its id
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: last_sync_date
+        in: query
+        type: string
+        description: is a Unix Timestamp. If it is set, only project ticket types that were created after that timestamp will be returned
+      - name: apply_form_display_permission
+        in: query
+        type: boolean
+        required: false
+        description: When true, only forms visible to the caller's role are returned (role-based form visibility, KFT-519). Watchers bypass the filter.
+      - name: apply_form_edit_permission
+        in: query
+        type: boolean
+        required: false
+        description: When true, only forms editable by the caller's role are returned. Combine with apply_form_display_permission to intersect.
+      responses:
+        '404':
+          description: Project Ticket Types
+    post:
+      summary: 'ADD Ticket Type To Project '
+      tags:
+      - Forms / Project
+      description: ' This API is used for assigning a specific ticket type to a project as well as linking its lists if required. '
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_types_project
+        in: body
+        schema:
+          $ref: '#/definitions/TicketTypeProject'
+        description: 'allowed value for included type: "lists-ticket-types"'
+      responses:
+        '403':
+          description: Invalid Data Provided
+  /api/v1/{customer_id}/projects/{project_id}/ticket_types_project/{ticket_type_project_id}:
+    get:
+      summary: Load one ticket type assigned to a project with the relation data
+      tags:
+      - Forms / Project
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_type_project_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Object cannnot be found
+    patch:
+      summary: Updates the ticket type assigned to a project
+      tags:
+      - Forms / Project
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_type_project_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Object cannnot be found
+    post:
+      summary: 'Creates project ticket type '
+      tags:
+      - Forms / Project
+      description: ' This API is used for assigning a specific ticket type to a project as well as linking its lists if required. '
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_types_project
+        in: body
+        schema:
+          $ref: '#/definitions/TicketTypeProject'
+        description: 'allowed value for included type: "lists-ticket-types"'
+      responses:
+        '403':
+          description: Invalid Data Provided
+    put:
+      summary: Updates project ticket type assigned to a project
+      tags:
+      - Forms / Project
+      description: ' This API is used for updating a specific ticket type assigned to a project as well as linking its lists if required. '
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_type_project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_types_project
+        in: body
+        schema:
+          $ref: '#/definitions/TicketTypeProject'
+        description: 'allowed value for included type: "lists-ticket-types"'
+      responses:
+        '403':
+          description: Invalid Data Provided
+    delete:
+      summary: Deletes the link between a ticket type and a project
+      tags:
+      - Forms / Project
+      description: This API is used for removing a specific ticket type from a project. If a ticket type is removed from a project all the tickets of that ticket type will be deleted as well.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_type_project_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Ticket Type Not Found
+definitions:
+  TicketTypeProject:
+    type: object
+    properties:
+      data:
+        type: object
+        properties:
+          attributes:
+            type: object
+            properties:
+              ticket-type-id:
+                type: string
+                example: xmwp
+                description: id of the ticket type that is being used - is required
+              required-fields:
+                type: array
+                items:
+                  type: string
+                description: sets which of the fields of the ticket type are mandatory
+      included:
+        type: array
+        description: is an array of objects
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              example: lists-ticket-types
+            attributes:
+              type: object
+              properties:
+                list-id:
+                  type: string
+                  example: gwgw
+                  description: id of the list that is being linked
+                field-name:
+                  type: string
+                  example: tf29b038634ac7d062
+                  description: 'name of the field of the list that is being linked '
+                list-items:
+                  type: array
+                  items:
+                    type: string
+                    description: items of the list that is being linked - array which contains the ids of the list entries - leave it empty if you want to select all list-entries
+                allow-multiple-selection:
+                  type: boolean
+                  example: false
+                  description: sets whether or not the checkbox Allow MultiSelection has been checked
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

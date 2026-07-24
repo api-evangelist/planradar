@@ -1,0 +1,227 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 Documents API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Documents
+  description: Manage your documents in PlanRadar, adding documents to a ticket is covered in the 'Tickets' section
+paths:
+  /api/v1/{customer_id}/projects/{project_id}/documents/:
+    get:
+      summary: Retrieves All Documents
+      tags:
+      - Documents
+      description: "Retrieve all documents in a specific project. Documents are returned with respect to the role of the authenticated user in the project.\n      <br />Without any extra parameters it will return the first 100 documents ordered by ID ascending. Extra parameters can be added to filter and sort the results.\n      <br /><b>Document Types Dictionary:</b>  [pdf = 1, excel = 2, word = 3, dwg = 4, dxf = 5]"
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        description: Authenticated user must be a member of this project
+        required: true
+      - name: page
+        in: query
+        type: integer
+        description: 'default: 1'
+      - name: pagesize
+        in: query
+        type: integer
+        description: Maximum is 500, default is 100
+      - name: last_sync_date
+        in: query
+        type: string
+        description: Only retrieve documents that were created after a specific timestamp
+      - name: sort
+        in: query
+        type: string
+        description: Field name to sort the results based on it, sort is always ascending unless the field name is prefixed with a minus (U+002D HYPHEN-MINUS, “-“)  i.e. "-id" or "id"
+      - name: filter
+        in: query
+        type: string
+        description: Filter documents based on specific field values, for example filter[component_id]=1, will only return documents created in the provided component_id
+      responses:
+        '404':
+          description: Documents not found
+    post:
+      summary: Create New Document
+      tags:
+      - Documents
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      x-websocket-response:
+        channel: customer_{customerId}
+        message_type: documents
+        payload:
+          type: object
+          properties:
+            is_scanned:
+              type: boolean
+              description: Whether the document has been scanned
+            is_processed:
+              type: boolean
+              description: Whether processing is complete
+            updated_at:
+              type: string
+              format: date-time
+            err:
+              type: object
+              description: Error details if processing failed
+      description: "API to upload new documents.<br /><br />  <b>Supported Types:</b>  [PDF, Excel, Word, DWG, DXF]<br />\n        This API accepts both base64 and multipart data.<br />\n          <b>Base64 Uploads</b>\n          Set `is_base64` to `true`, add the base64 encoded document to the `document` field, add the uploaded file name to `filename`\n          <br /><b>Multipart Uploads</b>\n          Set `is_base64` to `false`, set the value of the `document` field to be the multipart data"
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: document
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  $ref: '#/definitions/Document'
+      responses:
+        '403':
+          description: Invalid Data Provided
+  /api/v1/{customer_id}/projects/{project_id}/documents/{document_uuid}:
+    delete:
+      summary: Delete one Document
+      tags:
+      - Documents
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: document_uuid
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Document Not found
+    get:
+      summary: Load one Document
+      tags:
+      - Documents
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: document_uuid
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Document Not found
+    put:
+      summary: Update Document
+      tags:
+      - Documents
+      description: To rename the document, just send the title attribute, to update the whole document please check document creation API documentation.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: document
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  $ref: '#/definitions/Document'
+      responses:
+        '404':
+          description: Document found
+definitions:
+  Document:
+    type: object
+    properties:
+      title:
+        type: string
+        example: document1
+        description: If no value provided the file name will be used as a title
+      component-id:
+        type: integer
+        description: Only set the value of this field if you want to attach the document to specific layer, if you added a ticket id, to component will be set automatically.
+      is-base64:
+        type: boolean
+        description: set to true if the document is base64 encoded
+      async:
+        type: boolean
+        description: by default documents are processed asynchronously, set the flag to false if you don't want that
+      document:
+        type: string
+        example: ZW1wdHlkb2N1bWVudAo=
+        description: the actual document to be uploaded, or the base64 encoded document if you set the is-base64 to true
+      uuid:
+        type: string
+        example: 8f1c50d8-96d3-4b54-bb5f-1145eeccb7bb
+        description: Document UUID, should be unique, if empty the server will assign a random UUID
+      ticket-id:
+        type: string
+        description: If you want attach the document to a specific ticket, use the ticket UUID here, if not leave empty
+      filename:
+        type: string
+        example: document1.pdf
+        description: Set the name of the uploaded file, only use it when uploading base64 encoded documents
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

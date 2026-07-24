@@ -1,0 +1,836 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 Projects API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Projects
+  description: Read your projects, add or remove members to the project
+paths:
+  /api/v1/{customer_id}/projects/{project_id}/memberships:
+    get:
+      summary: Get all project memberships
+      tags:
+      - Projects
+      produces:
+      - application/json
+      description: Get all users that are member of a specific project
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        description: use 0 to return all project memberships
+        required: true
+      - name: last_sync_date
+        in: query
+        type: integer
+        required: false
+        description: Unix timestamp in seconds. When provided, returns only memberships changed after this time (incremental sync). Omit or use 0 to return all memberships. Non-numeric values are ignored.
+      responses:
+        '404':
+          description: project not found
+        '406':
+          description: Unsupported Accept Header
+  /api/v1/{customer_id}/projects/{project_id}/project_groups:
+    get:
+      summary: Returns all groups of a specific project
+      tags:
+      - Projects
+      description: 'This API returns all groups of a specific project based on its id. Without any extra parameters it will return the first 100 groups ordered by ascending ID. Extra parameters can be added to sort the results.<br /> <b>Group Sorting:</b> Groups can be sorted by the amount of users they have. <br /><b>Example: </b> `/project_groups?sort=count`<br /> Moreover, they can be sorted by the groups''s name: group.name, the leader''s first name: leader.firstname or the leader''s email: leader.mail. The sort is always ascending unless the field name is prefixed with a minus (U+002D HYPHEN-MINUS, “-“) i.e. `-id` or `id`. <br /><b>Example: </b> `/project_groups?sort=-group.name`<br />'
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: sort
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: integer
+        description: sets the number of pages for the returned groups
+      - name: pagesize
+        in: query
+        type: integer
+        description: sets the number of groups that should be returned per page <br/>Maximum is 500, default is 100
+      - name: check_inhouse
+        in: query
+        type: boolean
+        description: sets whether or not the returned groups should contain an in house user type
+      responses:
+        '404':
+          description: Project Not Found
+  /api/v1/{customer_id}/projects/{project_id}/users:
+    get:
+      summary: Returns all users of a project
+      tags:
+      - Projects
+      description: 'This API returns all users of a specific project including customer permissions and groups.<br /> Without any extra parameters it will return the first 100 users ordered by ascending ID. Extra parameters can be added to sort the results.<br /> <b>User Sorting:</b> Users can be sorted by their attributes e.g id, firstname, lastname, company. Moreover, the results can be sorted by other characteristics such as customer_permissions and project_memberships. The sort is always ascending unless the field name is prefixed with a minus (U+002D HYPHEN-MINUS, “-“) i.e. `-id` or `id`. <br /><b>Example#1: </b> `/users?sort=-firstname`<br /> <br /><b>Example#2: </b> `/users?sort=customer-permissions.permission-type`<br /> <br /><b>Example#3: </b> `/users?sort=project-memberships.defectradar_role_id`<br />'
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        description: set project id to 0 if you want to get all the users that are part of projects
+        required: true
+      - name: page
+        in: query
+        type: integer
+        description: sets the number of pages for the returned users
+      - name: pagesize
+        in: query
+        type: integer
+        description: sets the number of users that should be returned per page <br/>Maximum is 500, default is 100
+      - name: sort
+        in: query
+        type: string
+      responses:
+        '404':
+          description: Users Not Found
+        '406':
+          description: Unsupported Accept Header
+  /api/v1/{customer_id}/projects/{project_id}/add_member_to_project:
+    post:
+      summary: Adds specific user/s to project
+      tags:
+      - Projects
+      description: This API is used for assigning a specific user to a specific project.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: user
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    all:
+                      type: boolean
+                      example: false
+                      description: sets whether or not all groups of the customer should be added to the project
+                    is_mobile_sync:
+                      type: boolean
+                      example: false
+                      description: 'sets whether or not the data should be synced on a mobile phone '
+                    white_list:
+                      type: array
+                      items:
+                        type: string
+                        example: byk
+                      description: ' contains all the ids of the users that should be added to the project'
+                    black_list:
+                      type: array
+                      items:
+                        type: string
+                        example: lmw
+                      description: contains all the ids of the users that are deselected and should therefore be removed from the project
+                    roleId:
+                      type: string
+                      example: lm
+                      description: id of the role that should be assigned to the added user/s
+      responses:
+        '404':
+          description: User Or Project Not Found
+        '406':
+          description: Unsupported Accept Header
+  /api/v1/{customer_id}/projects/{project_id}/remove_member_from_project:
+    post:
+      summary: Removes specific member from project
+      tags:
+      - Projects
+      description: This API is used for removing a specific user from a specific project.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: user
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    userId:
+                      type: string
+                      description: 'id of the user that should be removed from the project '
+                    force_unassign_issues:
+                      type: boolean
+                      description: if is set to `true` all the tickets that are assigned to this user will be unassigned
+      responses:
+        '404':
+          description: Member Not Found
+  /api/v1/{customer_id}/projects/{project_id}/add_group_to_project:
+    post:
+      summary: Adds specific group/s to project
+      tags:
+      - Projects
+      description: 'This API is used for adding one group or multiple groups with a specific role to a specific project based on its id. '
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: add_group_to_project
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    all:
+                      type: boolean
+                      example: false
+                      description: ' sets whether or not all groups of the customer should be added to the project'
+                    black_list:
+                      type: array
+                      items:
+                        type: string
+                        example: oll
+                        description: contains all the ids of the groups that are deselected and should therefore be removed from the project
+                    white_list:
+                      type: array
+                      items:
+                        type: string
+                        example: gpk
+                        description: contains all the ids of the groups that should be added to the project
+                    roleId:
+                      type: string
+                      example: lm
+                      description: id of the role that should be assigned to the added group/s
+          required:
+          - title
+          - content
+      responses:
+        '404':
+          description: Group or Role Not Found
+  /api/v1/{customer_id}/projects/{project_id}/update_project_member_role:
+    put:
+      summary: Updates specific member role of project
+      tags:
+      - Projects
+      description: This API is used for updating the role of a specific member of a specific project
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: user
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    roleId:
+                      type: string
+                      example: lm
+                      description: id of the new role - is required
+                    userId:
+                      type: string
+                      exmample: byk
+                      description: id of the user - is required
+      responses:
+        '404':
+          description: Project Or User Not Found not found
+        '406':
+          description: Unsupported Accept Header
+  /api/v1/{customer_id}/projects:
+    get:
+      summary: Returns all projects
+      tags:
+      - Projects
+      produces:
+      - application/json
+      description: 'This API returns all projects of the logged in customer. Without any extra parameters it will return the first 100 projects ordered by ascending ID. Extra parameters can be added to sort the results. <br ><b>Project Sorting: </b> <br /> Projects can be sorted by the project''s id: running_number, project''s name: name, project''s code: projectnumber, project''s start date: drstart_date, project''s end date: drend_date, project''s zipcode: zipcode, project''s city: city, project''s street: street, project''s country: country. The sort is always ascending unless the field name is prefixed with a minus (U+002D HYPHEN-MINUS, “-“) i.e. `-id` or `id` <br /> <b>Example#1: </b>sorting projects by descending name `/projects?sort=-name`<br /> <b>Example#2: </b>sorting projects by ascending start date `/projects?sort=drstart_date`'
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: sort
+        in: query
+        type: string
+      - name: pagesize
+        in: query
+        type: string
+        description: sets the number of projects that should be returned per page <br/>Maximum is 500, default is 100
+      - name: page
+        in: query
+        type: string
+        description: sets the number of pages for the returned projects
+      responses:
+        '404':
+          description: Projects Not Found
+    post:
+      summary: Creates project
+      tags:
+      - Projects
+      description: This API is used for creating a new project.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: firstproject
+                      description: name of the project
+                    street:
+                      type: string
+                      example: Some Street
+                      description: street of the project
+                    zipcode:
+                      type: string
+                      example: '1010'
+                      description: zipcode of the project
+                    city:
+                      type: string
+                      example: Vienna
+                      description: city of the project
+                    country:
+                      type: string
+                      example: Austria
+                      description: country of the project
+                    description:
+                      type: string
+                      example: This is the first project
+                      description: description of the project
+                    drend-date:
+                      type: string
+                      example: '2022-02-26T00:00:00.000Z'
+                      description: end date of the project
+                    drstart-date:
+                      type: string
+                      example: '2022-02-23T10:02:25.000Z'
+                      description: start date of the project
+                    homepage:
+                      type: string
+                      example: https://www.planradar.com
+                      description: homepage of the project
+                    bruttosize:
+                      type: integer
+                    budget:
+                      type: integer
+                    drend_date:
+                      type: string
+                    drstart_date:
+                      type: string
+                    identifier:
+                      type: string
+                    is_active:
+                      type: boolean
+                    is_customer:
+                      type: boolean
+                    is_public:
+                      type: boolean
+                    nettosize:
+                      type: integer
+                    parent_id:
+                      type: integer
+                    projectnumber:
+                      type: integer
+                      example: 52512510244225
+                      description: code of the project
+                    status:
+                      type: integer
+                      default: 1
+                      example: 1
+                    fields:
+                      type: array
+                      items:
+                        type: object
+                        description: is an array that contains the project's custom created fields and their values
+                        properties:
+                          edit:
+                            type: boolean
+                            example: true
+                            description: sets whether or not the field can be edited
+                          id:
+                            type: string
+                            example: b5723873-a607-4ea6-956a-6d5663f1953b
+                            description: id of the field
+                          name:
+                            type: string
+                            example: first-field
+                            description: name of the field
+                          type:
+                            type: string
+                            example: CustomFields::LongTextType
+                            description: 'type of the field - allowed values are: CustomFields::ShortTextType, CustomFields::LongTextType, CustomFields::BooleanType, CustomFields::DateType, CustomFields::FloatType, CustomFields::ListType, CustomFields::IntegerType, CustomFields::TimeType, CustomFields::CheckListType'
+                          value:
+                            type: string
+                            example: firstvalue
+                            description: value of the field
+          required:
+          - name
+          - projectnumber
+      responses:
+        '422':
+          description: Unprocessable Entity
+  /api/v1/{customer_id}/projects/{project_id}/copy_project:
+    post:
+      summary: 'Copies specific project '
+      tags:
+      - Projects
+      description: This API is used for copying a specific project based on its id.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: name
+        in: query
+        type: string
+        description: sets the name of the copy of the project
+      - name: details
+        in: query
+        type: boolean
+        description: sets whether or not the copy of the project should contain the project's details
+      - name: groups
+        in: query
+        type: boolean
+        description: sets whether or not the copy of the project should contain the project's groups
+      - name: ticket_types
+        in: query
+        type: boolean
+        description: sets whether or not the copy of the project should contain the project's forms and lists
+      - name: users
+        in: query
+        type: boolean
+        description: sets whether or not the copy of the project should contain the project's users
+      - name: components
+        in: query
+        type: boolean
+        description: sets whether or not the copy of the project should contain the project's layers and plans
+      responses:
+        '404':
+          description: project not found
+        '406':
+          description: Unsupported Accept Header
+  /api/v1/{customer_id}/projects/{project_id}/export_project:
+    get:
+      summary: Exports data of a specific project
+      tags:
+      - Projects
+      description: This API is used for exporting the data of a specific project based on its id.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter_id
+        in: query
+        type: string
+        description: 'id of the filter of the tickets that should be exported with the project '
+      - name: timezone_offset
+        in: query
+        type: string
+        description: is a timestamp - is the difference between the local time and the worlwide UTC time
+      - name: includedocuments
+        in: query
+        type: boolean
+        description: sets whether or not all documents should be included in the export
+      responses:
+        '404':
+          description: Project Not Found
+        '406':
+          description: Unsupported Accept Header
+  /api/v1/{customer_id}/projects/{project_id}:
+    get:
+      summary: Returns specific project
+      tags:
+      - Projects
+      description: This API returns a specific project based on its id.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Project Not Found
+        '406':
+          description: Unsupported Accept Header
+    put:
+      summary: Updates specific project
+      tags:
+      - Projects
+      description: This API is used for updating a specific project based on its id.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: project
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: firstproject
+                      description: name of the project
+                    running-number:
+                      type: string
+                      description: 'project count in relation to the user, example: 5 (this means that this is the 5th created project of the customer)'
+                    parent-id-hashed:
+                      type: string
+                      description: ' hashed id of the logged in customer - is optional'
+                    typed-fields:
+                      type: array
+                      items:
+                        type: object
+                        description: is an array that contains the project's custom created fields and their values
+                        properties:
+                          edit:
+                            type: boolean
+                            example: true
+                            description: sets whether or not the field can be edited
+                          id:
+                            type: string
+                            example: b5723873-a607-4ea6-956a-6d5663f1953b
+                            description: id of the field
+                          name:
+                            type: string
+                            example: first-field
+                            description: name of the field
+                          type:
+                            type: string
+                            example: CustomFields::LongTextType
+                            description: 'type of the field - allowed values are: CustomFields::ShortTextType, CustomFields::LongTextType, CustomFields::BooleanType, CustomFields::DateType, CustomFields::FloatType, CustomFields::ListType, CustomFields::IntegerType, CustomFields::TimeType, CustomFields::CheckListType'
+                          value:
+                            type: string
+                            example: firstvalue
+                            description: value of the field
+                    typed-values:
+                      type: object
+                      description: 'sets the values of the typed-fields of the project. This is a partial update: fields omitted from the object keep their stored value, fields included with a value overwrite it, and fields included with an empty value (null or empty string) are removed.'
+                    projectnumber:
+                      type: string
+                      example: '52512510244225'
+                      description: code of the project
+                    street:
+                      type: string
+                      example: Some Street
+                      description: street of the project
+                    zipcode:
+                      type: string
+                      example: '1010'
+                      description: zipcode of the project
+                    city:
+                      type: string
+                      example: Vienna
+                      description: city of the project
+                    country:
+                      type: string
+                      example: Austria
+                      description: country of the project
+                    description:
+                      type: string
+                      example: This is the first project
+                      description: description of the project
+                    drend-date:
+                      type: string
+                      example: '2022-02-23T00:00:00.000Z'
+                      description: end date of the project
+                    drstart-date:
+                      type: string
+                      example: '2022-02-16T10:02:25.000Z'
+                      description: start date of the project
+                    homepage:
+                      type: string
+                      example: https://www.planradarproject.com
+                      description: homepage of the project
+                    fields:
+                      type: array
+                      items:
+                        type: object
+                        description: is an array that contains the project's custom created fields and their values
+                        properties:
+                          edit:
+                            type: boolean
+                            example: true
+                            description: sets whether or not the field can be edited
+                          id:
+                            type: string
+                            example: b5723873-a607-4ea6-956a-6d5663f1953b
+                            description: id of the field
+                          name:
+                            type: string
+                            example: first-field
+                            description: name of the field
+                          type:
+                            type: string
+                            example: CustomFields::LongTextType
+                            description: 'type of the field - allowed values are: CustomFields::ShortTextType, CustomFields::LongTextType, CustomFields::BooleanType, CustomFields::DateType, CustomFields::FloatType, CustomFields::ListType, CustomFields::IntegerType, CustomFields::TimeType, CustomFields::CheckListType'
+                          value:
+                            type: string
+                            example: firstvalue
+                            description: value of the field
+                    schedule-start-date:
+                      type: string
+                      example: '2022-02-23'
+                      description: schedule start date of the project
+          required:
+          - name
+          - projectnumber
+      responses:
+        '422':
+          description: Unprocessable Entity
+  /api/v1/{customer_id}/projects/{project_id}/archive_project:
+    put:
+      summary: Archives/Unarchives specific project
+      tags:
+      - Projects
+      description: This API is used for archiving/unarchiving a specific project based on its id.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: archive_project
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    status:
+                      type: integer
+                      example: 9
+                      description: if is set to 9 the project will be archived - if is set to 1 the project will be unarchived
+      responses:
+        '404':
+          description: Project Not found
+        '406':
+          description: Unsupported Accept Header
+  /api/v1/{customer_id}/projects/{project_id}/remove_group_from_project:
+    post:
+      summary: Removes a group from a specific project
+      tags:
+      - Projects
+      description: This API is used for removing a specific group from a specific project.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: remove_group
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    group_id:
+                      type: string
+                      example: lm
+                      description: id of the group that should be removed from the project
+                    remove_user:
+                      type: boolean
+                      example: true
+                      description: if is set to `true` all the members of the group will be removed from the project as well
+      responses:
+        '404':
+          description: Group Not Found
+  /api/v1/{customer_id}/projects/{project_id}/update_project_group_role:
+    post:
+      summary: Updates project's group role
+      tags:
+      - Projects
+      description: This API is used for updating the role of a specific group that is assigned to a specific project.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: update_role
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    group_id:
+                      type: string
+                      example: lm
+                      description: id of the group that should be updated - is required
+                    role_id:
+                      type: string
+                      example: lwm
+                      description: id of the new role - is required
+      responses:
+        '404':
+          description: Group Or Role Not Found
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

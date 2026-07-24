@@ -1,0 +1,1803 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 DMS API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: DMS
+  description: 'Document Management System: browse, manage and copy DMS nodes, ticket attachments and form-field attachments'
+paths:
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes:
+    get:
+      summary: Retrieves All nodes [folder|files] for a specific projects
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: list all the nodes
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: pagesize
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: string
+      - name: sort
+        in: query
+        type: string
+        description: 'Sort field. Supports: file_attachment_versions.last_modified_at, -file_attachment_versions.last_modified_at (uses COALESCE with created_at as fallback)'
+      - name: parent_id
+        in: query
+        type: string
+      - name: only_folders
+        in: query
+        type: string
+      - name: folder_on_top
+        in: query
+        type: string
+        description: default = true
+      - name: trashed
+        in: query
+        type: string
+        description: true|false
+      - name: exclude_ticket_documents
+        in: query
+        type: string
+        description: true|false
+      - name: search
+        in: query
+        type: string
+        description: search for a specific file
+      - name: filter
+        in: query
+        type: string
+        description: "\n        * to load all the files and folder under specific parent -> parent_id=uuid,\n        * to load folder or files on the root level no need for query params,\n        * to load the items in the trash bin which are on the root level  ?trashed=true\n        * version.last-modified-at: filter by last modified date (date type, supports ge/le/between/has/has_not). Uses COALESCE(last_modified_at, created_at) for comparison."
+      - name: search_in_all_folders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will load all the files and folders in the project
+      - name: search_in_all_subfolders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders
+      - name: show_virtual
+        in: query
+        type: string
+        description: true|false default value is false if set true this will load all the components and legacy documents
+      - name: bookmarked
+        in: query
+        type: string
+        description: true|false default value is false if set true this will load all bookmarked node on specific level other wise search_in_all_subfoldrs should be provided as well to load all the bookmarked nodes by this user
+      - name: flat_files_list
+        in: query
+        type: string
+        description: 'true|false default value is false if set true this will load all files for a specific folder and subfolders if no parent_id is provided it will load all the files in all folders including the root '
+      - name: last_sync_date
+        in: query
+        type: string
+        description: is a Unix Timestamp. If it is set, only nodes that were updated after that timestamp will be returned
+      - name: filter_by_edit_permissions
+        in: query
+        type: string
+        description: true|false default value is false. If set true the listing is scoped to nodes the current user may copy into (folders / DMS root they can write to) — used by the copy-attachments-to-DMS destination picker.
+      responses:
+        '404':
+          description: nodes not found
+    post:
+      summary: Create New Node[folder]  or a new file
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: "Create new Node or file. Maximum file size: 100MB for regular uploads, 2GB when using chunking technique.\n\nFor files larger than 100MB, use the chunking technique:\n\n1. Split the file into chunks (recommended: 15MB per chunk)\n2. Upload each chunk to: POST /api/v2/{customer_id}/file_uploads/upload_chunk\n   Required parameters (FormData):\n   - data[attributes][file]: The chunk blob\n   - data[attributes][file-id]: Unique file ID (format: customer_id.uuid.filename)\n   - data[attributes][original-filename]: Original file name\n   - data[attributes][part]: Chunk number (starting from 1)\n   - data[attributes][uuid]: Unique UUID for each chunk\n   \n3. After all chunks are uploaded, merge them: POST /api/v2/{customer_id}/file_uploads/confirm_upload\n   Required parameters (FormData):\n   - data[attributes][file-id]: The same file ID used during chunk upload\n   - data[attributes][uuid]: A unique UUID for the merge request\n   - data[attributes][original-filename]: Original file name\n   \n4. Use the returned file-path or file-url in the DMS nodes creation request\n\nJavaScript Example:\n```javascript\n// Helper function to generate UUID\nfunction uuidv4() {\n  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n    const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\n    return v.toString(16);\n  });\n}\n\n// Step 1: Initialize chunking parameters\nconst CHUNK_SIZE = 15 * 1024 * 1024; // 15MB\nconst file = document.querySelector('input[type=\"file\"]').files[0];\nconst totalChunks = Math.ceil(file.size / CHUNK_SIZE);\nconst fileId = `${customerId}.${uuidv4()}.${file.name.replace(/\\s|\\(|\\)/g, '')}`;\nconst mergeUuid = uuidv4();\n\n// Step 2: Upload each chunk sequentially\nfor (let i = 0; i < totalChunks; i++) {\n  const start = i * CHUNK_SIZE;\n  const end = Math.min(start + CHUNK_SIZE, file.size);\n  const chunk = file.slice(start, end);\n  \n  const formData = new FormData();\n  formData.append('data[attributes][file]', chunk);\n  formData.append('data[attributes][file-id]', fileId);\n  formData.append('data[attributes][original-filename]', file.name);\n  formData.append('data[attributes][part]', i + 1);\n  formData.append('data[attributes][uuid]', uuidv4());\n  \n  const response = await fetch(`/api/v2/${customerId}/file_uploads/upload_chunk`, {\n    method: 'POST',\n    headers: { 'Authorization': `Bearer ${apiKey}` },\n    body: formData\n  });\n  \n  if (!response.ok) {\n    throw new Error(`Chunk ${i + 1} upload failed`);\n  }\n}\n\n// Step 3: Merge all chunks\nconst mergeFormData = new FormData();\nmergeFormData.append('data[attributes][file-id]', fileId);\nmergeFormData.append('data[attributes][uuid]', mergeUuid);\nmergeFormData.append('data[attributes][original-filename]', file.name);\n\nconst mergeResponse = await fetch(`/api/v2/${customerId}/file_uploads/confirm_upload`, {\n  method: 'POST',\n  headers: { 'Authorization': `Bearer ${apiKey}` },\n  body: mergeFormData\n});\n\nconst mergeData = await mergeResponse.json();\nconst filePath = mergeData.data.attributes['file-path'];\nconst fileUrl = mergeData.data.attributes['file-url'];\n\n// Step 4: Create DMS node with the uploaded file\nconst dmsFormData = new FormData();\ndmsFormData.append('data[attributes][name]', file.name);\ndmsFormData.append('data[attributes][file][link]', filePath);\ndmsFormData.append('data[attributes][file][name]', file.name);\ndmsFormData.append('data[attributes][file][file-content-type]', file.type);\n\nconst dmsResponse = await fetch(`/api/v2/${customerId}/projects/${projectId}/dms/nodes`, {\n  method: 'POST',\n  headers: { 'Authorization': `Bearer ${apiKey}` },\n  body: dmsFormData\n});\n\nconst dmsNode = await dmsResponse.json();\nconsole.log('DMS Node created:', dmsNode);\n```\n"
+      x-websocket-response:
+        channel: customer_{customerId}
+        message_type: dms_log_created
+        payload:
+          type: object
+          description: ActivityLog entry broadcast when a node (file/folder) is created
+          properties:
+            node_ids:
+              type: array
+              items:
+                type: string
+              description: Encoded node IDs
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: data[attributes][parent_id]
+        in: formData
+        type: string
+        description: the parent of the created folder
+      - name: data[attributes][file]
+        in: formData
+        type: file
+        description: file must contain form fields or in case of remote_url the link can be used instead. For chunked uploads, use data[attributes][file][link] with the file path returned from confirm_upload
+      - name: data[attributes][type]
+        in: formData
+        type: string
+        description: 'service type of the file in case of Google drive type must be google_drive "optional" '
+      - name: data[attributes][token]
+        in: formData
+        type: string
+        description: this is for google drive api
+      - name: data[attributes][file_content_type]
+        in: formData
+        type: string
+        description: the type of the file ex text/plain and this is has to be use with google drive services
+      - name: data[attributes][name]
+        in: formData
+        type: string
+        description: is required, name of the file or folder
+      - name: data[attributes][run_id]
+        in: formData
+        type: string
+        description: optional correlation UUID stored on the created file version's metadata and returned verbatim under the file's file_data.metadata.run_id; ignored unless a valid UUID
+      responses:
+        '404':
+          description: node Errors
+    patch:
+      summary: execute a bulk update action
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: execute bulk update actions in bulk
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter
+        in: query
+        type: string
+        description: " for a single file move you will need to add a filter as query param like this ?filter[uuid][][predicate]=eq&filter[uuid][][value]=23dfg3gd23-.....\n                                                                                 and add parent_id as form data and this is will be the destination,"
+      - name: parent_id
+        in: query
+        type: string
+        description: the id of the current folder you are in this needs to be added if you are in non root folder
+      - name: data[attributes][parent_id]
+        in: formData
+        type: string
+        description: the id of the folder that you want move files or folders to or copy files or folder to
+      - name: data[attributes][name]
+        in: formData
+        type: string
+        description: the name which will be applied to all the updated nodes
+      - name: search_in_all_folders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will update all the files and folders in the project
+      - name: search_in_all_subfolders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders
+      responses:
+        '404':
+          description: nodes not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/ticket_attachments/{ticket_uuid}:
+    post:
+      summary: Create New Ticket Attachment
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: Create new Ticket Attachment. The response now includes <b>ticket_uuid</b> and <b>field_id</b> (if the attachment is linked to a form field) in the serialized attachment attributes.<br></br><b>Supported document types:</b> PDF, Word (doc/docx), Excel (xls/xlsx), CSV, ODS, ODT, DWG, DXF, EML, MSG, RTF, <b>ZIP, RAR</b>. Images, audio and video files are also accepted.
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        description: the uuid of the ticket that you want to attach the file to
+        required: true
+      - name: data
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      description: unique identifier of the attachment - is optional
+                    attachment:
+                      type: string
+                      example: data:application/zip;base64,string
+                      description: 'Data URI or binary data of the attachment. Supported MIME types include images, audio, video, application/pdf, application/msword, application/vnd.ms-excel, application/zip, application/vnd.rar, application/x-rar-compressed, application/x-rar and other common document types.</br><i style="color:#9999CC"> base64 schema: data:mime_type;base64,string<i>'
+                    attachment-name:
+                      type: string
+                      example: archive.zip
+                      description: name of the attachment including extension (e.g. archive.zip, backup.rar) - required when a Data URI is sent
+                    caption:
+                      type: string
+                      example: this is a caption
+                      description: caption - is the attachment name by default but can be edited
+      responses:
+        '404':
+          description: node Errors
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/form_field_attachments/{ticket_uuid}:
+    post:
+      summary: Create New Form Field Attachment
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: Create new form field Attachment
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        description: the uuid of the ticket that you want to attach the file to
+        required: true
+      - name: data
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      description: unique identifier of the attachment - is optional
+                    attachment:
+                      type: string
+                      example: data:image/png;base64,string
+                      description: 'Data URI or binary data of the attachment</br><i style="color:#9999CC"> base64 schema: data:mime_type;base64,string<i>'
+                    attachment-name:
+                      type: string
+                      example: image.png
+                      description: name of the attachment - is required when a Data URI is sent
+                    caption:
+                      type: string
+                      example: this is a caption
+                      description: caption - is the attachment name by default but can be edited
+                    field_id:
+                      type: string
+                      example: ft123456789
+                      description: the form field id to which this attachment is linked to - is required
+      responses:
+        '404':
+          description: node Errors
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/form_field_attachments/{id}:
+    patch:
+      summary: Update a Form Field Attachment
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: Update an existing form field attachment (e.g. rename/caption). The attachment is looked up by its file attachment UUID or ID, not the DMS node ID.
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        description: UUID or ID of the file attachment to update
+        required: true
+      - name: data
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: new name/caption for the attachment
+      responses:
+        '404':
+          description: Attachment not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/ticket_attachments:
+    get:
+      summary: Retrieves All ticket attachments files for a specific projects
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: list all the nodes
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: pagesize
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: string
+      - name: sort
+        in: query
+        type: string
+      - name: search
+        in: query
+        type: string
+        description: search for a specific file
+      - name: filter
+        in: query
+        type: string
+        description: "\n        * to load all the files and folder under specific parent -> parent_id=uuid,\n        * to load folder or files on the root level no need for query params,\n        * to load the items in the trash bin which are on the root level  ?trashed=true"
+      - name: filters
+        in: query
+        schema:
+          type: object
+          properties:
+            ticket.approval-status:
+              type: array
+              items:
+                type: object
+                properties:
+                  predicate:
+                    type: string
+                    enum:
+                    - in
+                    - not-in
+                    - eq
+                    - neq
+                  value:
+                    type: array
+                    items:
+                      type: string
+                    description: 'Approval status IDs: not_started, pending, rejected, approved, approved_with_comments'
+        description: "Applied filters object. Keys are field IDs from the filterable_fields endpoint (type=ticket-attachments).\n        Available ticket filter fields include: ticket.sequential-id, ticket.subject, ticket.status-id, ticket.priority-id,\n        ticket.assigned-to-id, ticket.author-id, ticket.component-id, ticket.approval-status, etc.\n        Each field value is an array of predicate/value objects."
+      - name: last_sync_date
+        in: query
+        type: string
+        description: is a Unix Timestamp. If it is set, only ticket attachments that were updated after that timestamp will be returned
+      responses:
+        '404':
+          description: nodes not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/form_field_attachments:
+    get:
+      summary: Retrieves all form field attachments for a specific project
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: List all form field attachments. When ticket_uuid and per_field are provided, returns a limited number of attachments per field along with field_id_counts in the response meta.
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: pagesize
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: string
+      - name: sort
+        in: query
+        type: string
+      - name: search
+        in: query
+        type: string
+        description: search for a specific file
+      - name: field_id
+        in: query
+        type: string
+        description: the form field id to filter attachments by
+      - name: ticket_uuid
+        in: query
+        type: string
+        description: the uuid of the ticket to filter attachments by. Required when using per_field.
+      - name: per_field
+        in: query
+        type: integer
+        description: When provided with ticket_uuid, limits the number of attachments returned per field. The response meta will include field_id_counts with the total count per field_id.
+      - name: filter
+        in: query
+        type: string
+        description: "\n        * to load all the files and folder under specific parent -> parent_id=uuid,\n        * to load folder or files on the root level no need for query params,\n        * to load the items in the trash bin which are on the root level  ?trashed=true"
+      - name: filters
+        in: query
+        schema:
+          type: object
+          properties:
+            ticket.approval-status:
+              type: array
+              items:
+                type: object
+                properties:
+                  predicate:
+                    type: string
+                    enum:
+                    - in
+                    - not-in
+                    - eq
+                    - neq
+                  value:
+                    type: array
+                    items:
+                      type: string
+                    description: 'Approval status IDs: not_started, pending, rejected, approved, approved_with_comments'
+        description: "Applied filters object. Keys are field IDs from the filterable_fields endpoint (type=ticket-attachments).\n        Available ticket filter fields include: ticket.sequential-id, ticket.subject, ticket.status-id, ticket.priority-id,\n        ticket.assigned-to-id, ticket.author-id, ticket.component-id, ticket.approval-status, etc.\n        Each field value is an array of predicate/value objects."
+      responses:
+        '404':
+          description: nodes not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/ticket_attachments/delete:
+    delete:
+      summary: Delete Ticket Attachment
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: Delete a Ticket Attachment
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: query
+        type: string
+        description: the uuid of the ticket that you want to delete the attachment from
+      - name: filter
+        in: query
+        type: string
+      - name: types
+        in: query
+        type: string
+      responses:
+        '404':
+          description: nodes not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/form_field_attachments/delete:
+    delete:
+      summary: Delete Form Field Attachment
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: Delete one or more form field attachments. Uses the same delete mechanism as ticket attachments but scoped to form field attachments.
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: query
+        type: string
+        description: the uuid of the ticket that the form field attachment belongs to
+      - name: filter
+        in: query
+        type: string
+      - name: types
+        in: query
+        type: string
+      responses:
+        '404':
+          description: nodes not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/attachments:
+    get:
+      summary: Retrieves all attachments (ticket + form field) for a specific project
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: Combined endpoint that lists both ticket attachments and form field attachments for a project. Supports the same pagination, sorting, and filtering as the ticket_attachments and form_field_attachments endpoints.
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: pagesize
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: string
+      - name: sort
+        in: query
+        type: string
+      - name: search
+        in: query
+        type: string
+        description: search for a specific file
+      - name: ticket_uuid
+        in: query
+        type: string
+        description: filter by ticket UUID
+      - name: only_ticket_attachments
+        in: query
+        type: string
+        description: true|false - when true, only returns ticket attachments (excludes form field attachments)
+      - name: filter
+        in: query
+        type: string
+      - name: filters
+        in: query
+        schema:
+          type: object
+          properties:
+            ticket.approval-status:
+              type: array
+              items:
+                type: object
+                properties:
+                  predicate:
+                    type: string
+                    enum:
+                    - in
+                    - not-in
+                    - eq
+                    - neq
+                  value:
+                    type: array
+                    items:
+                      type: string
+                    description: 'Approval status IDs: not_started, pending, rejected, approved, approved_with_comments'
+        description: "Applied filters object. Keys are field IDs from the filterable_fields endpoint (type=ticket-attachments).\n        Available ticket filter fields include: ticket.sequential-id, ticket.subject, ticket.status-id, ticket.priority-id,\n        ticket.assigned-to-id, ticket.author-id, ticket.component-id, ticket.approval-status, etc.\n        Each field value is an array of predicate/value objects."
+      responses:
+        '404':
+          description: attachments not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/attachments/delete:
+    delete:
+      summary: Delete attachments (ticket or form field)
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: Combined delete endpoint that works for both ticket attachments and form field attachments.
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: query
+        type: string
+        description: the uuid of the ticket that the attachment belongs to
+      - name: filter
+        in: query
+        type: string
+      - name: types
+        in: query
+        type: string
+      responses:
+        '404':
+          description: attachments not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}:
+    get:
+      summary: show node[folder] or file details
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: display folder/file details
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        get: 'the id of the node that you want to display , uuid can be used as well '
+        required: true
+      responses:
+        '406':
+          description: Unsupported Accept Header
+    patch:
+      summary: update node[folder] or file
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: update folder/file name or move folder/file  under different folder
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        description: the id of the node that you want to update uuid can be used as well
+        required: true
+      - name: parent_id
+        in: formData
+        type: string
+        description: you will need to add  parent_id every time you will update something in non root levels
+      - name: data[attributes][name]
+        in: formData
+        type: string
+        description: name of the node
+      - name: show_virtual
+        in: query
+        type: string
+        description: true|false default value is false if set true this will only update the components and legacy documents, needed in case of update to these components or documents
+      - name: move_to_all_files
+        in: query
+        type: string
+        description: true|false this is needed when moving a component to all files
+      - name: filter
+        in: query
+        type: string
+      responses:
+        '406':
+          description: Unsupported Accept Header
+    delete:
+      summary: mark node[folder] or file as deleted
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: 'mark nodes/files as deleted if they are already in the trash bin ''delete from trash bin'' '
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        description: the id of the node that you want to mark as deleted uuid can be used as well
+        required: true
+      - name: filter
+        in: query
+        type: string
+      responses:
+        '404':
+          description: node not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/copy:
+    post:
+      summary: create another copy under different folder for a file/folder
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: create a new copy from a folder/file under different folder
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        description: the id of the node that you want to copy uuid can be used as well
+        required: true
+      - name: data[attributes][parent_id]
+        in: formData
+        type: string
+        description: 'the id of the folder you want to make a copy under it in case of root folder this will be null '
+      - name: parent_id
+        in: path
+        type: string
+        description: you will need to include this if you copy something that is not in the root level
+        required: true
+      - name: filter
+        in: query
+        type: string
+      - name: copy_to_all_files
+        in: query
+        type: string
+        description: 'this value needs to be true when copying a document from documents by layers to all files '
+      responses:
+        '404':
+          description: Node Errors
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/trash:
+    put:
+      summary: move file or folder to the trash bin
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: move nodes/files to the trash bin
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        required: true
+        description: the id of the node that you want to mark as deleted uuid can be used as well
+      - name: parent_id
+        in: query
+        type: string
+        description: you will need to include this if you trash something that is not in the root level
+      - name: filter
+        in: query
+        type: string
+      responses:
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/trash:
+    put:
+      summary: execute a bulk trash
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: 'execute bulk trash actions '
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter
+        in: query
+        type: string
+      - name: parent_id
+        in: query
+        type: string
+      - name: search_in_all_folders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will trash all the files and folders in the project
+      - name: search_in_all_subfolders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders
+      responses:
+        '404':
+          description: nodes not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/restore:
+    put:
+      summary: restore file/folder from trash bin
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: restore nodes/files to the trash bin
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        required: true
+        description: the id of the node that you want to restore from trash bin uuid can be used as well
+      - name: parent_id
+        in: path
+        type: string
+        required: true
+        description: you will need to include this if you restore something that is not in the root level in the trash bin
+      - name: filter
+        in: query
+        type: string
+      responses:
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy:
+    post:
+      summary: execute a bulk copy , this is only works with files !
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: execute bulk update actions in bulk
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter
+        in: query
+        type: string
+        description: "to copy 2 files in bulk the query param will look like this\n          ?filter[uuid][][predicate]=eq&filter[uuid][][value]=sdfs83sd-...&filter[uuid][][predicate]=eq&filter[uuid][][value]=kjlsf83-..."
+      - name: data[attributes][parent_id]
+        in: formData
+        type: string
+        description: the parent of the new copied files
+      - name: data[attributes][name]
+        in: formData
+        type: string
+      - name: parent_id
+        in: query
+        type: string
+        description: this has to be included if your current folder is not in the root level
+      - name: search_in_all_folders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will copy all the files and folders in the project
+      - name: search_in_all_subfolders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders
+      - name: copy_to_all_files
+        in: query
+        type: string
+        description: 'this value needs to be true when copying a document from documents by layers to all files '
+      responses:
+        '404':
+          description: nodes not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/restore:
+    put:
+      summary: execute a bulk restore
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: execute bulk update actions in bulk
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter
+        in: query
+        type: string
+      - name: parent_id
+        in: query
+        type: string
+      - name: search_in_all_folders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will restore all the files and folders in the project
+      - name: search_in_all_subfolders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders
+      responses:
+        '404':
+          description: nodes not found
+        '200':
+          description: nodes found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/delete:
+    delete:
+      summary: execute bulk delete
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: execute bulk update actions in bulk
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter
+        in: query
+        type: string
+      - name: parent_id
+        in: query
+        type: string
+      - name: search_in_all_folders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will delete all the files and folders in the project
+      - name: search_in_all_subfolders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders
+      responses:
+        '404':
+          description: nodes not found
+  /api/v2/:customer_id/projects/:project_id/dms/nodes/:id/toggle:
+    patch:
+      summary: toggle the control access switch
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: enable/disable control access for a specific node
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: not found
+  /api/v2/:customer_id/projects/:project_id/dms/nodes/:id/restore_permissions:
+    patch:
+      summary: restore permissions
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: enable/disable control access for a specific node
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy_to_tickets_validation:
+    post:
+      summary: validate before copying files to tickets
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: validate the files before copying them to tickets, this is to make sure that the files are not too large and the total size and the type of the files are allowed based on the ticketing system requirements
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter
+        in: query
+        type: string
+        description: "to copy 2 files in bulk the query param will look like this\n          ?filter[uuid][][predicate]=eq&filter[uuid][][value]=sdfs83sd-...&filter[uuid][][predicate]=eq&filter[uuid][][value]=kjlsf83-..."
+      - name: parent_id
+        in: query
+        type: string
+        description: this has to be included if your current folder is not in the root level
+      - name: search_in_all_folders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will copy all the files and folders in the project
+      - name: search_in_all_subfolders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders
+      - name: copy_to_all_files
+        in: query
+        type: string
+        description: 'this value needs to be true when copying a document from documents by layers to all files '
+      responses:
+        '404':
+          description: nodes not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy_attachments_to_dms_validation:
+    post:
+      summary: validate before copying ticket attachments to DMS
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: Validate the selected ticket attachments before copying them into DMS. Surfaces scan / processed / file_data issues, the per-customer max-attachments limit (`copy_to_dms_max_limit`, default 10) and resolves the target folder (or DMS root when parent_id is omitted). When `field_id` is omitted, field (form-field) attachments are ignored — only general ticket attachments are eligible.
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter
+        in: query
+        type: string
+        description: "Selects ticket attachments by their file_attachment uuid (same contract as the ticket-attachments listing / delete endpoints). Example for two files in bulk:\n          ?filter[uuid][][predicate]=in&filter[uuid][][value][]=sdfs83sd-...&filter[uuid][][value][]=kjlsf83-..."
+      - name: parent_id
+        in: query
+        type: string
+        description: Optional. UUID of the destination DMS folder. Omit to target the DMS root ("All Files"). Must be a folder when present — file / virtual_component destinations are rejected.
+      - name: ticket_uuid
+        in: query
+        type: string
+        description: Optional. Scopes the source listing to a single ticket; otherwise selection is driven entirely by the uuid filter. Required when `field_id` is provided (422 otherwise).
+      - name: field_id
+        in: query
+        type: string
+        description: Optional. Scopes the copy to a single form field (a CustomFields::AttachmentType field id, e.g. `tf…`). When set, only that field's attachments are copied and a `ticket_uuid` is required. When omitted, field (form-field) attachments are ignored entirely — only general ticket attachments are copied.
+      responses:
+        '404':
+          description: project not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy_attachments_to_dms:
+    post:
+      summary: copy ticket attachments to DMS
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: Copy ticket attachments into DMS in bulk. Enqueues `Dms::CopyAttachmentsJob` which writes one DMS node per source attachment under the destination folder (or DMS root when parent_id is omitted), clones the S3 objects, emits a `copy_to_dms` activity log per created node, writes a `file_copied_to_dms` ticket journal on the source ticket, and sends the completion WebSocket message below. When `field_id` is omitted, field (form-field) attachments are ignored — only general ticket attachments are copied.
+      x-websocket-response:
+      - channel: user_{customerId}_{userId}
+        message_type: dms-copy-attachments-to-dms-job
+        payload:
+          type: object
+          properties:
+            file-group-uuid:
+              type: string
+              description: UUID grouping this copy operation
+            finished-at:
+              type: string
+              format: date-time
+            success:
+              type: boolean
+            created-node-uuids:
+              type: array
+              description: UUIDs of the new DMS nodes created under the destination folder. Empty array when success is false.
+              items:
+                type: string
+                format: uuid
+              example:
+              - e6fdcbdb-cdd9-4de3-b993-284834a6a291
+              - 7e53b595-6bbb-4e1c-ad5f-77db9f329181
+      - channel: customer_{customerId}
+        message_type: dms_log_created
+        payload:
+          type: object
+          description: ActivityLog entry broadcast per created node (copy_to_dms event)
+          properties:
+            node_ids:
+              type: array
+              items:
+                type: string
+              description: Encoded node IDs
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter
+        in: query
+        type: string
+        description: 'Selects ticket attachments by their file_attachment uuid (same contract as the ticket-attachments listing / delete endpoints). Example for two files in bulk: ?filter[uuid][][predicate]=in&filter[uuid][][value][]=sdfs83sd-...&filter[uuid][][value][]=kjlsf83-...'
+      - name: ticket_uuid
+        in: query
+        type: string
+        description: Optional. Scopes the source listing to a single ticket; otherwise selection is driven by the uuid filter. Required when `field_id` is provided (422 otherwise).
+      - name: field_id
+        in: query
+        type: string
+        description: Optional. Scopes the copy to a single form field (a CustomFields::AttachmentType field id, e.g. `tf…`). When set, only that field's attachments are copied and a `ticket_uuid` is required. When omitted, field (form-field) attachments are ignored entirely — only general ticket attachments are copied.
+      - name: data[attributes][parent_id]
+        in: formData
+        type: string
+        description: Optional. UUID of the destination DMS folder. Omit to target the DMS root ("All Files") — requires DMS create permission on the root.
+      - name: data[attributes][file_group_uuid]
+        in: formData
+        type: string
+        description: Optional. UUID grouping the copy operation; surfaced back on the completion WebSocket message. Auto-generated when omitted.
+      responses:
+        '404':
+          description: project not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy_to_tickets:
+    post:
+      summary: validate before copying files to tickets
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: "Copy files from DMS to tickets in bulk. Enqueues a background job that sends a\n          WebSocket message on completion."
+      x-websocket-response:
+      - channel: user_{customerId}_{userId}
+        message_type: dms-copy-to-tickets-job
+        payload:
+          type: object
+          properties:
+            file-group-uuid:
+              type: string
+              description: UUID grouping this copy operation
+            finished-at:
+              type: string
+              format: date-time
+            success:
+              type: boolean
+            created-node-uuids-by-ticket:
+              type: object
+              description: Map of ticket UUID → field ID → array of created node UUIDs. Field key is 'general' for ticket-level attachments, or the form field ID for field-level attachments.
+              example:
+                8957df73-ae89-411a-8e9d-368432d64912:
+                  general:
+                  - e6fdcbdb-cdd9-4de3-b993-284834a6a291
+                  tf8ac26c3f7ec24666:
+                  - 7e53b595-6bbb-4e1c-ad5f-77db9f329181
+              additionalProperties:
+                type: object
+                description: Ticket UUID as key
+                additionalProperties:
+                  type: array
+                  description: '''general'' or form field ID as key'
+                  items:
+                    type: string
+                    format: uuid
+                    description: Created node UUID
+      - channel: customer_{customerId}
+        message_type: dms_log_created
+        payload:
+          type: object
+          description: ActivityLog entry broadcast per created node (copy_to_ticket event)
+          properties:
+            node_ids:
+              type: array
+              items:
+                type: string
+              description: Encoded node IDs
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter
+        in: query
+        type: string
+        description: "to copy 2 files in bulk the query param will look like this\n          ?filter[uuid][][predicate]=eq&filter[uuid][][value]=sdfs83sd-...&filter[uuid][][predicate]=eq&filter[uuid][][value]=kjlsf83-..."
+      - name: data[attributes][ticket_uuids]
+        in: formData
+        type: array
+        description: the uuids of the tickets that you want to copy the files to
+      - name: data[attributes][file_group_uuid]
+        in: formData
+        type: string
+      - name: parent_id
+        in: query
+        type: string
+        description: this has to be included if your current folder is not in the root level
+      - name: search_in_all_folders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will copy all the files and folders in the project
+      - name: search_in_all_subfolders
+        in: query
+        type: string
+        description: true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders
+      - name: copy_to_all_files
+        in: query
+        type: string
+        description: 'this value needs to be true when copying a document from documents by layers to all files '
+      - name: data[attributes][fields_by_tickets]
+        in: formData
+        type: object
+        description: optional hash mapping ticket_uuid (with dashes replaced by underscores) to an array of field IDs. When provided, the files will be attached to the specified form fields on each ticket.
+      - name: data[attributes][ticket_type_id]
+        in: formData
+        type: string
+        description: optional encoded ticket type ID. When provided and a target ticket is a draft (customer_id is NULL), sets the ticket_type_id on the draft ticket before processing.
+      responses:
+        '404':
+          description: nodes not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/bookmarks:
+    get:
+      summary: Retrieves All the bookmarks for a user
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: list all the bookmarks
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: pagesize
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: string
+      responses:
+        '404':
+          description: nodes not found
+    post:
+      summary: Create New bookmark
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: Create new bookmark
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: data[attributes][node_id]
+        in: formData
+        type: string
+        description: node id that you want to bookmark
+      responses:
+        '404':
+          description: node Errors
+  /api/v2/{customer_id}/projects/{project_id}/dms/bookmarks/{bookmark_id}:
+    delete:
+      summary: delete bookmark
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: delete the bookmarks only current logged in user will be able to delete his bookmarks
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: bookmark_id
+        in: path
+        type: string
+        description: the id of the bookmark that you want to delete
+        required: true
+      responses:
+        '404':
+          description: bookmark not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/sidebar_sections:
+    get:
+      summary: Retrieves DMS sections
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: retrieve all the DMS sidebar sections based on the payment plan
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: nodes not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/logs/{item_type}/{item_id}:
+    get:
+      summary: Retrieves DMS activity logs
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: retrieve all the DMS activity logs for models
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: item_type
+        in: path
+        type: string
+        required: true
+      - name: item_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: nodes not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/files_size:
+    get:
+      summary: Retrieves DMS files size for a specific project
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: Retrieves DMS files size for a specific project
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: nodes files size not found
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions:
+    post:
+      summary: upload new version of the file attachment
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        required: true
+      - name: data[attributes][file]
+        in: formData
+        type: file
+        description: new version of the file
+      - name: data[attributes][run_id]
+        in: formData
+        type: string
+        description: optional correlation UUID stored on the new file version's metadata; ignored unless a valid UUID
+      responses:
+        '404':
+          description: Create new version failed
+    get:
+      summary: load the file attachment version
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: load versions failed
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions/{id}:
+    delete:
+      summary: delete file attachment version
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        description: send the file version uuid
+        required: true
+      responses:
+        '404':
+          description: Delete version failed
+    get:
+      summary: load file attachment version details
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        description: send the file version uuid
+        required: true
+      responses:
+        '404':
+          description: Loadeding version failed
+  /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions/{id}/restore:
+    post:
+      summary: Restore file attachment version
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        description: send the file version uuid
+        required: true
+      responses:
+        '404':
+          description: restore version failed
+  /api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions:
+    get:
+      summary: Retrieves All permissions  for a specific node
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: list node permissions
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: not found
+    post:
+      summary: create a permission entry for a specific role|user to access specific node
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: create a permission entry for a node
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        required: true
+      - name: data[attributes]
+        in: formData
+        type: array
+        items:
+          type: object
+        description: "each entry is an object that has 2 keys access/access_type\n        access: (id|type->(role|user))\n        access_type: (a string of 5 predefined access type) admin|manager|subcontractor|viewer|contributor"
+      responses:
+        '404':
+          description: not found
+  /api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions/:id:
+    delete:
+      summary: delete access permission for the list
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: list roles and users to add them to folder permissions
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: pagesize
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: string
+      - name: search
+        in: query
+        type: string
+      responses:
+        '404':
+          description: not found
+    put:
+      summary: update access|permission type for a permission
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: 'change the permissions type except for admins '
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: node_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        description: permission id
+        required: true
+      responses:
+        '404':
+          description: not found
+  /api/v2/:customer_id/projects/:project_id/dms/nodes/list_roles_and_users:
+    get:
+      summary: list roles and users
+      tags:
+      - DMS
+      security:
+      - apiKey: []
+      description: list roles and users to add them to folder permissions
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: pagesize
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: string
+      - name: search
+        in: query
+        type: string
+      responses:
+        '404':
+          description: not found
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

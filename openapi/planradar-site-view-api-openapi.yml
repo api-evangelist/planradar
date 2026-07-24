@@ -1,0 +1,767 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 Site View API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Site View
+  description: Manage site view runs, points, and attachments
+paths:
+  /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/runs:
+    get:
+      summary: Retrieve all runs
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: filter[name]
+        in: query
+        type: string
+      - name: filter[path]
+        in: query
+        type: string
+      - name: filter[resolution]
+        in: query
+        type: string
+      - name: filter[fps]
+        in: query
+        type: string
+      - name: filter[state]
+        in: query
+        type: string
+        description: 'Available values : queued, running, success, failed, bad'
+      - name: filter[stage]
+        in: query
+        type: string
+      - name: filter[meta]
+        in: query
+        type: string
+      - name: filter[start_point]
+        in: query
+        type: string
+      - name: filter[start_ts]
+        in: query
+        type: string
+      - name: filter[start_angle_rad]
+        in: query
+        type: string
+      - name: filter[id]
+        in: query
+        type: string
+      - name: filter[is_valid]
+        in: query
+        type: boolean
+      - name: filter[is_outdoor]
+        in: query
+        type: boolean
+      - name: last_sync_date
+        in: query
+        type: string
+      - name: include
+        in: query
+        type: string
+        example: layer,trajectories
+        description: "\n      Available includes:\n      * layer\n      * trajectories"
+      - name: page
+        in: query
+        type: integer
+      - name: pagesize
+        in: query
+        type: integer
+        description: Maximum is 500, default is 100
+      - name: sort
+        in: query
+        type: string
+        description: 'Example: `name` is name ascending `-name` is name decending'
+      responses:
+        '404':
+          description: Runs Not Found
+    post:
+      summary: 'Create Run '
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: data[attributes][name]
+        in: formData
+        type: string
+        description: is required
+      - name: data[attributes][path]
+        in: formData
+        type: string
+      - name: data[attributes][resolution]
+        in: formData
+        type: array
+        items:
+          type: number
+      - name: data[attributes][start_point]
+        in: formData
+        type: array
+        items:
+          type: number
+        description: is required
+      - name: data[attributes][fps]
+        in: formData
+        type: number
+      - name: data[attributes][is_outdoor]
+        in: formData
+        type: boolean
+      - name: data[attributes][is_single_frame]
+        in: formData
+        type: boolean
+      - name: data[attributes][video_duration]
+        in: formData
+        type: number
+      - name: data[attributes][telemetry_file]
+        in: formData
+        type: file
+      - name: data[attributes][site_view_image]
+        in: formData
+        type: file
+      - name: data[attributes][mobile_meta_info]
+        in: formData
+        type: string
+        description: is not required
+      responses:
+        '404':
+          description: Component Not found
+  /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/runs/{id}:
+    get:
+      summary: Retrieve run
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        required: true
+      - name: include
+        in: query
+        type: string
+        example: layer,trajectories
+        description: "\n      Available includes:\n        layer\n        trajectories"
+      responses:
+        '404':
+          description: Run Not Found
+    delete:
+      summary: Deletes specific run
+      tags:
+      - Site View
+      description: This API is used for deleting a specific run based on its uuid.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Run Not Found
+    put:
+      summary: Updates specific run
+      tags:
+      - Site View
+      description: This API is used for updating a specific run based on its uuid.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        required: true
+      - name: request
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    start_point:
+                      type: array
+                      items:
+                        type: number
+                      default:
+                      - 0.1
+                      - 0.2
+                    is_valid:
+                      type: boolean
+                    is_outdoor:
+                      type: boolean
+                    is_single_frame:
+                      type: boolean
+      responses:
+        '404':
+          description: Run Not Found
+  /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/points:
+    get:
+      summary: Retrieve all points
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: filter[trajectory_id]
+        in: query
+        type: string
+      - name: filter[traj_type]
+        in: query
+        type: string
+      - name: filter[x]
+        in: query
+        type: string
+      - name: filter[y]
+        in: query
+        type: string
+      - name: filter[angle_rad]
+        in: query
+        type: string
+      - name: filter[idx]
+        in: query
+        type: string
+      - name: filter[id]
+        in: query
+        type: string
+      - name: filter[capture_id]
+        in: query
+        type: string
+      - name: filter[single_frame_date_group]
+        in: query
+        type: string
+      - name: filter[capture_name]
+        in: query
+        type: string
+      - name: filter[created_at]
+        in: query
+        type: string
+      - name: filter[updated_at]
+        in: query
+        type: string
+      - name: filter
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: integer
+      - name: pagesize
+        in: query
+        type: integer
+        description: Maximum is 500, default is 100
+      - name: sort
+        in: query
+        type: string
+        description: 'Example: `name` is name ascending `-name` is name decending'
+      responses:
+        '404':
+          description: Points Not Found
+  /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/points/{id}:
+    get:
+      summary: Retrieve one point
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        required: true
+      - name: include
+        in: query
+        type: string
+        example: timecell,trajectory
+        description: "\n      Available includes:\n        timecell\n        trajectory"
+      responses:
+        '404':
+          description: Point Not Found
+  /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/points/{point_id}/point_history:
+    get:
+      summary: Retrieve point history
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: point_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Points Not Found
+  /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments:
+    get:
+      summary: Retrieve all runs attachments
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: run_id
+        in: query
+        type: string
+      - name: trajectory_id
+        in: query
+        type: string
+      - name: point_id
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: integer
+      - name: pagesize
+        in: query
+        type: integer
+        description: Maximum is 500, default is 100
+      - name: sort
+        in: query
+        type: string
+        description: 'Example: `name` is name ascending `-name` is name decending'
+      responses:
+        '404':
+          description: Runs Not Found
+    post:
+      summary: Create Run attachments
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: run
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    run_id:
+                      type: string
+                    trajectory_id:
+                      type: string
+                    point_id:
+                      type: string
+                    attachable_type:
+                      type: string
+                    attachable_id:
+                      type: string
+                    position_2d:
+                      type: object
+                      example:
+                        plan_x: 0.1
+                        plan_y: 0.2
+                    position_3d:
+                      type: object
+                      example:
+                        yaw: 0.1
+                        pitch: 0.2
+                    angle_2d:
+                      type: number
+                    metadata:
+                      type: object
+                  required:
+                  - run_id
+                  - trajectory_id
+                  - point_id
+                  - attachable_type
+                  - attachable_id
+                  - position_3d
+                  - angle_2d
+      x-websocket-response:
+        description: Broadcast when attachable_type is Ticket. Sends the generated 360° thumbnail image URL.
+        channel: customer_{customerId}
+        message_type: ticket_360_thumbnail
+        payload:
+          type: object
+          properties:
+            ticket_image_360:
+              type: string
+              description: Presigned URL of the generated 360° thumbnail (small size)
+            ticket_uuid:
+              type: string
+              description: UUID of the ticket associated with the attachment
+          example:
+            ticket_image_360: https://s3.eu-central-1.amazonaws.com/bucket/ticket_360_thumb.jpg?X-Amz-Signature=...
+            ticket_uuid: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+      responses:
+        '404':
+          description: Component Not found
+  /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments/{id}:
+    get:
+      summary: Retrieve Runs Attachments
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Run Not Found
+    put:
+      summary: Updates specific run attachment
+      tags:
+      - Site View
+      description: This API is used for updating a specific run attachment based on its id.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        required: true
+      - name: request
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    position_3d:
+                      type: object
+                    angle_2d:
+                      type: number
+      x-websocket-response:
+        description: Broadcast when attachable_type is Ticket and position_3d is updated. Sends the regenerated 360° thumbnail image URL.
+        channel: customer_{customerId}
+        message_type: ticket_360_thumbnail
+        payload:
+          type: object
+          properties:
+            ticket_image_360:
+              type: string
+              description: Presigned URL of the regenerated 360° thumbnail (small size)
+            ticket_uuid:
+              type: string
+              description: UUID of the ticket associated with the attachment
+          example:
+            ticket_image_360: https://s3.eu-central-1.amazonaws.com/bucket/ticket_360_thumb.jpg?X-Amz-Signature=...
+            ticket_uuid: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+      responses:
+        '404':
+          description: Run attachment Not Found
+    delete:
+      summary: Deletes specific run attachment
+      tags:
+      - Site View
+      description: This API is used for deleting a specific run attachments based on its id.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Run Attachments Not Found
+  /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments/highlight_points:
+    get:
+      summary: Retrieve all point ids that have attachments
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: run_id
+        in: query
+        type: string
+      responses:
+        '404':
+          description: Point IDs Not Found
+  /api/v2/{customer_id}/site_view_licenses_info:
+    get:
+      summary: Retrieve Site View licenses info
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Licenses info Not Found
+  /api/v2/{customer_id}/site_view_access_request:
+    post:
+      summary: request site view access
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: payment_plan
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    status:
+                      type: integer
+      responses:
+        '404':
+          description: site view access request Not found
+  /api/v2/{customer_id}/get_site_view_access_status:
+    get:
+      summary: Retrieve Site View Access Status
+      tags:
+      - Site View
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Access Status Not Found
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

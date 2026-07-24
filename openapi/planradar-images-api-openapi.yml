@@ -1,0 +1,211 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 Images API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Images
+  description: Attach images to tickets
+paths:
+  /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_images/{image_uuid}:
+    post:
+      summary: Create image with base64 (file param as base64 string)
+      tags:
+      - Images
+      description: "Attach a new image to a ticket using a base64 encoded file.<br/>\n          When the image belongs to a form field attachment, validation errors may be returned (e.g. field does not exist, max attachments exceeded, ticket locked, or field permission denied)."
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: image
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    subject:
+                      type: string
+                    file:
+                      type: string
+                      description: The base64 encoded file
+                    async:
+                      type: boolean
+                      description: boolean to process the image in the background
+                    file-name:
+                      type: string
+                      description: Uploaded image name
+                    created-on:
+                      type: integer
+                      description: 'Optional: Leave blank, current time will be used'
+                    file-content-type:
+                      type: string
+                      description: Image content type
+                    caption:
+                      type: string
+                      max_length: 255
+                      description: Image caption
+                    image-type:
+                      type: integer
+                      description: Image type 0 => Image, 1 => Plan annotation
+        description: ''
+      responses:
+        '404':
+          description: Ticket Not found
+    put:
+      summary: Update the caption of an image
+      tags:
+      - Images
+      description: Currently we only support updating the image caption
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: image_uuid
+        in: path
+        type: string
+        required: true
+      - name: image
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    caption:
+                      type: string
+                      max_length: 255
+                      description: Image caption
+      responses:
+        '404':
+          description: Ticket Not found
+    delete:
+      summary: Delete an image from a ticket
+      tags:
+      - Images
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: image_uuid
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Ticket Not found
+  /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_images/{image_uuid}/create_multipart:
+    post:
+      summary: Create image with multipart upload (file param as multipart)
+      tags:
+      - Images
+      description: "Attach a new image to a ticket using multipart upload.<br/>\n          When the image belongs to a form field attachment, validation errors may be returned (e.g. field does not exist, max attachments exceeded, ticket locked, or field permission denied)."
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: image
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    subject:
+                      type: string
+                    file:
+                      type: string
+                    async:
+                      type: boolean
+                      description: boolean to process the image in the background
+                    file-name:
+                      type: string
+                      description: Uploaded image name
+                    created-on:
+                      type: integer
+                      description: 'Optional: Leave blank, current time will be used'
+                    file-content-type:
+                      type: string
+                      description: Image content type
+                    caption:
+                      type: string
+                      max_length: 255
+                      description: Image caption
+                    image-type:
+                      type: integer
+                      description: Image type 0 => Image, 1 => Plan annotation
+      responses:
+        '404':
+          description: Ticket Not found
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

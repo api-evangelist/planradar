@@ -1,0 +1,205 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 Plans V2 API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Plans V2
+  description: Load/Manage plans
+paths:
+  /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}:
+    get:
+      summary: Returns specific plan of a component
+      tags:
+      - Plans V2
+      security:
+      - apiKey: []
+      description: This API returns a specific plan of a component based on its id.
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        description: id of the plan
+        required: true
+      responses:
+        '404':
+          description: Plan Not Found
+    put:
+      summary: Update specific plan of a component
+      tags:
+      - Plans V2
+      security:
+      - apiKey: []
+      description: This API update a specific plan of a component based on its id.
+      x-websocket-response:
+        channel: customer_{customerId}
+        message_type: defectradar-components
+        payload:
+          type: object
+          properties:
+            plan-status:
+              type: string
+              description: Plan processing status
+            customer-id:
+              type: integer
+            project-id:
+              type: integer
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        description: id of the plan
+        required: true
+      - name: plan
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    plan_scale:
+                      type: object
+                      example:
+                        calibrate_scale:
+                          point_1:
+                            x: 0.3
+                            y: 0.6
+                          point_2:
+                            x: 0.2
+                            y: 0.4
+                          distance: 4
+                          unit: cm
+                          width_px: 0.6
+                          height_px: 1.2
+                        calibrate_north:
+                          south:
+                            x: 0.2
+                            y: 0.4
+                          north:
+                            x: 0.2
+                            y: 0.4
+      responses:
+        '404':
+          description: Plan Not Found
+  /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/plans:
+    get:
+      summary: Returns all plans of a component
+      tags:
+      - Plans V2
+      security:
+      - apiKey: []
+      description: This API returns all plans of a component based on the component's id.
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: is_simple
+        in: query
+        type: boolean
+        description: send is_simple with true for retrieving simple plan versions data
+      responses:
+        '404':
+          description: Plans Not Found
+  /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}/skip_approval_request:
+    put:
+      summary: Skip approval request for this plan
+      tags:
+      - Plans V2
+      security:
+      - apiKey: []
+      description: This api will remove the plan from an approval request if it belong to one and delete the approval request if it the last one included
+      x-websocket-response:
+        channel: customer_{customerId}
+        message_type: defectradar-components
+        payload:
+          type: object
+          properties:
+            plan-status:
+              type: string
+              description: Plan processing status
+            customer-id:
+              type: integer
+            project-id:
+              type: integer
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: component_id
+        in: path
+        type: string
+        required: true
+      - name: id
+        in: path
+        type: string
+        description: Plan ID
+        required: true
+      responses:
+        '404':
+          description: Plan Not Found
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

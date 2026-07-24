@@ -1,0 +1,1235 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 Tickets V2 API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Tickets V2
+  description: All operations on PlanRadar tickets
+paths:
+  /api/v2/{customer_id}/projects/{project_id}/tickets/journals:
+    get:
+      summary: Retrieve journals for all accessible tickets in a project
+      tags:
+      - Tickets V2
+      description: 'Retrieve journal entries for every ticket the caller can access within the given project,
+
+        in a single API call. Intended to replace individual `GET /tickets/{uuid}/journals` calls
+
+        during ERP sync integrations.
+
+
+        Counts as **1 API call**. Only returns journals from tickets the user has access to within
+
+        the specified project. Field-level and document permissions are respected. Each journal
+
+        entry includes `ticket-uuid` for mapping back to its ticket.
+
+
+        **Pagination:** default 50, max 100 (server-enforced). Results ordered chronologically.
+
+
+        **Typical sync flow:**
+
+        1. `GET /tickets/journals?last_sync_date=...` with the timestamp from your last sync (this endpoint)
+
+        2. Process changes, store new sync timestamp
+
+        '
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+        description: Encoded customer ID
+        example: ymjxnx
+      - name: project_id
+        in: path
+        type: string
+        required: true
+        description: Encoded project ID
+        example: xqwprl
+      - name: last_sync_date
+        in: query
+        required: false
+        type: string
+        description: ISO 8601 datetime. Only return journal entries created on or after this datetime. Use for incremental sync — pass the timestamp from your last successful sync.
+        example: '2026-03-20T10:15:00Z'
+      - name: prop_keys
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+        collectionFormat: csv
+        description: Comma-separated list of journal_details.prop_key values to filter by (e.g. status_id, assigned_to_id). When provided, only journals with a matching detail row are returned.
+      - name: page
+        in: query
+        required: false
+        type: integer
+        description: Page number (1-based). Defaults to 1.
+        example: 1
+      - name: pagesize
+        in: query
+        required: false
+        type: integer
+        description: 'Number of journal entries per page. Default: 50. Maximum: 100 (server-enforced, values above 100 are clamped).'
+        example: 50
+      responses:
+        '200':
+          description: Paginated — page and pagesize control the window
+        '401':
+          description: Unauthorized — missing or invalid API key
+        '404':
+          description: Caller is not a member of the project
+  /api/v2/{customer_id}/projects/{project_id}/tickets:
+    get:
+      summary: Returns all tickets
+      tags:
+      - Tickets V2
+      produces:
+      - application/json
+      description: "This API returns all tickets of a specific project. <br />\n      Without any extra parameters it will return the first 100 tickets ordered by ascending ID. Extra parameters can be added to filter and sort the results.<br />\n      <b>Ticket Sorting:</b>\n      Tickets can be sorted by their attributes like component_id, priority_id etc. .\n      The sort is always ascending unless the field name is prefixed with a minus (U+002D HYPHEN-MINUS, “-“) i.e. `-id` or `id`.\n      <br /><b>Example: </b> `/tickets?sort=-component_id`<br />\n      <b>Ticket Filtring:</b>\n      You can use one of your created filters by providing its id to the `apply_filter` parameter. Moreover, you can use the on-fly filters.<br />\n      <b>On-Fly Filters:</b>\n      You can filter tickets based on the value of any of their attributes using structured filter parameters. Both simple and advanced formats are supported.<br />\n      <b>Simple Format:</b> `filter[{field}]={value}` - Direct field-value filtering<br />\n      <b>Advanced Format:</b> `filter[{field}][][predicate]={predicate}&filter[{field}][][value][]={value}` - Complex filtering with predicates<br />\n      <b>Simple Format Examples:</b><br />\n      • Filter by status: `/tickets?filter[status_id]=1` (Open tickets)<br />\n      • Filter by priority: `/tickets?filter[priority_id]=3` (High priority)<br />\n      • Multiple simple filters: `/tickets?filter[status_id]=1&filter[priority_id]=3`<br />\n      <b>Advanced Format Examples:</b><br />\n      • Filter by status with 'in' predicate: `/tickets?filter[status_id][][predicate]=in&filter[status_id][][value][]=1&filter[status_id][][value][]=2`<br />\n      • Filter by multiple conditions: `/tickets?filter[status_id][][predicate]=in&filter[status_id][][value][]=1&filter[priority_id][][predicate]=eq&filter[priority_id][][value][]=3`<br />\n      • Text search with 'like': `/tickets?filter[subject][][predicate]=like&filter[subject][][value][]=urgent`<br />\n      • Date range filtering: `/tickets?filter[created_at][][predicate]=between&filter[created_at][][value][]=2024-01-01&filter[created_at][][value][]=2024-12-31`<br />\n      <b>Available Predicates:</b> eq, neq, in, not_in, like, not_like, between, has, has_not, le, ge<br/>\n      <b>Image Loading:</b>\n      You can set load_images to true if you want the images of a ticket to be returned as well<br />\n      <b>Status Dictionary:</b> [1 (lm)= Open, 2 (ol) = In-Progress, 3 (ma) = Resolved, 4 (ex) = Feedback, 5 (gk) = Closed, 6 (ky) = Rejected]\n      <b>Priority Dictionary:</b> [1 = Low, 2 = Normal, 3 = High]\n\n      "
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+        description: Set project_id to `0` if you want to load the tickets of all projects
+      - name: page
+        in: query
+        type: integer
+        description: sets the number of pages for the returned tickets
+      - name: pagesize
+        in: query
+        type: integer
+        description: sets the number of tickets that should be returned per page <br/>Maximum is 500, default is 100
+      - name: last_sync_date
+        in: query
+        type: string
+        description: is a Unix Timestamp. If it is set, only tickets that were created after that timestamp will be returned
+      - name: sort
+        in: query
+        type: string
+      - name: filter[status_id]
+        in: query
+        type: string
+        description: "Simple status ID filter. Use status codes: 1=Open, 2=In-Progress, 3=Resolved, 4=Feedback, 5=Closed, 6=Rejected. Example: filter[status_id]=1 - Structured filter parameter supporting multiple conditions and predicates. You can use either simple or advanced format.<br/>\n      <b>Status ID Mapping:</b> 1 (lm)=Open, 2 (ol)=In-Progress, 3 (ma)=Resolved, 4 (ex)=Feedback, 5 (gk)=Closed, 6 (ky)=Rejected<br/>\n      <b>Simple Format:</b> filter[{field}]={value} - Example: filter[status_id]=1<br/>\n      <b>Advanced Format:</b> filter[{field}][][predicate]={predicate}&filter[{field}][][value][]={value}<br/>\n      <b>Supported Fields:</b> status_id, priority-id, assigned-to-id, author-id, subject, created-at, due-date, etc.<br/>\n      <b>Predicates:</b> eq (equals), neq (not equals), in (in list), not_in (not in list), like (contains), not_like (not contains), between (range), has (has value), has_not (no value), le (less/equal), ge (greater/equal)<br/>\n      <b>Examples:</b><br/>\n      • Simple: filter[status_id]=1 for filtering tickets with status 1<br/>\n      • Advanced: filter[status_id][][predicate]=in&filter[status_id][][value][]=1&filter[status_id][][value][]=2 for filtering tickets with status 1 or 2"
+      - name: apply_filter
+        in: query
+        type: string
+      - name: load_images
+        in: query
+        type: boolean
+        description: sets whether or not the images of a ticket should be returned
+      - name: can_have_parent
+        in: query
+        type: boolean
+        description: load only ticket that could have parent
+      - name: search
+        in: query
+        type: string
+        description: keyword, based on which the tickets will be filtered
+      responses:
+        '406':
+          description: Unsupported Accept Header
+    post:
+      summary: Creates ticket
+      tags:
+      - Tickets V2
+      description: "This API is used for creating a ticket.<br/>\n      <b>customer-id</b>: Can be set to null in the request body to create a ticket without a customer association (used for form field attachment pre-upload tickets).<br/>\n      The response includes <b>typed_values_metadata</b> which contains metadata about form field attachments (e.g. has_attachments per field_id).<br/><br/>\n      <b>Note:</b> Do not modify the <code>meta-options</code> attribute - it is reserved for internal use.\n      <br /><br />\n      <b>Ticket Example:</b>\n      <br />\n      <pre>\n      {\n        \"data\": {\n          \"attributes\": {\n            \"uuid\": \"35b03889-e759-4ded-b848-24337eea10d2\",\n            \"subject\": \"After the Banality Post-Painterly Art of Misfortune\",\n            \"typed-values\": {\n              \"tf37e04757dabbca63\": 33.52511960017461,\n              \"tf601be06c9a1c46f7\": \"1989-06-05T23:16:06.412+00:00\",\n              \"tfd4367f50e84a9408\": \"Arbitrary Sustainability Daring to Defy Dysfunction\"\n            },\n            \"assigned-to-id\": \"gpk\",\n            \"status-id\": \"ma\",\n            \"component-id\": \"nyk\",\n            \"ticket-type-id\": \"obk\",\n            \"customer-id\": \"ymjxnx\"\n          }\n        }\n      }\n      </pre>"
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  $ref: '#/definitions/Ticket'
+      responses:
+        '404':
+          description: Ticket Not Created
+  /api/v2/{customer_id}/projects/{project_id}/tickets/tickets_position:
+    get:
+      summary: Returns tickets positions
+      tags:
+      - Tickets V2
+      produces:
+      - application/json
+      description: This API returns all tickets positions of a specific project without pagination.
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/export/xls:
+    post:
+      summary: Exports filtered tickets as Excel file
+      tags:
+      - Tickets V2
+      description: ' This API is used for exporting tickets as an Excel file based on their filter '
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: pagesize
+        in: query
+        type: integer
+        description: Maximum is 500, default is 100
+      - name: last_sync_date
+        in: query
+        type: string
+      - name: sort
+        in: query
+        type: string
+      - name: filter
+        in: query
+        type: string
+      - name: apply_filter
+        in: query
+        type: string
+        description: filterid, based on which the tickets should be filtered
+      - name: search
+        in: query
+        type: string
+        description: keyword, based on which the tickets should be filtered
+      - name: async
+        in: query
+        type: boolean
+        description: Set to true to force asynchronous (background) processing. When enabled, the response returns a job ID instead of the file directly.
+      responses:
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/single_ticket_export:
+    get:
+      summary: Exports specific ticket
+      tags:
+      - Tickets V2
+      produces:
+      - application/json
+      description: This API is used for exporting a specific ticket based on its uuid.
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: uuid
+        in: path
+        type: string
+        description: unique identifier of the ticket
+        required: true
+      - name: pagesize
+        in: query
+        type: integer
+        description: Maximum is 500, default is 100
+      - name: last_sync_date
+        in: query
+        type: string
+      - name: timezone_offset
+        in: query
+        type: integer
+        description: ' -timestamp, is the difference between local time and the worlwide UTC time '
+      - name: async
+        in: query
+        type: boolean
+        description: Set to true to force asynchronous (background) processing. When enabled, the response returns a job ID instead of the file directly.
+      responses:
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}:
+    get:
+      summary: Returns specific ticket
+      description: "This API returns a specific ticket based on its uuid.<br/>\n      The response includes a <b>typed_values_metadata</b> attribute, which is a JSON object containing metadata about typed field values.\n      For form field attachment fields, it includes <code>has_attachments</code> per field_id.<br/>\n      Example: <code>{ \"ft123456789\": { \"has_attachments\": true } }</code><br/><br/>\n      <b>Note:</b> Do not modify the <code>meta-options</code> attribute - it is reserved for internal use."
+      tags:
+      - Tickets V2
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: uuid
+        in: path
+        type: string
+        description: unique identifier of the ticket
+        required: true
+      responses:
+        '404':
+          description: Ticket Not Found
+        '406':
+          description: Unsupported Accept Header
+    delete:
+      summary: Deletes specific ticket
+      tags:
+      - Tickets V2
+      produces:
+      - application/json
+      description: This API is used for deleting a specific ticket based on its uuid.
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: uuid
+        in: path
+        type: string
+        description: unique identifier of the ticket
+        required: true
+      responses:
+        '406':
+          description: Unsupported Accept Header
+    put:
+      summary: Updates specific ticket
+      tags:
+      - Tickets V2
+      description: "This API is used for updating the details of a specific ticket based on its uuid.<br/>\n      The response includes <b>typed_values_metadata</b> which contains metadata about form field attachments (e.g. has_attachments per field_id).<br/><br/>\n      <b>Note:</b> Do not modify the <code>meta-options</code> attribute - it is reserved for internal use."
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: uuid
+        in: path
+        type: string
+        description: unique identifier of the ticket
+        required: true
+      - name: clean_up_assets
+        in: query
+        type: boolean
+        description: If set to true, triggers a background job to remove any orphaned assets (images, documents, audios, videos) that no longer belong to the ticket
+      - name: ticket
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  $ref: '#/definitions/Ticket'
+          required:
+          - title
+          - content
+      responses:
+        '404':
+          description: Ticket Not found
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/mark_as_seen:
+    get:
+      summary: Marks specific ticket as seen
+      tags:
+      - Tickets V2
+      description: 'This API is used for marking a specific ticket as seen if the request is done by the ticket asignee, else it returns whether or not the ticket was marked as seen. '
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: uuid
+        in: path
+        type: string
+        description: unique identifier of the ticket
+        required: true
+      responses:
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/export/pdf:
+    post:
+      summary: Exports filtered tickets as PDF
+      tags:
+      - Tickets V2
+      description: ' This API is used for exporting tickets to pdf files based on their filter. '
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: pagesize
+        in: query
+        type: integer
+        description: Maximum is 500, default is 100
+      - name: last_sync_date
+        in: query
+        type: string
+      - name: sort
+        in: query
+        type: string
+      - name: filter[status_id]
+        in: query
+        type: string
+        description: "Simple status ID filter. Use status codes: 1=Open, 2=In-Progress, 3=Resolved, 4=Feedback, 5=Closed, 6=Rejected. Example: filter[status_id]=1 - Structured filter parameter supporting multiple conditions and predicates. You can use either simple or advanced format.<br/>\n      <b>Status ID Mapping:</b> 1 (lm)=Open, 2 (ol)=In-Progress, 3 (ma)=Resolved, 4 (ex)=Feedback, 5 (gk)=Closed, 6 (ky)=Rejected<br/>\n      <b>Simple Format:</b> `filter[{field}]={value}` - Direct field-value filtering<br/>\n      <b>Advanced Format:</b> `filter[{field}][][predicate]={predicate}&filter[{field}][][value][]={value}` - Complex filtering with predicates<br/>\n      <b>Supported Fields:</b> status_id, priority-id, assigned-to-id, author-id, subject, created-at, due-date, etc.<br/>\n      <b>Predicates:</b> eq (equals), neq (not equals), in (in list), not_in (not in list), like (contains), not_like (not contains), between (range), has (has value), has_not (no value), le (less/equal), ge (greater/equal)<br/>\n      <b>Simple Format Examples:</b><br/>\n      • Filter by status: `filter[status_id]=1` (Open tickets)<br/>\n      • Filter by priority: `filter[priority-id]=3` (High priority)<br/>\n      • Multiple simple filters: `filter[status_id]=1&filter[priority-id]=3`<br/>\n      <b>Advanced Format Examples:</b><br/>\n      • Status filtering with 'in': `filter[status_id][][predicate]=in&filter[status_id][][value][]=1&filter[status_id][][value][]=2`<br/>\n      • Text search with 'like': `filter[subject][][predicate]=like&filter[subject][][value][]=urgent`<br/>\n      • Date range filtering: `filter[created-at][][predicate]=between&filter[created-at][][value][]=2024-01-01&filter[created-at][][value][]=2024-12-31`<br/>\n      • Complex multiple conditions: `filter[status_id][][predicate]=eq&filter[status_id][][value][]=1&filter[priority-id][][predicate]=eq&filter[priority-id][][value][]=3`"
+      - name: apply_filter
+        in: query
+        type: string
+        description: filterid, based on which the tickets should be filtered
+      - name: search
+        in: query
+        type: string
+        description: keyword, based on which the tickets should be filtered
+      - name: async
+        in: query
+        type: boolean
+        description: Set to true to force asynchronous (background) processing. When enabled, the response returns a job ID instead of the file directly.
+      responses:
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/load_recurring_reminders:
+    get:
+      summary: Returns all recurring reminders
+      tags:
+      - Tickets V2
+      description: This API returns all recurring reminders of the tickets of the logged in customer.
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: page
+        in: query
+        type: integer
+        description: sets the number of pages for the returned reminders
+      - name: pagesize
+        in: query
+        type: integer
+        description: sets the number of reminders that should be returned per page <br> Maximum is 500, default is 100
+      - name: last_sync_date
+        in: query
+        type: string
+        description: is a Unix Timestamp. If it is set, only reminders that were created after that timestamp will be returned
+      responses:
+        '406':
+          description: unsupported accept header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/ticket_types_stats:
+    get:
+      summary: Returns the count of tickets per ticket type
+      tags:
+      - Tickets V2
+      description: "This API returns the count of tickets per ticket types. Extra parameters can be added to filter the results.\n      <br> <b>Ticket Filtering </b>\n      You can filter the results by one of your created filters by providing its id to the apply_filter parameter.\n      <br><b>Example:  </b>ticket_types_stats?apply_filter=jpg\n      <br>Moreover, the results can be filtered based on any condition of the related model.\n      filter[author_id]=1 will list all tickets related to this author id.\n      filter[author_email]=1 will list all tickets related to this author email.\n      Multiple filters can be used at the same time.\n      <br><b>Example:  </b> filter[id][]=PN&filter[id][]=nE\n      <br><b>Available Models</b>: customer, ticket_type, project, component, status, ticket, author, assigned_to, updated_by, due_by, overdue_by, creation_period"
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter
+        in: query
+        type: string
+      - name: apply_filter
+        in: query
+        type: string
+      responses:
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/batch_update:
+    put:
+      summary: Updates multiple tickets at once
+      tags:
+      - Tickets V2
+      description: "This API is used for updating multiple tickets at once based on the provided filteration. However, no filter will update all the data of the project.\n      <br />\n      <b>Filtering </b>\n      You can filter the tickets by one of your created filters by providing its id to the apply_filter attribute.\n      Moreover, the tickets can be filtered based on any condition of the related model. These have to be set in the filter object of the body.\n      Multiple filters can be used at the same time.\n      <br />\n      Example:\n      <br />\n\n      {\n        \"apply_filter\":\"mod\",\n        \"filter\":{\n           \"uuid\":[\n              {\n                 \"predicate\":\"in\",\n                 \"value\":[\n                    \"b404f669-e02a-4273-bcff-aac72b31386f\",\n                    \"fa30521c-bf68-4246-b50f-29fd9c91ee5f\"\n                 ]\n              }\n           ]\n        },\n        \"data\":{\n           \"attributes\":{\n              \"priority-id\":\"ol\"\n           },\n           \"obk\":{\n              \"tf37e04757dabbca63\":\"4\",\n              \"tf7ae8b29ea4b4c1e9\":[\n                 \"makw\"\n              ],\n              \"typed-values-metadata\":{\n                 \"tf37e04757dabbca63\":{\n                    \"note\":\"observation details\",\n                    \"has_attachments\":true\n                 }\n              }\n           }\n        }\n     }\n\n      <br /><br />\n      <b>CheckList Fields in Batch Update</b><br />\n      When updating CheckList fields (CustomFields::CheckListType), typed-values-metadata must be placed inside the ticket_type_id bucket alongside the typed values. The server extracts it automatically.<br />\n      <b>Silent Skip Behavior:</b> If a checklist field requires a mandatory note or attachment and the metadata is not provided, the checklist field update is silently skipped for that ticket. Other fields in the same batch update are still applied normally."
+      x-websocket-response:
+        channel: user_{customerId}_{userId}
+        message_type: cable-events
+        payload:
+          type: object
+          properties:
+            multiupdate-progress:
+              type: integer
+              description: Always 1, signals completion
+            failed-count:
+              type: integer
+              description: Number of tickets that failed to update
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: multi_update_object
+        in: body
+        schema:
+          type: object
+          properties:
+            apply_filer:
+              type: string
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    field-name:
+                      type: string
+                      description: 'the key should be set to the field name of the field that should be changed <br\> -- the value of the field name is the new value that the user wants to set - example priority-id: "ol"'
+                ticket_type_id:
+                  type: object
+                  properties:
+                    typed-field-id:
+                      type: string
+                      description: -- typed values have to be grouped by the ticket types, the type of their values depends on the field type
+                    typed-values-metadata:
+                      type: object
+                      description: Metadata for checklist fields (notes, attachment flags). Keys are typed field IDs, values are objects with optional 'note' (string) and 'has_attachments' (boolean)
+            filter:
+              type: object
+              properties:
+                uuid:
+                  type: array
+                  items:
+                    type: string
+                component_id:
+                  type: string
+                  description: -is optional
+              description: ' filter contains the filter data and an array of all the uuids of the tickets that should be updated  <br />  a filter consists of a filter field key, a predicate and a value - there can be multiple field keys and values'
+          required:
+          - title
+          - content
+      responses:
+        '200':
+          description: Tickets Updated
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              subject:
+                type: string
+            required:
+            - id
+            - subject
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/multi_update:
+    put:
+      summary: Updates multiple tickets with array
+      tags:
+      - Tickets V2
+      description: This API is used for updating multiple tickets at once based on the uuid.
+      x-websocket-response:
+        channel: user_{customerId}_{userId}
+        message_type: cable-events
+        payload:
+          type: object
+          properties:
+            multiupdate-progress:
+              type: integer
+              description: Always 1, signals completion
+            failed-count:
+              type: integer
+              description: Number of tickets that failed to update
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: multi_update_object
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  attributes:
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        description: The unique identifier of the ticket
+                      subject:
+                        type: string
+                        description: Ticket title
+                      parent-id:
+                        type: string
+                        description: UUID of the parent ticket
+                      status-id:
+                        type: string
+                        description: The status of the ticket
+                      priority-id:
+                        type: string
+                        description: The priority of the ticket
+                      assigned-to-id:
+                        type: string
+                        description: The id of the assignee
+                      assignee-type:
+                        type: string
+                        description: User OR DefectradarGroup
+                      due-date:
+                        type: string
+                        description: Ticket due date
+                      closed-at:
+                        type: string
+                        description: Ticket closed at date
+                      extension-date:
+                        type: string
+                        description: Extension date
+                      typed-values:
+                        type: object
+                        description: The custom defined fields
+                      subscribers:
+                        type: array
+                        items:
+                          type: integer
+                        description: Array of user IDs subscribed to this ticket
+                      progress:
+                        type: integer
+                        description: Progress percentage
+                      plan-x:
+                        type: number
+                        description: Position on the plan
+                      plan-y:
+                        type: number
+                        description: Position on the plan
+                    required:
+                    - uuid
+      responses:
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/batch_delete:
+    post:
+      summary: Deletes multiple tickets at once
+      tags:
+      - Tickets V2
+      description: "This API is used for deleting multiple tickets at once based on the provided filteration. However, no filter will delete all the data of the project.\n      <br />\n      <b>Filtering </b>\n      You can filter the tickets by one of your created filters by providing its id to the apply_filter attribute.\n      Moreover, the tickets can be filtered based on any condition of the related model. These have to be set in the filter object of the body.\n      Multiple filters can be used at the same time.\n      <br />\n      Example:\n\n      {\n        \"filter\":{\n           \"ticket-type-id\":[\n              {\n                 \"predicate\":\"in\",\n                 \"value\":[\n                    \"obk\"\n                 ]\n              }\n           ],\n           \"uuid\":[\n              {\n                 \"predicate\":\"in\",\n                 \"value\":[\n                    \"d25072e3-a184-477f-9de5-9574354618f5\",\n                    \"3b87bf27-3a35-4984-86a2-d38c8c1f50e6\"\n                 ]\n              }\n           ]\n        }\n     }\n     "
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: multi_delete_object
+        in: body
+        schema:
+          type: object
+          properties:
+            apply_filer:
+              type: string
+            filter:
+              type: object
+              properties:
+                uuid:
+                  type: array
+                  items:
+                    type: string
+                component_id:
+                  type: string
+                  description: -is optional
+              description: filter contains the filter data and an array of all the uuids of the tickets that should be deleted  <br />  a filter consists of a filter field key a predicate and a value - there can be multiple field keys and values
+          required:
+          - title
+          - content
+      responses:
+        '204':
+          description: No Content
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/batch_duplicate:
+    post:
+      summary: Duplicates multiple tickets at once
+      tags:
+      - Tickets V2
+      description: "This API is used for duplicating multiple tickets at once based on the provided filteration.\n      <br />\n      <b>Filtering </b>\n      You can filter the tickets by one of your created filters by providing its id to the apply_filter attribute.\n      Moreover, the tickets can be filtered based on any condition of the related model. These have to be set in the filter object of the body.\n      Multiple filters can be used at the same time.\n      <br />\n      Example:\n\n      {\n        \"filter\":{\n           \"uuid\":[\n              {\n                 \"predicate\":\"in\",\n                 \"value\":[\n                    \"d25072e3-a184-477f-9de5-9574354618f5\",\n                    \"3b87bf27-3a35-4984-86a2-d38c8c1f50e6\"\n                 ]\n              }\n           ]\n        },\n        \"data\": {\n          \"attributes\": {\n            \"component_id\": \"encoded_component_id\"\n          }\n        }\n     }\n     "
+      x-websocket-response:
+        channel: user_{customerId}_{userId}
+        message_type: cable-events
+        payload:
+          type: object
+          properties:
+            duplicate-progress:
+              type: integer
+              description: Always 1, signals completion
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: batch_duplicate_object
+        in: body
+        schema:
+          type: object
+          properties:
+            apply_filer:
+              type: string
+            filter:
+              type: object
+              properties:
+                uuid:
+                  type: array
+                  items:
+                    type: string
+              description: filter contains the filter data and an array of all the uuids of the tickets that should be duplicated
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    component_id:
+                      type: string
+                      description: Encoded component ID where tickets will be duplicated
+                  required:
+                  - component_id
+              required:
+              - attributes
+          required:
+          - filter
+          - data
+      responses:
+        '200':
+          description: Success
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/bulk_create:
+    post:
+      summary: Creates multiple tickets at once
+      tags:
+      - Tickets V2
+      description: "This API is used for creating multiple tickets in a single request.\n      All tickets in one request are created in the project from the URL path; cross-project bulk creation is not supported.\n      <br /><br />\n      <b>Required Fields</b><br />\n      Each ticket object requires at minimum <code>ticket-type-id</code> and <code>component-id</code>. All other fields are optional.\n      All IDs in the request body must be encoded (same encoding used across all PlanRadar APIs).\n      Field names use dash-case (e.g. <code>ticket-type-id</code>, <code>status-id</code>) consistent with the JSON:API convention used in other endpoints.\n      <br /><br />\n      <b>Background Processing</b><br />\n      All bulk create requests are processed as a background job. The immediate response is HTTP <code>201</code> with body <code>{\"count\": N, \"method\": \"job\", \"job_id\": \"&lt;uuid&gt;-&lt;timestamp&gt;\"}</code> — there is no synchronous mode and no per-ticket <code>results</code> array in the HTTP response.\n      <br />\n      <b>Tracking completion</b><br />\n      The <code>job_id</code> can be tracked two ways:\n      <ul>\n        <li><b>Polling:</b> call <code>GET .../tickets/bulk_create_status?job_id=&lt;job_id&gt;</code> to read the current status (<code>queued</code>, <code>processing</code>, <code>completed</code>, or <code>failed</code>) together with the <code>total</code>/<code>succeeded</code>/<code>failed</code> counts. The status is retained for 24 hours.</li>\n        <li><b>WebSocket push:</b> per-ticket outcomes are also delivered via a WebSocket message on channel <code>user_{customer_id}_{user_id}</code> when the job completes (see below).</li>\n      </ul>\n      The WebSocket payload contains\n      <code>bulk-create-progress</code>, <code>bulk-create-succeeded</code> (count of tickets created), and <code>bulk-create-failed</code> (count of failures); on a service-level failure it contains <code>bulk-create-error: true</code>. Individual ticket UUIDs are not included in the WebSocket payload.\n      <br />\n      Only one bulk create job can run at a time per project. If one is already running, the request returns <code>422</code>.\n      <br /><br />\n      <b>Partial Failures</b><br />\n      The job processes each ticket independently — invalid tickets fail in isolation while the rest are still created. The HTTP response is the same regardless of partial failures; the per-ticket success/failure counts arrive via the WebSocket message described above.\n      <br /><br />\n      <b>Limits</b><br />\n      The default maximum is 100 tickets per request. This can be configured per account via the <code>bulk_create_tickets_limit</code> customer setting.\n      Exceeding the limit returns HTTP <code>422</code> with the error message.\n      <br /><br />\n      <b>Idempotency</b><br />\n      Each ticket can include a client-generated <code>uuid</code>. If a ticket with that UUID already exists in the system,\n      the existing ticket is returned as a success without creating a duplicate. This allows safe retries of failed or timed-out requests.\n      <br /><br />\n      <b>Callbacks and Side Effects</b><br />\n      Each ticket is created through the standard ticket creation pipeline, which means:\n      <ul>\n        <li>Journal entries are created for each new ticket</li>\n        <li>Webhooks are triggered for each created ticket</li>\n        <li>Subscribers receive notifications as configured</li>\n        <li>Custom field validations (<code>typed-values</code>) are enforced per ticket type</li>\n      </ul>\n      <br />\n      <b>Error Responses</b><br />\n      <ul>\n        <li><code>201</code> — Job enqueued (final per-ticket outcomes are delivered via WebSocket)</li>\n        <li><code>403</code> — User does not have create permission in the URL project</li>\n        <li><code>422</code> — Request-level validation failed: empty/missing <code>tickets</code> array, limit exceeded, or another bulk create job already running</li>\n      </ul>\n      <br />\n      <b>Request Example:</b>\n      <pre>\n{\n  \"tickets\": [\n    {\n      \"ticket-type-id\": \"obk\",\n      \"component-id\": \"lzm\",\n      \"subject\": \"Fix plumbing in unit 4A\",\n      \"status-id\": \"lm\",\n      \"priority-id\": \"ma\",\n      \"assigned-to-id\": \"oll\",\n      \"typed-values\": { \"tfabc123\": \"some value\" },\n      \"uuid\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"subscribers\": [{ \"id\": \"oll\", \"type\": \"User\" }]\n    },\n    {\n      \"ticket-type-id\": \"obk\",\n      \"component-id\": \"lzm\",\n      \"subject\": \"Inspect fire alarm system\"\n    }\n  ]\n}\n      </pre>\n      "
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+        description: Encoded customer ID
+      - name: project_id
+        in: path
+        type: string
+        required: true
+        description: Encoded project ID — all tickets in the request are created in this project
+      - name: bulk_create_object
+        in: body
+        schema:
+          type: object
+          properties:
+            tickets:
+              type: array
+              description: Array of ticket objects to create
+              items:
+                type: object
+                properties:
+                  ticket-type-id:
+                    type: string
+                    description: Encoded form/ticket type ID (required)
+                  component-id:
+                    type: string
+                    description: Encoded layer/component ID (required)
+                  subject:
+                    type: string
+                    description: Ticket title
+                  status-id:
+                    type: string
+                    description: Encoded status ID
+                  priority-id:
+                    type: string
+                    description: Encoded priority ID
+                  assigned-to-id:
+                    type: string
+                    description: Encoded assignee ID
+                  due-date:
+                    type: string
+                    format: date
+                    description: Due date
+                  typed-values:
+                    type: object
+                    description: Custom field values based on the ticket type
+                  uuid:
+                    type: string
+                    description: Client-generated UUID for idempotency
+                  subscribers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Encoded user ID
+                        type:
+                          type: string
+                          description: User
+                    description: Array of subscriber objects
+                required:
+                - ticket-type-id
+                - component-id
+          required:
+          - tickets
+      responses:
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/bulk_create_status:
+    get:
+      summary: Returns the status of a bulk create job
+      tags:
+      - Tickets V2
+      description: "Returns the current status of a bulk create job previously enqueued via the\n      <code>bulk_create</code> endpoint. Poll this endpoint with the <code>job_id</code> returned by\n      <code>bulk_create</code> to track progress and completion.\n      <br /><br />\n      <b>Status values</b>\n      <ul>\n        <li><code>queued</code> — the job has been enqueued but has not started yet.</li>\n        <li><code>processing</code> — the job is currently creating tickets.</li>\n        <li><code>completed</code> — the job finished; <code>succeeded</code>/<code>failed</code> hold the per-ticket counts.</li>\n        <li><code>failed</code> — the job failed before completing; <code>error</code> holds the reason.</li>\n      </ul>\n      The status is retained for 24 hours after the job is enqueued, after which this endpoint returns <code>404</code>.\n      <br /><br />\n      <b>Error Responses</b>\n      <ul>\n        <li><code>400</code> — missing or malformed <code>job_id</code>.</li>\n        <li><code>404</code> — no job found for the given <code>job_id</code> (unknown, expired, or belonging to another account).</li>\n      </ul>\n      "
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+        description: Encoded customer ID
+      - name: project_id
+        in: path
+        type: string
+        required: true
+        description: Encoded project ID
+      - name: job_id
+        in: query
+        type: string
+        required: true
+        description: Job identifier returned by the bulk_create endpoint (<code>&lt;uuid&gt;-&lt;timestamp&gt;</code> format)
+      responses:
+        '406':
+          description: Unsupported Accept Header
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/journals:
+    get:
+      summary: Returns all journals of a ticket
+      tags:
+      - Tickets V2
+      description: "This API returns all journals of a specific ticket based on its uuid. Extra parameters can be added to filter and sort the results.\n      <br /><b>Journals Sorting:</b>\n      Journals can be sorted by their attributes. The sort is always ascending unless the field name is prefixed with a minus (U+002D HYPHEN-MINUS, “-“) i.e. `-id` or `id`\n      <br /><b>Example: </b> `/journals?sort=-created_on`\n      <br /><b>Journals Filtering:</b>\n      Journals can be filtered by type. If filter is not set, all journal types will be returned.\n      <br /><b>Example: </b> `/journals?filter=3`<br />\n      <b>Filter Dictionary:</b> [1 = comments, 2 = media, 3 = journals]\n      "
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: uuid
+        in: path
+        type: string
+        description: unique identifier of the ticket
+        required: true
+      - name: filter
+        in: query
+        type: string
+      - name: page
+        in: query
+        type: integer
+        description: sets the number of pages for the returned journals
+      - name: pagesize
+        in: query
+        type: integer
+        description: sets the number of journals that should be returned per page. Maximum is 500, default is 100
+      - name: journals_after
+        in: string
+        type: integer
+        description: 'is a Unix Timestamp. If it is set, only journals that were created after that timestamp will be returned <br /> Caution: page number will be reset if this flag is set'
+      - name: last_sync_date
+        in: query
+        type: string
+        description: is a Unix Timestamp. If it is set, only journals that were created after that timestamp will be returned
+      - name: sort
+        in: query
+        type: string
+      responses:
+        '404':
+          description: Ticket Not found
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/comment:
+    post:
+      summary: Adds a comment to a specific ticket
+      description: ' This API is used for adding a comment to a specific ticket based on its uuid. '
+      tags:
+      - Tickets V2
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: uuid
+        in: path
+        type: string
+        description: unique identifier of the ticket
+        required: true
+      - name: comment
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    comment:
+                      type: string
+                      example: Hello World!
+                    created_on:
+                      type: string
+                      description: ' -- is optional, if left blank the current time wil be used'
+          required:
+          - title
+          - content
+      responses:
+        '404':
+          description: Ticket Not Found
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/subtickets:
+    get:
+      summary: ' Returns subtickets of a specific ticket'
+      tags:
+      - Tickets V2
+      description: This API returns all the subtickets of a specific ticket based on its uuid.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: uuid
+        in: path
+        type: string
+        description: unique identifier of the ticket
+        required: true
+      - name: include_typed_values
+        in: query
+        type: string
+        description: true to retrive typed values with subtickets
+      responses:
+        '404':
+          description: Ticket Not Found
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/recurring_reminder_details:
+    get:
+      summary: Returns the recurring reminder of a ticket
+      tags:
+      - Tickets V2
+      description: This API returns the details of a recurring reminder of a specific ticket based on its uuid
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: uuid
+        in: path
+        type: string
+        description: unique identifier of the ticket
+        required: true
+      responses:
+        '404':
+          description: Recurring Reminder Not Found
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/gantt_task:
+    get:
+      summary: Returns the gantt task of a ticket
+      tags:
+      - Tickets V2
+      description: This API returns the details of a gantt task of a specific ticket based on its uuid
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: uuid
+        in: path
+        type: string
+        description: unique identifier of the ticket
+        required: true
+      responses:
+        '404':
+          description: gantt task Not Found
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/recurring_reminders:
+    post:
+      summary: Creates or updates a recurring reminder of a ticket
+      tags:
+      - Tickets V2
+      description: This API is used for creating/updating a recurrring reminder of a specific ticket based on its uuid.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: uuid
+        in: path
+        type: string
+        description: unique identifier of the ticket
+        required: true
+      - name: reminder
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    notes:
+                      type: string
+                      example: Note
+                      description: adds notes to the reminder - is optional
+                    is_active:
+                      type: boolean
+                      example: 'true'
+                      description: sets the status of the reminder - is required
+                    raw_schedule:
+                      type: object
+                      description: "describes the schedule of a reminder <br >\n                  example:<br >\n                  daily: {\n                    <br >   min: 23,\n                    <br >   hour: 14,\n                    <br >   custom_daily: 5,\n                    <br >   run_on_first_match: false\n                    <br >}"
+          required:
+          - title
+          - content
+      responses:
+        '404':
+          description: Ticket Not found
+definitions:
+  Ticket:
+    type: object
+    properties:
+      ticket-type-id:
+        type: string
+        description: ID of the form used in this ticket
+      component-id:
+        type: string
+        description: ID of the layer to add this ticket to
+      subject:
+        type: string
+        example: Ticket title
+        description: Ticket title, leave empty the default title will be used instead
+      parent-id:
+        type: string
+        description: If you are creating a child ticket, set it to the UUID of the parent ticket
+      status-id:
+        type: string
+        minimum: 1
+        maximum: 6
+        example: 1
+        description: The status of the ticket, the default is Open
+      priority-id:
+        type: string
+        minimum: 1
+        maximum: 3
+        example: 1
+        description: The priority of the ticket, the default is normal
+      assigned-to-id:
+        type: string
+        description: The id or the object of the assignee
+        example:
+          legacy: 1
+          object:
+            id: 1
+            type: User | DefectradarGroup
+      assignee-type:
+        type: string
+        description: User OR DefectradarGroup (redundant if assigned-to-id is set to an object)
+      due-date:
+        type: date
+        description: Ticket due date
+      closed-at:
+        type: date
+        description: Ticket closed at date
+      extension-date:
+        type: string
+        description: Extenstion date, should always be bigger that the due date
+      typed-values:
+        type: object
+        example:
+          tf37e04757dabbca63: 33.5
+          tfd4367f50e84a9408: some text
+          tf00a1b2c3d4e5f601: 1
+        description: The custom defined field values, based on the selected form. Value types depend on the field type (e.g. string for text fields, number for numeric fields, integer 1-3 for CheckListType fields)
+      subscribers:
+        type: array
+        items:
+          type: integer
+        description: array of user IDs that are subscribed to this ticket
+      progress:
+        type: integer
+        minimum: 0
+        maximum: 100
+      plan-x:
+        type: number
+        description: is used to position the ticket on the plan
+      plan-y:
+        type: number
+        description: is used to position the ticket on the plan
+      uuid:
+        type: string
+        description: The unique identifier of the ticket, leave blank and a UUID will be generated
+    required:
+    - ticket-type-id
+    - component-id
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

@@ -1,0 +1,222 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 Export API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Export
+  description: Export tickets as Excel or PDF files
+paths:
+  /api/v1/{customer_id}/projects/{project_id}/tickets/export/xls:
+    get:
+      summary: Export Tickets as an Excel File
+      tags:
+      - Export
+      description: By default it will export all the tickets, if filters added, it will only export filtered data
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter
+        in: query
+        type: string
+        description: 'Used to filter tickets based on any conditions of the related model, filter[author_id]=1 will list all tickets related to this author id, similar to filter[author.id]=1, the second one will use the condition based on the user table such a filter is available filter[author.email]=test@email.com, for multiple values for the same filter use filter[id][]=PN&filter[id][]=nE,,,, available models are: customer, ticket_type, project, component, status, ticket, author, assigned_to, updated_by'
+      - name: apply_filter
+        in: query
+        type: string
+        description: ID of the custom filter to be applied before returning the data
+      - name: timezone_offset
+        in: query
+        type: string
+      responses:
+        '406':
+          description: unsupported accept header
+    post:
+      summary: Export Tickets as an Excel File using POST
+      tags:
+      - Export
+      description: "Export tickets as Excel file. by default it will export all tickets matching the provided filter, if no filter is provided all tickets will be exported\n      <br />Check ticket loading API for more details about the filters that can be provided"
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: template_id
+        in: query
+        type: string
+        description: ID of the template to be used for the export
+      - name: apply_filter
+        in: query
+        type: string
+        description: ID of the custom filter to be applied before returning the data
+      - name: filter_object
+        in: body
+        schema:
+          type: object
+          properties:
+            filter:
+              type: object
+              properties:
+                uuid:
+                  type: array
+                  items:
+                    type: string
+        description: Check ticket load API, for a detailed description of the filter object
+      responses:
+        '406':
+          description: unsupported accept header
+  /api/v1/{customer_id}/projects/{project_id}/tickets/export/pdf:
+    get:
+      summary: Export Tickets as a PDF File
+      tags:
+      - Export
+      description: "By default it will export all the tickets, if filters added, it will only export filtered data, ticket will be added with a job, id of the job will be returned or an error message\n      <b>timezone_offset</b><br />\n      Is used to convert all dates included in the PDF document to the correct timezone. the value should be the difference in minutes between UTC and your location."
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: filter
+        in: query
+        type: string
+        description: 'Used to filter tickets based on any conditions of the related model, filter[author_id]=1 will list all tickets related to this author id, similar to filter[author.id]=1, the second one will use the condition based on the user table such a filter is available filter[author.email]=test@email.com, for multiple values for the same filter use filter[id][]=PN&filter[id][]=nE,,,, available models are: customer, ticket_type, project, component, status, ticket, author, assigned_to, updated_by'
+      - name: apply_filter
+        in: query
+        type: string
+        description: ID of the custom filter to be applied before returning the data
+      - name: template_id
+        in: query
+        type: string
+        description: ID of the template to be used for the export OPTIONAL
+      - name: timezone_offset
+        in: query
+        type: string
+      - name: tickets
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    filter:
+                      type: object
+                      properties:
+                        uuid:
+                          type: array
+                          items:
+                            type: string
+                    template-id:
+                      type: string
+      responses:
+        '406':
+          description: unsupported accept header
+    post:
+      summary: Export Tickets as a PDF File with POST request
+      tags:
+      - Export
+      description: "By default it will export all the tickets, if filters added, it will only export filtered data, ticket will be added with a job, id of the job will be returned or an error message\n      <b>timezone_offset</b><br />\n      Is used to convert all dates included in the PDF document to the correct timezone. the value should be the difference in minutes between UTC and your location."
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: apply_filter
+        in: query
+        type: string
+        description: ID of the custom filter to be applied before returning the data
+      - name: template_id
+        in: query
+        type: string
+        description: ID of the template to be used for the export
+      - name: timezone_offset
+        in: query
+        type: string
+      - name: filter_object
+        in: body
+        schema:
+          type: object
+          properties:
+            filter:
+              type: object
+              properties:
+                uuid:
+                  type: array
+                  items:
+                    type: string
+        description: Check ticket load API, for a detailed description of the filter object
+      responses:
+        '406':
+          description: unsupported accept header
+  /api/{customer_id}/check_if_finished/{uuid}:
+    get:
+      summary: Check if export is finished
+      tags:
+      - Export
+      description: Polls the status of an asynchronous export identified by `uuid`. Returns the export metadata once it is ready. Pass `direct_url=true` to additionally receive a short-lived pre-signed S3 URL in the response (`direct_url` field) that lets the client download the exported file directly, without going through the `/download` redirect endpoint. The pre-signed URL is only generated for export types `pdf`, `single_pdf`, `xls`, `csv` (when the file exists in S3) and `zip`.
+      security:
+      - apiKey: []
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: uuid
+        in: path
+        type: string
+        required: true
+        description: UUID of the export job (returned when the export was triggered).
+      - name: direct_url
+        in: query
+        type: boolean
+        required: false
+        description: 'When `true`, the response includes a `direct_url` field containing a short-lived pre-signed S3 URL for direct download. Supported export types: `pdf`, `single_pdf`, `xls`, `csv`, `zip`. Omit (or set `false`) to receive only the standard export metadata.'
+      responses:
+        '404':
+          description: Not Found
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/

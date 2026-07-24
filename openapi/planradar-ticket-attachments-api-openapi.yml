@@ -1,0 +1,355 @@
+swagger: '2.0'
+info:
+  title: PlanRadar's API Documentation Approval Requests V2 Ticket Attachments API
+  version: '2.0'
+  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
+basePath: /
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Ticket Attachments
+  description: New APIs to manage all ticket related attachments (Audio, Video, Images, Documents)
+paths:
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments:
+    get:
+      summary: Returns all attachments of one ticket
+      tags:
+      - Ticket Attachments
+      description: "This API returns all attachments of one ticket. An attachment can be of type image, audio, video or document.<br />\n      By default, this endpoint returns both ticket attachments and form field attachments. Use <b>only_ticket_attachments=true</b> to exclude form field attachments.<br />\n      Extra parameters can be added to filter and sort the results.<br />\n      <b>Attachment Sorting:</b>\n      The results can be sorted by the attributes of the attachment object e.g title, attachment type, creation time or creator.\n      The sort is always ascending unless the field name is prefixed with a minus i.e. -created-at.\n      <br /><b>Example#1: </b>sorting attachments by the creator\n      `/attachments?sort=created-by`\n      <br /><b>Example#2: </b>sorting attachments by descending creation time\n       `/attachments?sort=-created-at`\n       <br /><b>Example#3: </b>sorting attachments by attachment type\n       `/attachments?sort=attachable-type`\n       <br /><b>Attachment Filtering:</b>\n      The results can be filtered by attachment types [images, audios, videos, documents]</br>\n      <b>Example:</b>\n      `/attachments?page=1&types[]=images&types[]=videos`\n      "
+      produces:
+      - application/json
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: last_sync_date
+        in: query
+        type: string
+        description: is a Unix Timestamp. If it is set, only attachments that were created after that timestamp will be returned
+      - name: sort
+        in: query
+        type: string
+      - name: pagesize
+        in: query
+        type: string
+        description: sets the number of attachments that should be returned per page
+      - name: page
+        in: query
+        type: string
+        description: sets the number of pages for the returned attachments
+      - name: types
+        in: query
+        type: array
+        items:
+          type: string
+        description: 'limits the response to specific attachment types: images, audios, videos, documents'
+      - name: only_ticket_attachments
+        in: query
+        type: boolean
+        description: when true, excludes form field attachments and returns only regular ticket attachments
+      responses:
+        '404':
+          description: Attachments not found
+    post:
+      summary: 'Uploads new attachment '
+      tags:
+      - Ticket Attachments
+      description: ' This API is used for uploading a new ticket attachment. <br></br> If you want to attach a google drive document the following array structure is necessary </br> &nbsp; data[attributes][attachment][type] - type is google_drive </br> &nbsp; data[attributes][attachment][token] - token is the google drive access token <br></br><b>Supported document types:</b> PDF, Word (doc/docx), Excel (xls/xlsx), CSV, ODS, ODT, DWG, DXF, EML, MSG, RTF, <b>ZIP, RAR</b>. Images, audio and video files are also accepted.'
+      x-websocket-response:
+      - channel: customer_{customerId}
+        message_type: dms_documents
+        payload:
+          type: object
+          description: Serialized file attachment version with processing status
+      - channel: customer_{customerId}
+        message_type: dms_log_created
+        payload:
+          type: object
+          description: ActivityLog entry broadcast when attachment is created
+          properties:
+            node_ids:
+              type: array
+              items:
+                type: string
+              description: Encoded node IDs
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: data
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      description: unique identifier of the attachment - is optional
+                    attachment:
+                      type: string
+                      example: data:application/zip;base64,string
+                      description: 'Data URI or binary data of the attachment. Supported MIME types include images, audio, video, application/pdf, application/msword, application/vnd.ms-excel, application/zip, application/vnd.rar, application/x-rar-compressed, application/x-rar and other common document types.</br><i style="color:#9999CC"> base64 schema: data:mime_type;base64,string<i>'
+                    attachment-name:
+                      type: string
+                      example: archive.zip
+                      description: name of the attachment including extension (e.g. archive.zip, backup.rar) - required when a Data URI is sent
+                    caption:
+                      type: string
+                      example: this is a caption
+                      description: caption - is the attachment name by default but can be edited
+      responses:
+        '400':
+          description: Attachment type is not supported.
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/{attachment_id}:
+    get:
+      summary: Returns one attachment of one ticket
+      tags:
+      - Ticket Attachments
+      description: This API returns one attachment of one ticket.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: attachment_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Attachment Not Found
+    delete:
+      summary: Deletes specific attachment
+      tags:
+      - Ticket Attachments
+      description: This API is used for deleting a specific ticket attachment based on its id.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: attachment_id
+        in: path
+        type: string
+        required: true
+      responses:
+        '404':
+          description: Attachment Not Found
+    put:
+      summary: Updates specific attachment
+      tags:
+      - Ticket Attachments
+      description: This API is used for updating a specific ticket attachment based on its id.
+      x-websocket-response:
+      - channel: customer_{customerId}
+        message_type: dms_documents
+        payload:
+          type: object
+          description: Serialized file attachment version with updated attributes
+      - channel: customer_{customerId}
+        message_type: dms_log_created
+        payload:
+          type: object
+          description: ActivityLog entry broadcast when attachment is updated
+          properties:
+            node_ids:
+              type: array
+              items:
+                type: string
+              description: Encoded node IDs
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: attachment_id
+        in: path
+        type: string
+        required: true
+      - name: data
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  type: object
+                  properties:
+                    attachment:
+                      type: string
+                      example: 'data: image/png;base64,string'
+                      description: 'Data URI or binary data of the attachment</br><i style="color:#9999CC"> base64 schema: data:mime_type;base64,string<i>'
+                    attachment-name:
+                      type: string
+                      example: image.png
+                      description: name of the attachment - is required when a Data URI is sent
+                    caption:
+                      type: string
+                      example: this is a caption
+                      description: 'caption - is the attachment name by default but can be edited '
+        description: "\n      both the attachment itself and the caption can be updated\n      "
+      responses:
+        '404':
+          description: Attachment Not Found
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/batch_delete:
+    post:
+      summary: 'Deletes multiple attachments at once '
+      tags:
+      - Ticket Attachments
+      description: This API is used for deleting multiple attachments at once.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: data
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  $ref: '#/definitions/Attachments'
+        description: In order to delete multiple attachments at once you have to send an array that contains the ids of the attachments that you want to delete i.e [122, 123]
+      responses:
+        '404':
+          description: Attachments Not Found
+  /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/batch_export:
+    post:
+      summary: Exports multiple attachments at once
+      tags:
+      - Ticket Attachments
+      description: This API is used for exporting multiple attachments at once.
+      produces:
+      - application/json
+      security:
+      - apiKey: []
+      parameters:
+      - name: customer_id
+        in: path
+        type: string
+        required: true
+      - name: project_id
+        in: path
+        type: string
+        required: true
+      - name: ticket_uuid
+        in: path
+        type: string
+        required: true
+      - name: data
+        in: body
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                attributes:
+                  $ref: '#/definitions/Attachments'
+        description: ' In order to export multiple attachments at once you have to send an array that contains the ids of the attachments that you want to export'
+      responses:
+        '404':
+          description: Attachments Not Found
+definitions:
+  Attachments:
+    type: object
+    properties:
+      attachment-ids:
+        type: array
+        items:
+          type: string
+        example: ' ["id1", "id2"]'
+        description: 'array of the ids of the attachments that should be deleted</br><i style=color:red> minimum number of ids: 1</i>'
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    name: X-PlanRadar-API-Key
+    in: header
+externalDocs:
+  description: Find out more about our development portal
+  url: https://www.planradar.com/knowledge-base-overview/
