@@ -1,0 +1,15 @@
+generated: '2026-07-20'
+method: searched
+source: https://help.planradar.com/hc/en-gb/articles/15480642226589-Setup-Webhooks
+spec_type: Webhooks
+transport: http-post-json
+note: PlanRadar sends account webhooks as JSON POSTs to a configured Target URL when selected events occur
+  (e.g. a user updates a ticket). Webhooks are scoped to selected projects and configured in the WebApp
+  (Details/Authentication/Headers tabs). Pro & Enterprise only; requires Accounts permission. PlanRadar
+  does not publish a machine-readable event catalog or an AsyncAPI document.
+configuration:
+  target_url: required
+  projects: select which projects trigger
+  events: required selection of triggering events
+  auth: optional Basic (account email + password) or custom request headers
+connect_alt: https://help.planradar.com/hc/en-gb/articles/360220321793579-Webhooks-in-PlanRadar-Connect

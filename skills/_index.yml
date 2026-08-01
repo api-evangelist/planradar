@@ -1,0 +1,25 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/planradar-openapi-original.json
+note: Agent Skills grounded in real PlanRadar Open API paths (the source Swagger 2.0 spec has no operationIds,
+  so steps reference HTTP method + path).
+skills:
+- file: planradar-create-ticket.md
+  name: Create a PlanRadar ticket with a document
+  api: openapi/planradar-openapi-original.json
+  operations:
+  - GET /api/v2/{customer_id}/projects/my_projects
+  - POST /api/v2/{customer_id}/projects/{project_id}/tickets
+  - POST /api/v1/{customer_id}/projects/{project_id}/documents/
+- file: planradar-export-tickets.md
+  name: Export PlanRadar project tickets to Excel or PDF
+  api: openapi/planradar-openapi-original.json
+  operations:
+  - POST /api/v1/{customer_id}/projects/{project_id}/tickets/export/xls
+  - GET /api/v1/{customer_id}/projects/{project_id}/tickets/export/pdf
+- file: planradar-approval-request.md
+  name: Raise a PlanRadar document approval request
+  api: openapi/planradar-openapi-original.json
+  operations:
+  - POST /api/v2/{customer_id}/projects/{project_id}/approval_requests
+  - GET /api/v2/{customer_id}/projects/{project_id}/approval_requests

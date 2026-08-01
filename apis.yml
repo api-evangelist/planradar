@@ -1,8 +1,26 @@
 aid: planradar
 name: PlanRadar
-description: PlanRadar is a company surfaced as a portfolio company of insight-partners and added to the
-  API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: PlanRadar is a SaaS platform for construction and real estate documentation, defect and task
+  management, and site inspections, used by builders, owners, facility managers, architects and engineers
+  in more than 75 countries. Its secure REST Open API (v1 and v2) lets Pro and Enterprise customers read
+  and manage projects, tickets, documents, DMS nodes, forms, plans, roles, approval requests and workflows,
+  and Site View captures, generate asynchronous Excel and PDF exports, and subscribe to event webhooks.
+  PlanRadar Connect, built on Workato, layers 200+ no-code integrations on top of the API for tools such
+  as SharePoint, Power BI, Salesforce, Procore, SAP, Jira and Slack.
 url: https://raw.githubusercontent.com/api-evangelist/planradar/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://www.planradar.com/wp-content/themes/planradar/images/favicon_192.png
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
@@ -11,15 +29,592 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
-apis: []
+- Construction
+- Real Estate
+- Project Management
+- Documentation
+- Defect Management
+- Field Service
+- Facility Management
+- BIM
+- SaaS
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: planradar:planradar-approval-requests-v2-api
+  name: PlanRadar Approval Requests V2 API
+  description: Create and manage approval requests for documents, plans, and tickets
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Approval Requests V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-approval-requests-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-approval-workflows-v2-api
+  name: PlanRadar Approval Workflows V2 API
+  description: Create and manage reusable approval workflow templates
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Approval Workflows V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-approval-workflows-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-components-plans-api
+  name: PlanRadar Components-Plans API
+  description: Create PlanRadar Components/Plans
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Components-Plans
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-components-plans-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-components-v2-api
+  name: PlanRadar Components V2 API
+  description: Create PlanRadar Components/Plans
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Components V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-components-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-dms-api
+  name: PlanRadar DMS API
+  description: >-
+    Document Management System: browse, manage and copy DMS nodes, ticket attachments and form-field attachments
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - DMS
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-dms-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-documents-api
+  name: PlanRadar Documents API
+  description: >-
+    Manage your documents in PlanRadar, adding documents to a ticket is covered in the 'Tickets' section
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-documents-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-export-api
+  name: PlanRadar Export API
+  description: Export tickets as Excel or PDF files
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Export
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-export-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-filters-v2-api
+  name: PlanRadar Filters V2 API
+  description: Read and manage ticket filters
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Filters V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-filters-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-forms-api
+  name: PlanRadar Forms API
+  description: Get your PlanRadar forms
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Forms
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-forms-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-forms-project-api
+  name: PlanRadar Forms / Project API
+  description: Manage forms assigned to projects
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Forms / Project
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-forms-project-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-forms-v2-api
+  name: PlanRadar Forms V2 API
+  description: Get your PlanRadar forms
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Forms V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-forms-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-gantt-v2-api
+  name: PlanRadar Gantt V2 API
+  description: The Gantt V2 API from PlanRadar — 7 operation(s) for gantt v2.
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Gantt V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-gantt-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-groups-v2-api
+  name: PlanRadar Groups V2 API
+  description: The Groups V2 API from PlanRadar — 2 operation(s) for groups v2.
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Groups V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-groups-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-images-api
+  name: PlanRadar Images API
+  description: Attach images to tickets
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Images
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-images-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-invitation-v1-api
+  name: PlanRadar Invitation V1 API
+  description: The Invitation V1 API from PlanRadar — 2 operation(s) for invitation v1.
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Invitation V1
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-invitation-v1-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-invitations-api
+  name: PlanRadar Invitations API
+  description: The Invitations API from PlanRadar — 6 operation(s) for invitations.
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Invitations
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-invitations-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-list-api
+  name: PlanRadar List API
+  description: Get the lists that you defined in your account
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - List
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-list-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-list-v2-api
+  name: PlanRadar List V2 API
+  description: Get the lists that you defined in your account
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - List V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-list-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-login-api
+  name: PlanRadar Login API
+  description: The Login API from PlanRadar — 1 operation(s) for login.
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Login
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-login-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-notifications-api
+  name: PlanRadar Notifications API
+  description: Manage all your account related notifications
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Notifications
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-notifications-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-plans-v2-api
+  name: PlanRadar Plans V2 API
+  description: Load/Manage plans
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Plans V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-plans-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-project-reports-api
+  name: PlanRadar Project Reports API
+  description: Manage project reports in your account
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Project Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-project-reports-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-project-reports-templates-api
+  name: PlanRadar Project Reports Templates API
+  description: Manage project report templates
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Project Reports Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-project-reports-templates-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-projects-api
+  name: PlanRadar Projects API
+  description: Read your projects, add or remove members to the project
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-projects-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-projects-v2-api
+  name: PlanRadar Projects V2 API
+  description: Read your projects
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Projects V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-projects-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-report-templates-v2-api
+  name: PlanRadar Report Templates V2 API
+  description: >-
+    Get all the report templates of your account in order to be able to export tickets with them
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Report Templates V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-report-templates-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-roles-api
+  name: PlanRadar Roles API
+  description: Get the roles that you have defined in your account
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-roles-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-roles-v2-api
+  name: PlanRadar Roles V2 API
+  description: Manage roles defined in your account
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Roles V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-roles-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-site-view-api
+  name: PlanRadar Site View API
+  description: Manage site view runs, points, and attachments
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Site View
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-site-view-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-steps-v2-api
+  name: PlanRadar Steps V2 API
+  description: The Steps V2 API from PlanRadar — 2 operation(s) for steps v2.
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Steps V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-steps-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-ticket-attachments-api
+  name: PlanRadar Ticket Attachments API
+  description: New APIs to manage all ticket related attachments (Audio, Video, Images, Documents)
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Ticket Attachments
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-ticket-attachments-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-ticket-imports-api
+  name: PlanRadar Ticket Imports API
+  description: The Ticket Imports API from PlanRadar — 1 operation(s) for ticket imports.
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Ticket Imports
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-ticket-imports-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-tickets-api
+  name: PlanRadar Tickets API
+  description: All operations on PlanRadar tickets
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Tickets
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-tickets-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-tickets-v2-api
+  name: PlanRadar Tickets V2 API
+  description: All operations on PlanRadar tickets
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Tickets V2
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-tickets-v2-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-users-v1-api
+  name: PlanRadar Users V1 API
+  description: Manage all users in your account
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - Users V1
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-users-v1-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- aid: planradar:planradar-videos-api
+  name: PlanRadar videos API
+  description: The videos API from PlanRadar — 3 operation(s) for videos.
+  humanURL: https://www.planradar.com/api-docs/index.html
+  baseURL: https://www.planradar.com/api/v1
+  tags:
+  - videos
+  properties:
+  - type: OpenAPI
+    url: openapi/planradar-videos-api-openapi.yml
+  - type: APIReference
+    url: https://www.planradar.com/api-docs/index.html
+  - type: Documentation
+    url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
 common:
+- type: DomainSecurity
+  url: security/planradar-domain-security.yml
+- type: Authentication
+  url: authentication/planradar-authentication.yml
 - type: Website
   url: https://www.planradar.com/
+- type: DeveloperPortal
+  url: https://help.planradar.com/hc/en-gb/categories/15480406372381
+- type: Documentation
+  url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+- type: APIReference
+  url: https://www.planradar.com/api-docs/index.html
+- type: GettingStarted
+  url: https://www.planradar.com/quick-start-guides/welcome/
+- type: Support
+  url: https://help.planradar.com/hc
+- type: Blog
+  url: https://www.planradar.com/blog/
+- type: Pricing
+  url: https://www.planradar.com/pricing/
+- type: SignUp
+  url: https://www.planradar.com/registration/
+- type: Login
+  url: https://planradar.com/login
+- type: TermsOfService
+  url: https://www.planradar.com/terms-of-service/
+- type: PrivacyPolicy
+  url: https://www.planradar.com/privacy-policy/
+- type: Integrations
+  url: https://www.planradar.com/connect/
+- type: ChangeLog
+  url: https://help.planradar.com/hc/en-gb/articles/28730384282653
+- type: ErrorCatalog
+  url: errors/planradar-problem-types.yml
+- type: Conventions
+  url: conventions/planradar-conventions.yml
+- type: DataModel
+  url: data-model/planradar-data-model.yml
+- type: MCPServer
+  url: mcp/planradar-mcp.yml
+- type: Conformance
+  url: conformance/planradar-conformance.yml
+- type: Compliance
+  url: https://www.planradar.com/data-security-and-privacy-at-planradar/
+- type: TrustCenter
+  url: security/planradar-trust-center.yml
+- type: Lifecycle
+  url: lifecycle/planradar-lifecycle.yml
+- type: Webhooks
+  url: asyncapi/planradar-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/planradar-llms.txt
+- type: Overlay
+  url: overlays/planradar-openapi-overlay.yaml
+- type: ChangeLog
+  url: changelog/planradar-changelog.yml
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 19
+  pass: local-v1

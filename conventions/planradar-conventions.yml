@@ -1,0 +1,39 @@
+generated: '2026-07-20'
+method: searched
+source: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+authentication:
+  style: api-key
+  header: X-PlanRadar-API-Key
+  credential: Personal Access Token generated in account settings
+  ref: authentication/planradar-authentication.yml
+versioning:
+  scheme: uri-path
+  versions:
+  - v1
+  - v2
+  note: v2 endpoints recommended as faster and more flexible than v1; both live under /api/{version}/{customer_id}/...
+base_path: /api/{version}/{customer_id}
+content_type:
+  request: application/json
+  response: application/json
+  accept_required: application/json (missing/other Accept yields 406 Unsupported Accept Header)
+pagination:
+  style: filter-and-query-params
+  note: List endpoints accept filter[<field>] query parameters and resource-specific query flags; no single
+    global cursor/offset convention is documented.
+rate_limiting:
+  limit: 30 requests per minute per account
+  scope: aggregated across all tokens on the account
+  penalty: token disabled for 5 minutes on breach
+  ref: lifecycle/planradar-lifecycle.yml
+idempotency:
+  documented: false
+  note: No idempotency-key header or idempotency contract is documented by PlanRadar.
+async_exports:
+  note: Excel/PDF exports and some ticket operations run asynchronously; poll the export status endpoint
+    (direct_url returns a direct download when ready).
+errors:
+  ref: errors/planradar-problem-types.yml
+  envelope: JSON body + standard HTTP status codes
+webhooks:
+  ref: asyncapi/planradar-webhooks.yml

@@ -1,0 +1,23 @@
+generated: '2026-07-20'
+method: searched
+probe: true
+url: https://www.planradar.com/data-security-and-privacy-at-planradar/
+certifications:
+- ISO 27001
+- GDPR
+controls:
+- encryption at rest
+- multi-factor authentication
+- single sign-on
+- biometric mobile security
+- regular third-party penetration testing
+data_residency: Client and operational data hosted on AWS servers in Germany (EU) for GDPR compliance.
+security_contact: security@planradar.com
+dpa: https://planradar-website.s3.amazonaws.com/production/uploads/2026/07/Data-Processing-Agreement_Austria_EN-3.pdf
+evidence:
+- source: https://www.planradar.com/data-security-and-privacy-at-planradar/
+  keywords:
+  - iso 27001
+  - gdpr
+  - penetration testing
+  - encryption

@@ -1,0 +1,40 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/planradar-openapi-original.json
+format: http-status
+note: PlanRadar returns JSON error bodies with standard HTTP status codes (not RFC 9457 problem+json).
+  429 documented in Core API Concepts / Open API Overview; others derived from OpenAPI responses.
+error_reference: https://help.planradar.com/hc/en-gb/articles/334388875178535-Core-API-Concepts
+problems:
+- status: 400
+  title: Bad Request
+  occurrences: 2
+  remediation: Check request body/parameters for malformed or invalid values.
+- status: 401
+  title: Unauthorized
+  occurrences: 4
+  remediation: Provide a valid X-PlanRadar-API-Key header (Personal Access Token). Tokens are disabled
+    for 5 minutes after exceeding the rate limit.
+- status: 403
+  title: Forbidden
+  occurrences: 4
+  remediation: The authenticated user lacks the required permission (e.g. API Access, or resource-level
+    rights).
+- status: 404
+  title: Not Found
+  occurrences: 207
+  remediation: Verify the customer_id, project_id and resource id in the path; the resource may not exist
+    or not be visible to the caller.
+- status: 406
+  title: Not Acceptable
+  occurrences: 67
+  remediation: 'Set Accept: application/json; PlanRadar returns 406 Unsupported Accept Header otherwise.'
+- status: 422
+  title: Unprocessable Entity
+  occurrences: 12
+  remediation: Request was well-formed but failed validation; inspect the returned validation messages.
+- status: 429
+  title: Too Many Requests
+  occurrences: 0
+  remediation: Rate limit is 30 requests per minute per account (aggregated across tokens); exceeding
+    it disables the token for 5 minutes.

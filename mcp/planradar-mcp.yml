@@ -1,0 +1,1378 @@
+generated: '2026-07-20'
+method: derived
+status: candidate
+source: openapi/planradar-openapi-original.json
+note: Candidate MCP tool list derived one-per-operation from the PlanRadar OpenAPI. No official hosted
+  PlanRadar MCP server was found. OperationIds are absent in the source spec, so tool names are synthesized
+  from HTTP method + path.
+server:
+  name: planradar
+  transport: stdio
+tool_count: 273
+tools:
+- name: get_extend_session
+  description: Extend the current user session
+  method: GET
+  path: /extend_session
+  source_operation: openapi/planradar-openapi-original.json#GET /extend_session
+- name: get_groups
+  description: List groups
+  method: GET
+  path: /api/v2/{customer_id}/groups
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/groups
+- name: create_groups
+  description: Create group
+  method: POST
+  path: /api/v2/{customer_id}/groups
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/groups
+- name: get_groups_2
+  description: Show group
+  method: GET
+  path: /api/v2/{customer_id}/groups/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/groups/{id}
+- name: update_groups
+  description: Update group
+  method: PATCH
+  path: /api/v2/{customer_id}/groups/{id}
+  source_operation: openapi/planradar-openapi-original.json#PATCH /api/v2/{customer_id}/groups/{id}
+- name: delete_groups
+  description: Delete group
+  method: DELETE
+  path: /api/v2/{customer_id}/groups/{id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/groups/{id}
+- name: get_projects_tickets_journals
+  description: Retrieve journals for all accessible tickets in a project
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/journals
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/journals
+- name: create_projects_approval_requests_nodes
+  description: create new approval request for the current versions of the selected nodes
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/nodes
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/approval_requests/nodes
+- name: create_projects_approval_requests_version
+  description: create new approval request for one version
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/version
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/approval_requests/version
+- name: create_projects_approval_requests
+  description: create new approval request
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/approval_requests
+- name: get_projects_approval_requests
+  description: load approval requests
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/approval_requests
+- name: get_projects_approval_requests_sidebar_entries
+  description: load approval requests sub menu items
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/sidebar_entries
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/approval_requests/sidebar_entries
+- name: get_projects_approval_requests_2
+  description: load one approval request
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}
+- name: update_projects_approval_requests
+  description: Update approval request
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}
+- name: delete_projects_approval_requests
+  description: delete approval request
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}
+- name: get_projects_approval_requests_for_ticket
+  description: load approval request by ticket UUID
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/for_ticket/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/approval_requests/for_ticket/{id}
+- name: get_projects_approval_requests_validate_file
+  description: check if the provided version is part of another pending request or not and load that request
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/validate_file/{version_uuid}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/approval_requests/validate_file/{version_uuid}
+- name: create_projects_approval_requests_validate_nodes
+  description: validate files for approval request
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/validate_nodes
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/approval_requests/validate_nodes
+- name: get_projects_approval_requests_dates_and_duration_calculation
+  description: returns the calculated dates and duration
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/dates_and_duration_calculation
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/approval_requests/dates_and_duration_calculation
+- name: get_projects_approval_requests_can_be_reopened
+  description: check if the approval request can be reopened
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}/can_be_reopened
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}/can_be_reopened
+- name: get_projects_approval_requests_load_plan_request
+  description: load a plan-type approval request
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}/load_plan_request
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}/load_plan_request
+- name: update_projects_approval_requests_update_plan_request
+  description: update a plan-type approval request
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}/update_plan_request
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}/update_plan_request
+- name: create_approval_workflows
+  description: create new approval workflow
+  method: POST
+  path: /api/v2/{customer_id}/approval_workflows
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/approval_workflows
+- name: get_approval_workflows
+  description: list approval workflows
+  method: GET
+  path: /api/v2/{customer_id}/approval_workflows
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/approval_workflows
+- name: get_approval_workflows_2
+  description: load one approval workflow
+  method: GET
+  path: /api/v2/{customer_id}/approval_workflows/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/approval_workflows/{id}
+- name: update_approval_workflows
+  description: edit one approval workflow
+  method: PUT
+  path: /api/v2/{customer_id}/approval_workflows/{id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/approval_workflows/{id}
+- name: delete_approval_workflows
+  description: remove one approval workflow
+  method: DELETE
+  path: /api/v2/{customer_id}/approval_workflows/{id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/approval_workflows/{id}
+- name: get_approval_workflows_reviewers
+  description: list potential reviewers for a customer as long as they are inhouse|subcontractors
+  method: GET
+  path: /api/v2/{customer_id}/approval_workflows/reviewers
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/approval_workflows/reviewers
+- name: get_projects_components
+  description: Retrieve all components
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/components
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/components
+- name: create_projects_components
+  description: Creates component and plan and updates plan
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/components
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/components
+- name: get_projects_components_2
+  description: Retrieve one component
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/components/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/components/{id}
+- name: update_projects_components
+  description: Updates name and parent of a specific component
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}/components/{id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}/components/{id}
+- name: delete_projects_components
+  description: Deletes specific component
+  method: DELETE
+  path: /api/v1/{customer_id}/projects/{project_id}/components/{id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/projects/{project_id}/components/{id}
+- name: create_projects_components_delete_plan_revisions
+  description: Deletes all plan revisions of a component
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/components/{id}/delete_plan_revisions
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/components/{id}/delete_plan_revisions
+- name: create_projects_components_delete_bim_model_revisions
+  description: Deletes all bim model revisions of a specific component
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/components/{id}/delete_bim_model_revisions
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/components/{id}/delete_bim_model_revisions
+- name: get_projects_components_plans
+  description: Retrieve all the plans which is belong to component
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/components/{component_id}/plans
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/components/{component_id}/plans
+- name: update_projects_components_update_components_order
+  description: Updates order of components
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}/components/update_components_order
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}/components/update_components_order
+- name: get_projects_components_plans_2
+  description: 'Returns a specific plan of a component '
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}
+- name: delete_projects_components_plans
+  description: Deletes a specific plan of a component
+  method: DELETE
+  path: /api/v1/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}
+- name: get_projects_components_project_components
+  description: Returns all components of a project based on its id.
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/components/project_components
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/components/project_components
+- name: get_projects_components_3
+  description: Returns specific project component
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/components/{id}
+- name: get_projects_dms_nodes
+  description: Retrieves All nodes [folder|files] for a specific projects
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/dms/nodes
+- name: create_projects_dms_nodes
+  description: Create New Node[folder]  or a new file
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/dms/nodes
+- name: update_projects_dms_nodes
+  description: execute a bulk update action
+  method: PATCH
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes
+  source_operation: openapi/planradar-openapi-original.json#PATCH /api/v2/{customer_id}/projects/{project_id}/dms/nodes
+- name: create_projects_dms_nodes_ticket_attachments
+  description: Create New Ticket Attachment
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/ticket_attachments/{ticket_uuid}
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/dms/nodes/ticket_attachments/{ticket_uuid}
+- name: create_projects_dms_nodes_form_field_attachments
+  description: Create New Form Field Attachment
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/form_field_attachments/{ticket_uuid}
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/dms/nodes/form_field_attachments/{ticket_uuid}
+- name: update_projects_dms_nodes_form_field_attachments
+  description: Update a Form Field Attachment
+  method: PATCH
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/form_field_attachments/{id}
+  source_operation: openapi/planradar-openapi-original.json#PATCH /api/v2/{customer_id}/projects/{project_id}/dms/nodes/form_field_attachments/{id}
+- name: get_projects_dms_nodes_ticket_attachments
+  description: Retrieves All ticket attachments files for a specific projects
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/ticket_attachments
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/dms/nodes/ticket_attachments
+- name: get_projects_dms_nodes_form_field_attachments
+  description: Retrieves all form field attachments for a specific project
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/form_field_attachments
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/dms/nodes/form_field_attachments
+- name: delete_projects_dms_nodes_ticket_attachments_delete
+  description: Delete Ticket Attachment
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/ticket_attachments/delete
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/dms/nodes/ticket_attachments/delete
+- name: delete_projects_dms_nodes_form_field_attachments_delete
+  description: Delete Form Field Attachment
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/form_field_attachments/delete
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/dms/nodes/form_field_attachments/delete
+- name: get_projects_dms_nodes_attachments
+  description: Retrieves all attachments (ticket + form field) for a specific project
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/attachments
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/dms/nodes/attachments
+- name: delete_projects_dms_nodes_attachments_delete
+  description: Delete attachments (ticket or form field)
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/attachments/delete
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/dms/nodes/attachments/delete
+- name: get_projects_dms_nodes_2
+  description: show node[folder] or file details
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}
+- name: update_projects_dms_nodes_2
+  description: update node[folder] or file
+  method: PATCH
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}
+  source_operation: openapi/planradar-openapi-original.json#PATCH /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}
+- name: delete_projects_dms_nodes
+  description: mark node[folder] or file as deleted
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}
+- name: create_projects_dms_nodes_copy
+  description: create another copy under different folder for a file/folder
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/copy
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/copy
+- name: update_projects_dms_nodes_trash
+  description: move file or folder to the trash bin
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/trash
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/trash
+- name: update_projects_dms_nodes_trash_2
+  description: execute a bulk trash
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/trash
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/dms/nodes/trash
+- name: update_projects_dms_nodes_restore
+  description: restore file/folder from trash bin
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/restore
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/restore
+- name: create_projects_dms_nodes_copy_2
+  description: execute a bulk copy , this is only works with files !
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy
+- name: update_projects_dms_nodes_restore_2
+  description: execute a bulk restore
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/restore
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/dms/nodes/restore
+- name: delete_projects_dms_nodes_delete
+  description: execute bulk delete
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/delete
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/dms/nodes/delete
+- name: update_:customer_id_projects_:project_id_dms_nodes_:id_toggle
+  description: toggle the control access switch
+  method: PATCH
+  path: /api/v2/:customer_id/projects/:project_id/dms/nodes/:id/toggle
+  source_operation: openapi/planradar-openapi-original.json#PATCH /api/v2/:customer_id/projects/:project_id/dms/nodes/:id/toggle
+- name: update_:customer_id_projects_:project_id_dms_nodes_:id_restore_p
+  description: restore permissions
+  method: PATCH
+  path: /api/v2/:customer_id/projects/:project_id/dms/nodes/:id/restore_permissions
+  source_operation: openapi/planradar-openapi-original.json#PATCH /api/v2/:customer_id/projects/:project_id/dms/nodes/:id/restore_permissions
+- name: create_projects_dms_nodes_copy_to_tickets_validation
+  description: validate before copying files to tickets
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy_to_tickets_validation
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy_to_tickets_validation
+- name: create_projects_dms_nodes_copy_attachments_to_dms_validation
+  description: validate before copying ticket attachments to DMS
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy_attachments_to_dms_validation
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy_attachments_to_dms_validation
+- name: create_projects_dms_nodes_copy_attachments_to_dms
+  description: copy ticket attachments to DMS
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy_attachments_to_dms
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy_attachments_to_dms
+- name: create_projects_dms_nodes_copy_to_tickets
+  description: validate before copying files to tickets
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy_to_tickets
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/dms/nodes/copy_to_tickets
+- name: get_projects_dms_bookmarks
+  description: Retrieves All the bookmarks for a user
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/bookmarks
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/dms/bookmarks
+- name: create_projects_dms_bookmarks
+  description: Create New bookmark
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/bookmarks
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/dms/bookmarks
+- name: delete_projects_dms_bookmarks
+  description: delete bookmark
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/bookmarks/{bookmark_id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/dms/bookmarks/{bookmark_id}
+- name: get_projects_dms_sidebar_sections
+  description: Retrieves DMS sections
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/sidebar_sections
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/dms/sidebar_sections
+- name: get_projects_dms_logs
+  description: Retrieves DMS activity logs
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/logs/{item_type}/{item_id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/dms/logs/{item_type}/{item_id}
+- name: get_projects_dms_nodes_files_size
+  description: Retrieves DMS files size for a specific project
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/files_size
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/dms/nodes/files_size
+- name: create_projects_dms_nodes_versions
+  description: upload new version of the file attachment
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions
+- name: get_projects_dms_nodes_versions
+  description: load the file attachment version
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions
+- name: delete_projects_dms_nodes_versions
+  description: delete file attachment version
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions/{id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions/{id}
+- name: get_projects_dms_nodes_versions_2
+  description: load file attachment version details
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions/{id}
+- name: create_projects_dms_nodes_versions_restore
+  description: Restore file attachment version
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions/{id}/restore
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/dms/nodes/{node_id}/versions/{id}/restore
+- name: get_:customer_id_projects_:project_id_dms_nodes_:node_id_permiss
+  description: Retrieves All permissions  for a specific node
+  method: GET
+  path: /api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions
+- name: create_:customer_id_projects_:project_id_dms_nodes_:node_id_perm
+  description: create a permission entry for a specific role|user to access specific node
+  method: POST
+  path: /api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions
+- name: delete_:customer_id_projects_:project_id_dms_nodes_:node_id_perm
+  description: delete access permission for the list
+  method: DELETE
+  path: /api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions/:id
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions/:id
+- name: update_:customer_id_projects_:project_id_dms_nodes_:node_id_perm
+  description: update access|permission type for a permission
+  method: PUT
+  path: /api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions/:id
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions/:id
+- name: get_:customer_id_projects_:project_id_dms_nodes_list_roles_and_u
+  description: list roles and users
+  method: GET
+  path: /api/v2/:customer_id/projects/:project_id/dms/nodes/list_roles_and_users
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/:customer_id/projects/:project_id/dms/nodes/list_roles_and_users
+- name: get_projects_documents
+  description: Retrieves All Documents
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/documents/
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/documents/
+- name: create_projects_documents
+  description: Create New Document
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/documents/
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/documents/
+- name: delete_projects_documents
+  description: Delete one Document
+  method: DELETE
+  path: /api/v1/{customer_id}/projects/{project_id}/documents/{document_uuid}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/projects/{project_id}/documents/{document_uuid}
+- name: get_projects_documents_2
+  description: Load one Document
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/documents/{document_uuid}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/documents/{document_uuid}
+- name: update_projects_documents
+  description: Update Document
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}/documents/{document_uuid}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}/documents/{document_uuid}
+- name: get_projects_tickets_export_xls
+  description: Export Tickets as an Excel File
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/export/xls
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/tickets/export/xls
+- name: create_projects_tickets_export_xls
+  description: Export Tickets as an Excel File using POST
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/export/xls
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/tickets/export/xls
+- name: get_projects_tickets_export_pdf
+  description: Export Tickets as a PDF File
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/export/pdf
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/tickets/export/pdf
+- name: create_projects_tickets_export_pdf
+  description: Export Tickets as a PDF File with POST request
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/export/pdf
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/tickets/export/pdf
+- name: get_check_if_finished
+  description: Check if export is finished
+  method: GET
+  path: /api/{customer_id}/check_if_finished/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/{customer_id}/check_if_finished/{uuid}
+- name: get_projects_filters
+  description: Returns all filters of a project
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/filters
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/filters
+- name: create_projects_filters
+  description: Creates new filter
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/filters
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/filters
+- name: create_projects_filters_check_name_duplication
+  description: Checks for filter name duplication
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/filters/check_name_duplication
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/filters/check_name_duplication
+- name: get_projects_filters_2
+  description: Returns specific filter
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/filters/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/filters/{id}
+- name: delete_projects_filters
+  description: Deletes specific filter
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/filters/{id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/filters/{id}
+- name: update_projects_filters
+  description: Updates specific filter
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/filters/{id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/filters/{id}
+- name: get_projects_filters_filterable_fields
+  description: List available filterable fields for a given type
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/filters/filterable_fields
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/filters/filterable_fields
+- name: get_projects_filters_list_options
+  description: List available options for a specific field
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/filters/list_options
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/filters/list_options
+- name: get_projects_gantt_tasks
+  description: Retrieves All Phases for a specific projects
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/gantt_tasks
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/gantt_tasks
+- name: create_projects_gantt_tasks
+  description: Create New Phase/Task
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/gantt_tasks
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/gantt_tasks
+- name: update_projects_gantt_tasks
+  description: Update Phase/Task
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/{id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/{id}
+- name: delete_projects_gantt_tasks
+  description: Delete Phase/Task
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/{id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/{id}
+- name: get_projects_gantt_tasks_2
+  description: Retrieve Phase/Task
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/{id}
+- name: create_projects_gantt_tasks_clone
+  description: Clone Phase/Task
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/{id}/clone
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/{id}/clone
+- name: create_projects_gantt_tasks_attach_ticket
+  description: Attach Ticket to Phase/Task
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/attach_ticket
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/attach_ticket
+- name: create_projects_gantt_tasks_import
+  description: Import Gantt Tasks
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/import
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/import
+- name: create_projects_gantt_tasks_sync_scheduler
+  description: Import Gantt Tasks
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/sync_scheduler
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/sync_scheduler
+- name: get_projects_gantt_tasks_export
+  description: Export Gantt Tasks
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/export
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/gantt_tasks/export
+- name: create_projects_tickets_ticket_images
+  description: Create image with base64 (file param as base64 string)
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_images/{image_uuid}
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_images/{image_uuid}
+- name: update_projects_tickets_ticket_images
+  description: Update the caption of an image
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_images/{image_uuid}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_images/{image_uuid}
+- name: delete_projects_tickets_ticket_images
+  description: Delete an image from a ticket
+  method: DELETE
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_images/{image_uuid}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_images/{image_uuid}
+- name: create_projects_tickets_ticket_images_create_multipart
+  description: Create image with multipart upload (file param as multipart)
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_images/{image_uuid}/create_multipart
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_images/{image_uuid}/create_multipart
+- name: delete_invitations
+  description: Delete an invitation
+  method: DELETE
+  path: /api/{customer_id}/invitations/{id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/{customer_id}/invitations/{id}
+- name: update_invitations_resend_invitation
+  description: Resende invitation
+  method: PUT
+  path: /api/{customer_id}/invitations/{id}/resend_invitation
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/{customer_id}/invitations/{id}/resend_invitation
+- name: get_invitations_search
+  description: Search for invitations
+  method: GET
+  path: /api/{customer_id}/invitations/search
+  source_operation: openapi/planradar-openapi-original.json#GET /api/{customer_id}/invitations/search
+- name: create_invitations_accept
+  description: Accept invitation
+  method: POST
+  path: /api/{customer_id}/invitations/accept
+  source_operation: openapi/planradar-openapi-original.json#POST /api/{customer_id}/invitations/accept
+- name: get_invitations_count_pending_invitations
+  description: Retrieve number of pending invitations
+  method: GET
+  path: /api/{customer_id}/invitations/count_pending_invitations
+  source_operation: openapi/planradar-openapi-original.json#GET /api/{customer_id}/invitations/count_pending_invitations
+- name: create_:customer_id_invitations
+  description: Create new invitation
+  method: POST
+  path: /api/:customer_id/invitations
+  source_operation: openapi/planradar-openapi-original.json#POST /api/:customer_id/invitations
+- name: get_invitations
+  description: resend invitation
+  method: GET
+  path: /api/v1/{customer_id}/invitations/{user_id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/invitations/{user_id}
+- name: delete_invitations_2
+  description: 'delete invitation '
+  method: DELETE
+  path: /api/v1/{customer_id}/invitations/{user_id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/invitations/{user_id}
+- name: create_invitations
+  description: Invite user
+  method: POST
+  path: /api/v1/{customer_id}/invitations
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/invitations
+- name: create_lists
+  description: Creates new list
+  method: POST
+  path: /api/v1/{customer_id}/lists/
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/lists/
+- name: get_lists
+  description: Returns all lists
+  method: GET
+  path: /api/v1/{customer_id}/lists/
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/lists/
+- name: update_lists
+  description: Updates specific list
+  method: PUT
+  path: /api/v2/{customer_id}/lists/{id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/lists/{id}
+- name: get_lists_2
+  description: Retrieve one list
+  method: GET
+  path: /api/v1/{customer_id}/lists/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/lists/{id}
+- name: update_lists_2
+  description: Updates specific list
+  method: PUT
+  path: /api/v1/{customer_id}/lists/{id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/lists/{id}
+- name: update_lists_3
+  description: Update one list with/out list entries
+  method: PATCH
+  path: /api/v1/{customer_id}/lists/{id}
+  source_operation: openapi/planradar-openapi-original.json#PATCH /api/v1/{customer_id}/lists/{id}
+- name: delete_lists
+  description: Deletes specific list
+  method: DELETE
+  path: /api/v1/{customer_id}/lists/{id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/lists/{id}
+- name: get_projects_ticket_types_lists
+  description: Returns all lists of a specific project
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/ticket_types/lists/
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/ticket_types/lists/
+- name: get_notifications
+  description: Get all new notification
+  method: GET
+  path: /api/v2/{customer_id}/notifications/{type}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/notifications/{type}
+- name: create_notifications_mark_as_read
+  description: Mark all notifications as read
+  method: POST
+  path: /api/v2/{customer_id}/notifications/{type}/mark_as_read
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/notifications/{type}/mark_as_read
+- name: get_notifications_check_new
+  description: get the count of all unread notifications for each type
+  method: GET
+  path: /api/v2/{customer_id}/notifications/check_new
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/notifications/check_new
+- name: create_notifications_toggle_read
+  description: Toggle the is_read flag of one notification
+  method: POST
+  path: /api/v2/{customer_id}/notifications/{notification_id}/toggle_read
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/notifications/{notification_id}/toggle_read
+- name: get_projects_components_plans_3
+  description: Returns specific plan of a component
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}
+- name: update_projects_components_plans
+  description: Update specific plan of a component
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}
+- name: get_projects_components_plans_4
+  description: Returns all plans of a component
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/plans
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/plans
+- name: update_projects_components_plans_skip_approval_request
+  description: Skip approval request for this plan
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}/skip_approval_request
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}/skip_approval_request
+- name: get_projects_memberships
+  description: Get all project memberships
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/memberships
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/memberships
+- name: get_projects_project_groups
+  description: Get project groups for selected project
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/project_groups
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/project_groups
+- name: get_projects_project_groups_2
+  description: Returns all groups of a specific project
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/project_groups
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/project_groups
+- name: get_projects_memberships_2
+  description: Returns all memberships of a specific project
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/memberships
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/memberships
+- name: get_projects_users
+  description: Returns all users of a project
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/users
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/users
+- name: create_projects_add_member_to_project
+  description: Adds specific user/s to project
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/add_member_to_project
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/add_member_to_project
+- name: create_projects_remove_member_from_project
+  description: Removes specific member from project
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/remove_member_from_project
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/remove_member_from_project
+- name: create_projects_add_group_to_project
+  description: Adds specific group/s to project
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/add_group_to_project
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/add_group_to_project
+- name: update_projects_update_project_member_role
+  description: Updates specific member role of project
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}/update_project_member_role
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}/update_project_member_role
+- name: get_projects_my_projects
+  description: Returns all projects
+  method: GET
+  path: /api/v2/{customer_id}/projects/my_projects
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/my_projects
+- name: get_projects
+  description: Returns a paginated list of projects
+  method: GET
+  path: /api/v2/{customer_id}/projects
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects
+- name: get_projects_2
+  description: Returns all projects
+  method: GET
+  path: /api/v1/{customer_id}/projects
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects
+- name: create_projects
+  description: Creates project
+  method: POST
+  path: /api/v1/{customer_id}/projects
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects
+- name: create_projects_copy_project
+  description: 'Copies specific project '
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/copy_project
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/copy_project
+- name: get_projects_export_project
+  description: Exports data of a specific project
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/export_project
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/export_project
+- name: get_projects_3
+  description: Returns specific project
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}
+- name: update_projects
+  description: Updates specific project
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}
+- name: update_projects_archive_project
+  description: Archives/Unarchives specific project
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}/archive_project
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}/archive_project
+- name: create_projects_remove_group_from_project
+  description: Removes a group from a specific project
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/remove_group_from_project
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/remove_group_from_project
+- name: create_projects_update_project_group_role
+  description: Updates project's group role
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/update_project_group_role
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/update_project_group_role
+- name: get_roles
+  description: Retrieve all roles for a customer
+  method: GET
+  path: /api/v2/{customer_id}/roles
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/roles
+- name: get_roles_2
+  description: Returns all roles
+  method: GET
+  path: /api/v1/{customer_id}/roles
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/roles
+- name: create_projects_site_reports
+  description: Creates report
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/site_reports
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/site_reports
+- name: get_projects_site_reports
+  description: Returns all reports
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/site_reports
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/site_reports
+- name: update_projects_site_reports
+  description: Updates specfic report
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}/site_reports/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}/site_reports/{uuid}
+- name: get_projects_site_reports_2
+  description: Returns specific report
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/site_reports/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/site_reports/{uuid}
+- name: delete_projects_site_reports
+  description: Deletes specific report
+  method: DELETE
+  path: /api/v1/{customer_id}/projects/{project_id}/site_reports/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/projects/{project_id}/site_reports/{uuid}
+- name: create_projects_site_reports_image
+  description: Attaches image to specific report
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/site_reports/{site_report_uuid}/image
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/site_reports/{site_report_uuid}/image
+- name: update_projects_site_reports_image
+  description: Updates image caption
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}/site_reports/{site_report_uuid}/image/{image_uuid}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}/site_reports/{site_report_uuid}/image/{image_uuid}
+- name: delete_projects_site_reports_image
+  description: Deletes specific image
+  method: DELETE
+  path: /api/v1/{customer_id}/projects/{project_id}/site_reports/{site_report_uuid}/image/{image_uuid}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/projects/{project_id}/site_reports/{site_report_uuid}/image/{image_uuid}
+- name: get_projects_site_reports_clone
+  description: Clones specific report
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/site_reports/{site_report_uuid}/clone
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/site_reports/{site_report_uuid}/clone
+- name: get_projects_site_reports_export_reports
+  description: Exports reports as Excel file
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/site_reports/export_reports
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/site_reports/export_reports
+- name: get_projects_site_reports_download_combined_reports
+  description: Exports reports as PDF file
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/site_reports/download_combined_reports
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/site_reports/download_combined_reports
+- name: create_projects_site_reports_site_report_tickets_attach_tickets
+  description: Attach Ticket to Site report
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/site_reports/{site_report_id}/site_report_tickets/attach_tickets
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/site_reports/{site_report_id}/site_report_tickets/attach_tickets
+- name: create_projects_site_reports_site_report_tickets_unattach_ticket
+  description: Unattach tickets from site report
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/site_reports/{site_report_id}/site_report_tickets/unattach_tickets
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/site_reports/{site_report_id}/site_report_tickets/unattach_tickets
+- name: create_site_report_templates
+  description: Creates report template
+  method: POST
+  path: /api/v1/{customer_id}/site_report_templates
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/site_report_templates
+- name: get_site_report_templates
+  description: Returns all report templates
+  method: GET
+  path: /api/v1/{customer_id}/site_report_templates
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/site_report_templates
+- name: update_site_report_templates
+  description: Updates specific report template
+  method: PUT
+  path: /api/v1/{customer_id}/site_report_templates/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/site_report_templates/{uuid}
+- name: get_site_report_templates_2
+  description: Returns specific report template
+  method: GET
+  path: /api/v1/{customer_id}/site_report_templates/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/site_report_templates/{uuid}
+- name: delete_site_report_templates
+  description: Deletes specific report template
+  method: DELETE
+  path: /api/v1/{customer_id}/site_report_templates/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/site_report_templates/{uuid}
+- name: get_site_report_templates_clone
+  description: Clones specific report template
+  method: GET
+  path: /api/v1/{customer_id}/site_report_templates/{uuid}/clone
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/site_report_templates/{uuid}/clone
+- name: get_projects_components_site_view_runs
+  description: Retrieve all runs
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/runs
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/runs
+- name: create_projects_components_site_view_runs
+  description: 'Create Run '
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/runs
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/runs
+- name: get_projects_components_site_view_runs_2
+  description: Retrieve run
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/runs/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/runs/{id}
+- name: delete_projects_components_site_view_runs
+  description: Deletes specific run
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/runs/{id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/runs/{id}
+- name: update_projects_components_site_view_runs
+  description: Updates specific run
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/runs/{id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/runs/{id}
+- name: get_projects_components_site_view_points
+  description: Retrieve all points
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/points
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/points
+- name: get_projects_components_site_view_points_2
+  description: Retrieve one point
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/points/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/points/{id}
+- name: get_projects_components_site_view_points_point_history
+  description: Retrieve point history
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/points/{point_id}/point_history
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/points/{point_id}/point_history
+- name: get_projects_components_site_view_attachments
+  description: Retrieve all runs attachments
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments
+- name: create_projects_components_site_view_attachments
+  description: Create Run attachments
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments
+- name: get_projects_components_site_view_attachments_2
+  description: Retrieve Runs Attachments
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments/{id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments/{id}
+- name: update_projects_components_site_view_attachments
+  description: Updates specific run attachment
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments/{id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments/{id}
+- name: delete_projects_components_site_view_attachments
+  description: Deletes specific run attachment
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments/{id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments/{id}
+- name: get_projects_components_site_view_attachments_highlight_points
+  description: Retrieve all point ids that have attachments
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments/highlight_points
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/components/{component_id}/site_view/attachments/highlight_points
+- name: get_site_view_licenses_info
+  description: Retrieve Site View licenses info
+  method: GET
+  path: /api/v2/{customer_id}/site_view_licenses_info
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/site_view_licenses_info
+- name: create_site_view_access_request
+  description: request site view access
+  method: POST
+  path: /api/v2/{customer_id}/site_view_access_request
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/site_view_access_request
+- name: get_get_site_view_access_status
+  description: Retrieve Site View Access Status
+  method: GET
+  path: /api/v2/{customer_id}/get_site_view_access_status
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/get_site_view_access_status
+- name: create_projects_approval_requests_steps
+  description: create new step for already completed approval requests
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/{approval_request_id}/steps
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/approval_requests/{approval_request_id}/steps
+- name: update_approval_workflows_steps_update_workflow_step
+  description: update step in global workflow
+  method: PUT
+  path: /api/v2/{customer_id}/approval_workflows/{approval_workflow_id}/steps/{step_id}/update_workflow_step
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/approval_workflows/{approval_workflow_id}/steps/{step_id}/update_workflow_step
+- name: get_report_templates
+  description: Returns all report templates
+  method: GET
+  path: /api/v2/{customer_id}/report_templates
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/report_templates
+- name: get_projects_tickets_attachments
+  description: Returns all attachments of one ticket
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments
+- name: create_projects_tickets_attachments
+  description: 'Uploads new attachment '
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments
+- name: get_projects_tickets_attachments_2
+  description: Returns one attachment of one ticket
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/{attachment_id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/{attachment_id}
+- name: delete_projects_tickets_attachments
+  description: Deletes specific attachment
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/{attachment_id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/{attachment_id}
+- name: update_projects_tickets_attachments
+  description: Updates specific attachment
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/{attachment_id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/{attachment_id}
+- name: create_projects_tickets_attachments_batch_delete
+  description: 'Deletes multiple attachments at once '
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/batch_delete
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/batch_delete
+- name: create_projects_tickets_attachments_batch_export
+  description: Exports multiple attachments at once
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/batch_export
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/attachments/batch_export
+- name: create_projects_ticket_imports
+  description: Upload file with read content
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/ticket_imports
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/ticket_imports
+- name: get_projects_ticket_types_project
+  description: Returns all project ticket types of a specific project
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/ticket_types_project
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/ticket_types_project
+- name: create_projects_ticket_types_project
+  description: 'ADD Ticket Type To Project '
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/ticket_types_project
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/ticket_types_project
+- name: get_projects_ticket_types_project_2
+  description: Load one ticket type assigned to a project with the relation data
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/ticket_types_project/{ticket_type_project_id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/ticket_types_project/{ticket_type_project_id}
+- name: update_projects_ticket_types_project
+  description: Updates the ticket type assigned to a project
+  method: PATCH
+  path: /api/v1/{customer_id}/projects/{project_id}/ticket_types_project/{ticket_type_project_id}
+  source_operation: openapi/planradar-openapi-original.json#PATCH /api/v1/{customer_id}/projects/{project_id}/ticket_types_project/{ticket_type_project_id}
+- name: create_projects_ticket_types_project_2
+  description: 'Creates project ticket type '
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/ticket_types_project/{ticket_type_project_id}
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/ticket_types_project/{ticket_type_project_id}
+- name: update_projects_ticket_types_project_2
+  description: Updates project ticket type assigned to a project
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}/ticket_types_project/{ticket_type_project_id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}/ticket_types_project/{ticket_type_project_id}
+- name: delete_projects_ticket_types_project
+  description: Deletes the link between a ticket type and a project
+  method: DELETE
+  path: /api/v1/{customer_id}/projects/{project_id}/ticket_types_project/{ticket_type_project_id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/projects/{project_id}/ticket_types_project/{ticket_type_project_id}
+- name: get_projects_ticket_types_ticket_type_project
+  description: Returns all ticket types of a specific project
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/ticket_types/ticket_type_project
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/ticket_types/ticket_type_project
+- name: get_ticket_types
+  description: Returns specific ticket type
+  method: GET
+  path: /api/v1/{customer_id}/ticket_types/{ticket_type_id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/ticket_types/{ticket_type_id}
+- name: update_ticket_types
+  description: Updates specific ticket type
+  method: PUT
+  path: /api/v1/{customer_id}/ticket_types/{ticket_type_id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/ticket_types/{ticket_type_id}
+- name: delete_ticket_types
+  description: Deletes specific ticket type
+  method: DELETE
+  path: /api/v1/{customer_id}/ticket_types/{ticket_type_id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/ticket_types/{ticket_type_id}
+- name: create_ticket_types
+  description: Creates ticket type
+  method: POST
+  path: /api/v1/{customer_id}/ticket_types
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/ticket_types
+- name: get_ticket_types_2
+  description: Returns all ticket types
+  method: GET
+  path: /api/v1/{customer_id}/ticket_types
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/ticket_types
+- name: get_projects_tickets_load
+  description: Retrieves All tickets
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/load
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/tickets/load
+- name: get_projects_tickets
+  description: Returns all tickets
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets
+- name: create_projects_tickets
+  description: Creates ticket
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/tickets
+- name: get_projects_tickets_tickets_position
+  description: Returns tickets positions
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/tickets_position
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/tickets_position
+- name: create_projects_tickets_export_xls_2
+  description: Exports filtered tickets as Excel file
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/export/xls
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/tickets/export/xls
+- name: get_projects_tickets_single_ticket_export
+  description: Exports specific ticket
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/single_ticket_export
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/single_ticket_export
+- name: get_projects_tickets_2
+  description: Returns specific ticket
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}
+- name: delete_projects_tickets
+  description: Deletes specific ticket
+  method: DELETE
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}
+- name: update_projects_tickets
+  description: Updates specific ticket
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}
+- name: get_projects_tickets_mark_as_seen
+  description: Marks specific ticket as seen
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/mark_as_seen
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/mark_as_seen
+- name: create_projects_tickets_export_pdf_2
+  description: Exports filtered tickets as PDF
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/export/pdf
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/tickets/export/pdf
+- name: get_projects_tickets_load_recurring_reminders
+  description: Returns all recurring reminders
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/load_recurring_reminders
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/load_recurring_reminders
+- name: get_projects_tickets_ticket_types_stats
+  description: Returns the count of tickets per ticket type
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/ticket_types_stats
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/ticket_types_stats
+- name: update_projects_tickets_multi_update
+  description: Multi Update Tickets based on the provided filteration, no filter will update all data
+    for the project id
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/multi_update
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}/tickets/multi_update
+- name: update_projects_tickets_batch_update
+  description: Updates multiple tickets at once
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/batch_update
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/tickets/batch_update
+- name: update_projects_tickets_multi_update_2
+  description: Updates multiple tickets with array
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/multi_update
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/tickets/multi_update
+- name: create_projects_tickets_batch_delete
+  description: Deletes multiple tickets at once
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/batch_delete
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/tickets/batch_delete
+- name: create_projects_tickets_batch_duplicate
+  description: Duplicates multiple tickets at once
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/batch_duplicate
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/tickets/batch_duplicate
+- name: create_projects_tickets_bulk_create
+  description: Creates multiple tickets at once
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/bulk_create
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/tickets/bulk_create
+- name: get_projects_tickets_bulk_create_status
+  description: Returns the status of a bulk create job
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/bulk_create_status
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/bulk_create_status
+- name: get_projects_tickets_3
+  description: Show one ticket based on its UUID
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/tickets/{uuid}
+- name: update_projects_tickets_2
+  description: Update one ticket
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}/tickets/{uuid}
+- name: delete_projects_tickets_2
+  description: Delete one ticket
+  method: DELETE
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{uuid}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/projects/{project_id}/tickets/{uuid}
+- name: get_projects_tickets_journals_2
+  description: Returns all journals of a ticket
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/journals
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/journals
+- name: create_projects_tickets_comment
+  description: Adds a comment to a specific ticket
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/comment
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/comment
+- name: get_projects_tickets_subtickets
+  description: ' Returns subtickets of a specific ticket'
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/subtickets
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/subtickets
+- name: get_projects_tickets_4
+  description: Retrieves All tickets
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/tickets/
+- name: create_projects_tickets_2
+  description: Create one ticket
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/tickets/
+- name: create_projects_tickets_comment_2
+  description: Add a comment to a Ticket
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{uuid}/comment
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/tickets/{uuid}/comment
+- name: get_projects_tickets_recurring_reminder_details
+  description: Returns the recurring reminder of a ticket
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/recurring_reminder_details
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/recurring_reminder_details
+- name: get_projects_tickets_gantt_task
+  description: Returns the gantt task of a ticket
+  method: GET
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/gantt_task
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/gantt_task
+- name: create_projects_tickets_recurring_reminders
+  description: Creates or updates a recurring reminder of a ticket
+  method: POST
+  path: /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/recurring_reminders
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v2/{customer_id}/projects/{project_id}/tickets/{uuid}/recurring_reminders
+- name: create_projects_tickets_export
+  description: Export single ticket as PDF
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{uuid}/export
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/tickets/{uuid}/export
+- name: create_projects_tickets_clone
+  description: Clone a ticket
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{uuid}/clone
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/tickets/{uuid}/clone
+- name: update_projects_approval_requests_approvals
+  description: submit approval decision for files
+  method: PATCH
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/{approval_request_id}/approvals
+  source_operation: openapi/planradar-openapi-original.json#PATCH /api/v2/{customer_id}/projects/{project_id}/approval_requests/{approval_request_id}/approvals
+- name: update_projects_approval_requests_approvals_plans
+  description: submit approval decision for plans
+  method: PUT
+  path: /api/v2/{customer_id}/projects/{project_id}/approval_requests/{approval_request_id}/approvals/plans
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v2/{customer_id}/projects/{project_id}/approval_requests/{approval_request_id}/approvals/plans
+- name: get_users
+  description: Returns all users of a customer
+  method: GET
+  path: /api/v1/{customer_id}/users
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/users
+- name: create_users
+  description: 'Creates user '
+  method: POST
+  path: /api/v1/{customer_id}/users
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/users
+- name: get_users_2
+  description: Returns a specific user of a customer
+  method: GET
+  path: /api/v1/{customer_id}/users/{user_id}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/users/{user_id}
+- name: delete_users
+  description: 'Deletes a specific user of a customer '
+  method: DELETE
+  path: /api/v1/{customer_id}/users/{user_id}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/users/{user_id}
+- name: update_users
+  description: Updates a specific user of a customer
+  method: PUT
+  path: /api/v1/{customer_id}/users/{user_id}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/users/{user_id}
+- name: update_users_downgrade_user_to_subcontractor
+  description: Downgrades user to subcontractor
+  method: PUT
+  path: /api/v1/{customer_id}/users/downgrade_user_to_subcontractor
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/users/downgrade_user_to_subcontractor
+- name: create_users_activate_user
+  description: Activates deactivated user
+  method: POST
+  path: /api/v1/{customer_id}/users/activate_user
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/users/activate_user
+- name: get_users_export_users_xls
+  description: Exports users as an Excel file
+  method: GET
+  path: /api/v1/{customer_id}/users/export_users_xls
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/users/export_users_xls
+- name: get_projects_tickets_ticket_videos_list
+  description: Retrieves all videos by ticket
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos/list
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos/list
+- name: update_projects_tickets_ticket_videos
+  description: Update Video caption
+  method: PUT
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos/{video_uuid}
+  source_operation: openapi/planradar-openapi-original.json#PUT /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos/{video_uuid}
+- name: delete_projects_tickets_ticket_videos
+  description: Delete an video from a ticket
+  method: DELETE
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos/{video_uuid}
+  source_operation: openapi/planradar-openapi-original.json#DELETE /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos/{video_uuid}
+- name: get_projects_tickets_ticket_videos
+  description: Get the details of one video
+  method: GET
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos/{video_uuid}
+  source_operation: openapi/planradar-openapi-original.json#GET /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos/{video_uuid}
+- name: create_projects_tickets_ticket_videos
+  description: Create video with base64 or file attachement)
+  method: POST
+  path: /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos
+  source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos

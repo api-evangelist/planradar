@@ -1,0 +1,29 @@
+# PlanRadar
+
+> PlanRadar is a SaaS platform for construction and real estate documentation, defect and task management, and site inspections, used in 75+ countries. Its secure REST Open API (v1 and v2, scoped by customer_id) covers projects, tickets, documents, DMS, forms, plans, roles, approval workflows, Site View, exports and webhooks. Authentication is an API key (Personal Access Token) sent in the X-PlanRadar-API-Key header; the account rate limit is 30 requests per minute.
+
+## APIs
+- [PlanRadar Open API (Swagger UI)](https://www.planradar.com/api-docs/index.html): Interactive reference for all v1/v2 operations.
+- [OpenAPI (Swagger 2.0) spec](https://www.planradar.com/api-docs/v1/swagger.json): Machine-readable definition, 273 operations.
+
+## Docs
+- [Open API Overview](https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview): Auth, base URL, rate limits, versions.
+- [Core API Concepts](https://help.planradar.com/hc/en-gb/articles/334388875178535-Core-API-Concepts): Tokens, webhooks, foundational concepts.
+- [API Tutorials for FAQs](https://help.planradar.com/hc/en-gb/articles/337705294306885-API-Tutorials-for-FAQs): Worked examples.
+- [Setup Webhooks](https://help.planradar.com/hc/en-gb/articles/15480642226589-Setup-Webhooks): Configure event webhooks.
+- [API Changelog](https://help.planradar.com/hc/en-gb/articles/28730384282653): Dated, by calendar week.
+- [Getting Started / Quick Start](https://www.planradar.com/quick-start-guides/welcome/)
+- [Help Center](https://help.planradar.com/hc)
+
+## Integrations
+- [PlanRadar Connect](https://www.planradar.com/connect/): 200+ no-code integrations, built on Workato.
+
+## Security
+- [Data Security & Privacy](https://www.planradar.com/data-security-and-privacy-at-planradar/): ISO 27001 certified, GDPR compliant, EU (Germany/AWS) data residency, security@planradar.com.
+
+## Company
+- [Website](https://www.planradar.com/)
+- [Blog](https://www.planradar.com/blog/)
+- [Pricing](https://www.planradar.com/pricing/)
+- [Terms of Service](https://www.planradar.com/terms-of-service/)
+- [Privacy Policy](https://www.planradar.com/privacy-policy/)

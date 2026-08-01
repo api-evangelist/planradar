@@ -1,0 +1,22 @@
+generated: '2026-07-20'
+method: searched
+source: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
+versioning:
+  scheme: uri-path
+  current: v2
+  supported:
+  - v1
+  - v2
+  docs: https://www.planradar.com/api-docs/index.html
+  note: v2 recommended over v1
+changelog: https://help.planradar.com/hc/en-gb/articles/28730384282653
+rate_limit:
+  limit: 30 requests/minute/account
+  penalty: token disabled 5 min on breach
+deprecation:
+  policy_documented: false
+  sunset_header: false
+status_page: null
+sla:
+  note: Uptime/SLA offered under Enterprise agreements; no public status page found.
+deprecated_operations: []

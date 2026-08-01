@@ -1,0 +1,31 @@
+generated: '2026-07-20'
+method: searched
+source: https://help.planradar.com/hc/en-gb/articles/28730384282653
+scheme: calendar-week (most-recent-first), spanning API v1 and v2
+note: PlanRadar publishes a dated REST API changelog by calendar week. Recent window captured below; the
+  live article is the source of truth.
+entries:
+- period: 2026 CW23 (June)
+  type: addition
+  highlights:
+  - New direct_url parameter on the asynchronous export status endpoint for direct download URLs
+- period: 2026 CW20 (May)
+  type: addition
+  highlights:
+  - Bulk ticket creation endpoint
+  - Copy-to-Tickets supports ticket-type specification
+  - Form field attachments filtering
+  - Approval requests response schema update
+  - Site report image body schema change
+- period: 2026 CW16 (April)
+  type: addition
+  highlights:
+  - Additional approval-request sub-endpoints
+  - New V2 roles endpoint
+  - DMS copy-to-tickets validation & execution endpoints
+  - Async export expanded to single ticket and PDF exports
+- period: 2026 CW09 (February)
+  type: addition
+  highlights:
+  - Optional filtering parameter on ticket attachments
+  - Async XLS export capability

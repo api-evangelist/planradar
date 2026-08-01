@@ -1,0 +1,14 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for PlanRadar Open API
+  version: 1.0.0
+extends: openapi/planradar-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-20'
+    x-apievangelist-auth: API key header X-PlanRadar-API-Key (Personal Access Token)
+    x-apievangelist-rate-limit: 30 requests/minute/account
+    x-apievangelist-note: Swagger 2.0 source lacks operationIds; tags group v1 and v2 surfaces. Derived
+      artifacts (errors, conventions, data-model, mcp, authentication) live alongside in the api-evangelist/planradar
+      repo.

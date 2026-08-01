@@ -1,0 +1,31 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/planradar-openapi-original.json
+standards:
+- id: apikey-auth
+  conforms: true
+  evidence: securityDefinitions apiKey header X-PlanRadar-API-Key
+- id: oauth2
+  conforms: false
+- id: openid-connect
+  conforms: false
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors are JSON + HTTP status, not application/problem+json
+- id: json:api
+  conforms: false
+- id: rest-json
+  conforms: true
+  evidence: resource-oriented URLs, JSON request/response, standard HTTP status codes
+- id: rate-limiting
+  conforms: true
+  evidence: documented 30 req/min per account
+- id: webhooks
+  conforms: true
+  evidence: account webhooks send JSON on ticket/account events
+- id: iso-27001
+  conforms: true
+  evidence: https://www.planradar.com/data-security-and-privacy-at-planradar/
+- id: gdpr
+  conforms: true
+  evidence: EU (Germany/AWS) data residency; DPA published

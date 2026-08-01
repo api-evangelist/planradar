@@ -1,0 +1,182 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/planradar-openapi-original.json
+note: 'Entity graph derived from OpenAPI definitions and id-reference fields. Core hierarchy: Customer
+  > Project > Component(plan) > Ticket > Document/Attachment.'
+entities:
+- name: Group
+  fields:
+  - id
+  - name
+  - active
+  - created_by
+  - customer_id
+  - created_on
+  - updated_on
+  - leader_id
+- name: Document
+  fields:
+  - title
+  - component-id
+  - is-base64
+  - async
+  - document
+  - uuid
+  - ticket-id
+  - filename
+- name: Ticket
+  fields:
+  - ticket-type-id
+  - component-id
+  - subject
+  - parent-id
+  - status-id
+  - priority-id
+  - assigned-to-id
+  - assignee-type
+  - due-date
+  - closed-at
+  - extension-date
+  - typed-values
+  - subscribers
+  - progress
+  - plan-x
+  - plan-y
+  - uuid
+- name: Component
+  fields:
+  - plan-thumb-big-url
+  - plan-thumb-small-url
+  - planfile-file-name
+  - project-id
+  - page
+  - name
+  - is-processed
+  - has-failed
+  - parent-id
+  - order
+- name: Attachments
+  fields:
+  - attachment-ids
+- name: List
+  fields:
+  - name
+  - customer-id
+- name: Entry
+  fields:
+  - name
+  - uuid
+  - parent_id
+  - order
+- name: SiteReport
+  fields:
+  - uuid
+  - title
+  - template-id
+  - template-version
+  - fields-values
+  - annotations
+  - status
+- name: TicketType
+  fields:
+  - name
+  - capabilities
+  - typed-fields
+  - static-fields
+- name: User
+  fields:
+  - active
+  - city
+  - company
+  - firstname
+  - group_ids
+  - is_mobile_syncs
+  - lastname
+  - mail
+  - password
+  - permissions
+  - position
+  - project_ids
+  - retype_password
+  - role_ids
+  - street
+  - tel
+  - typed-values
+  - subcontractor
+  - watcher
+  - zipcode
+- name: TicketTypeProject
+  fields:
+  - data
+  - included
+- name: Role
+  fields:
+  - name
+  - permissions
+- name: Filter
+  fields:
+  - name
+  - visibility
+  - visibile_for_projects
+  - filters
+relationships:
+- from: Ticket
+  type: belongs_to
+  to: Project
+  via: component-id/project scope
+- from: Ticket
+  type: belongs_to
+  to: TicketType
+  via: ticket-type-id
+- from: Ticket
+  type: has_one
+  to: Ticket
+  via: parent-id (sub-ticket)
+- from: Ticket
+  type: has_many
+  to: Document
+  via: ticket-id
+- from: Ticket
+  type: has_many
+  to: Attachments
+  via: ticket attachments
+- from: Document
+  type: belongs_to
+  to: Component
+  via: component-id
+- from: Document
+  type: belongs_to
+  to: Ticket
+  via: ticket-id
+- from: Component
+  type: belongs_to
+  to: Project
+  via: project-id
+- from: Component
+  type: has_one
+  to: Component
+  via: parent-id
+- from: User
+  type: has_many
+  to: Group
+  via: group_ids
+- from: User
+  type: has_many
+  to: Project
+  via: project_ids
+- from: User
+  type: has_many
+  to: Role
+  via: role_ids
+- from: Group
+  type: belongs_to
+  to: User
+  via: leader_id
+- from: Ticket
+  type: belongs_to
+  to: User
+  via: assigned-to-id
+- from: SiteReport
+  type: belongs_to
+  to: TicketType
+  via: template-id
