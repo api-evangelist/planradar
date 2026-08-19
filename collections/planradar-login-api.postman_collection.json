@@ -1,0 +1,90 @@
+{
+  "item": [
+    {
+      "id": "81fddb35-322b-4d41-a942-294c0b9b9c9f",
+      "name": "Login",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "412a279c-24d3-4968-afe2-b210bb353bdf",
+          "name": "Extend the current user session",
+          "request": {
+            "name": "Extend the current user session",
+            "description": {
+              "content": "Validates the current user and pushes `session[:auto_session_expires_at]` forward by the user's `timeout_interval` (defaults to 30 minutes). Returns 204 when authenticated, 401 otherwise.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "extend_session"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "47b71f4f-b582-48f5-a9c5-c910c2ce0af4",
+              "name": "Not authenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "extend_session"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c5e29b65-39cc-45ff-ab99-72d9485bae3a",
+    "name": "PlanRadar's API Documentation Approval Requests V2 Login API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>",
+      "type": "text/plain"
+    }
+  }
+}

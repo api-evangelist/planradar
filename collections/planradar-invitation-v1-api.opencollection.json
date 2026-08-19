@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Invitation V1 API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Invitation V1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "resend invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/invitations/:user_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "resend an invitation for user has been invited before"
+        },
+        {
+          "info": {
+            "name": "delete invitation ",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/:customer_id/invitations/:user_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "delete a invitation"
+        },
+        {
+          "info": {
+            "name": "Invite user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/invitations",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "invite user"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

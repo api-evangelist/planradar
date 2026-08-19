@@ -1,0 +1,740 @@
+{
+  "item": [
+    {
+      "id": "99103d88-93a1-42d7-9784-b29dcf124cd1",
+      "name": "Documents",
+      "description": {
+        "content": "Manage your documents in PlanRadar, adding documents to a ticket is covered in the 'Tickets' section",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "586fd901-0726-4ae4-8217-aec8b6cde507",
+          "name": "Retrieves All Documents",
+          "request": {
+            "name": "Retrieves All Documents",
+            "description": {
+              "content": "Retrieve all documents in a specific project. Documents are returned with respect to the role of the authenticated user in the project.\n      <br />Without any extra parameters it will return the first 100 documents ordered by ID ascending. Extra parameters can be added to filter and sort the results.\n      <br /><b>Document Types Dictionary:</b>  [pdf = 1, excel = 2, word = 3, dwg = 4, dxf = 5]",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "documents",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "default: 1"
+                },
+                {
+                  "disabled": false,
+                  "key": "pagesize",
+                  "value": "<integer>",
+                  "description": "Maximum is 500, default is 100"
+                },
+                {
+                  "disabled": false,
+                  "key": "last_sync_date",
+                  "value": "<string>",
+                  "description": "Only retrieve documents that were created after a specific timestamp"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Field name to sort the results based on it, sort is always ascending unless the field name is prefixed with a minus (U+002D HYPHEN-MINUS, “-“)  i.e. \"-id\" or \"id\""
+                },
+                {
+                  "disabled": false,
+                  "key": "filter",
+                  "value": "<string>",
+                  "description": "Filter documents based on specific field values, for example filter[component_id]=1, will only return documents created in the provided component_id"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) Authenticated user must be a member of this project"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a1f2440c-7375-4d8d-92b2-eb3608595391",
+              "name": "Documents not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "documents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pagesize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "last_sync_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) Authenticated user must be a member of this project"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "90346e56-b227-4577-ab80-d006fb9181bb",
+          "name": "Create New Document",
+          "request": {
+            "name": "Create New Document",
+            "description": {
+              "content": "API to upload new documents.<br /><br />  <b>Supported Types:</b>  [PDF, Excel, Word, DWG, DXF]<br />\n        This API accepts both base64 and multipart data.<br />\n          <b>Base64 Uploads</b>\n          Set `is_base64` to `true`, add the base64 encoded document to the `document` field, add the uploaded file name to `filename`\n          <br /><b>Multipart Uploads</b>\n          Set `is_base64` to `false`, set the value of the `document` field to be the multipart data",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "documents",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"title\": \"<string>\",\n      \"component-id\": \"<integer>\",\n      \"is-base64\": \"<boolean>\",\n      \"async\": \"<boolean>\",\n      \"document\": \"<string>\",\n      \"uuid\": \"<string>\",\n      \"ticket-id\": \"<string>\",\n      \"filename\": \"<string>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ebfb9372-db16-4b5c-9425-4a6af5444b3c",
+              "name": "Invalid Data Provided",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "documents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "79baed2f-6250-4c27-9303-1bce3336e5ee",
+          "name": "Delete one Document",
+          "request": {
+            "name": "Delete one Document",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "documents",
+                ":document_uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "document_uuid",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1c753d1f-1742-4939-8503-ed53e3f12f2b",
+              "name": "Document Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "documents",
+                    ":document_uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "document_uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7c056ffe-739b-4d4a-b6b2-04dea54853d5",
+          "name": "Load one Document",
+          "request": {
+            "name": "Load one Document",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "documents",
+                ":document_uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "document_uuid",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b739a2a4-d7f6-4733-a37d-aad8063b8c05",
+              "name": "Document Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "documents",
+                    ":document_uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "document_uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a6efbcf1-d18a-486e-98ef-b4f7e27f7959",
+          "name": "Update Document",
+          "request": {
+            "name": "Update Document",
+            "description": {
+              "content": "To rename the document, just send the title attribute, to update the whole document please check document creation API documentation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "documents",
+                ":document_uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"title\": \"<string>\",\n      \"component-id\": \"<integer>\",\n      \"is-base64\": \"<boolean>\",\n      \"async\": \"<boolean>\",\n      \"document\": \"<string>\",\n      \"uuid\": \"<string>\",\n      \"ticket-id\": \"<string>\",\n      \"filename\": \"<string>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "913b42a7-0ea7-433b-9c08-48524282614b",
+              "name": "Document found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "documents",
+                    ":document_uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "efc1b906-d9b1-4048-9f55-77ee685c54eb",
+    "name": "PlanRadar's API Documentation Approval Requests V2 Documents API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>",
+      "type": "text/plain"
+    }
+  }
+}

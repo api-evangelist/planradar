@@ -1,0 +1,207 @@
+{
+  "item": [
+    {
+      "id": "610a8281-880c-4aeb-ad12-b78c0eb5104b",
+      "name": "Ticket Imports",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d342bff4-f7ba-4b6e-911c-20ff40dd35c5",
+          "name": "Upload file with read content",
+          "request": {
+            "name": "Upload file with read content",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "ticket_imports"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "data[][attributes][file]",
+                  "value": "<binary>"
+                },
+                {
+                  "disabled": false,
+                  "key": "data[][attributes][options]",
+                  "value": "<object>",
+                  "description": "{\"first_line_is_headers\":true,\"validate_tickets\":true,\"seperated_by\":\"comma\"}"
+                },
+                {
+                  "disabled": false,
+                  "key": "data[][attributes][ticket_type_id]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "data[][attributes][uuid]",
+                  "value": "<string>",
+                  "description": "UUID of the ticket import record if you want to update existing record"
+                },
+                {
+                  "disabled": false,
+                  "key": "data[][attributes][file_name]",
+                  "value": "<string>",
+                  "description": "Name of the file being uploaded"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3c3abf2b-5fc7-4c58-b9c7-9a0bb40a9931",
+              "name": "Plan Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "ticket_imports"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "key": "data[][attributes][file]",
+                      "value": "<binary>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "{\"first_line_is_headers\":true,\"validate_tickets\":true,\"seperated_by\":\"comma\"}",
+                        "type": "text/plain"
+                      },
+                      "key": "data[][attributes][options]",
+                      "value": "<object>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "data[][attributes][ticket_type_id]",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "UUID of the ticket import record if you want to update existing record",
+                        "type": "text/plain"
+                      },
+                      "key": "data[][attributes][uuid]",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Name of the file being uploaded",
+                        "type": "text/plain"
+                      },
+                      "key": "data[][attributes][file_name]",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5a17230f-da99-4836-801c-5f85712203b8",
+    "name": "PlanRadar's API Documentation Approval Requests V2 Ticket Imports API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,310 @@
+{
+  "item": [
+    {
+      "id": "dc9bfac3-e0c7-4473-8e6e-e829440a444b",
+      "name": "Components V2",
+      "description": {
+        "content": "Create PlanRadar Components/Plans",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7e1f95b5-5a89-497f-8e6a-edde1018cdc8",
+          "name": "Returns all components of a project based on its id.",
+          "request": {
+            "name": "Returns all components of a project based on its id.",
+            "description": {
+              "content": "This API returns all components of a project.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "components",
+                "project_components"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "last_sync_date",
+                  "value": "<string>",
+                  "description": " is a Unix Timestamp. If it is set, only components that were created after that timestamp will be returned"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "864b3ed7-0497-4d55-ad07-1bb5fe6601aa",
+              "name": "Components Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "components",
+                    "project_components"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "last_sync_date",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cb209d79-6a05-4856-ae43-64d92e4b25f3",
+          "name": "Returns specific project component",
+          "request": {
+            "name": "Returns specific project component",
+            "description": {
+              "content": "This API returns a specific project component based on its id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "components",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required)  id of the component"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6dbd52e7-3ebb-4a8a-b55f-5729000c5fc1",
+              "name": "Component Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "components",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required)  id of the component"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "35399813-4d2f-4016-a04b-9a8ddbfe7afc",
+    "name": "PlanRadar's API Documentation Approval Requests V2 Components V2 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>",
+      "type": "text/plain"
+    }
+  }
+}

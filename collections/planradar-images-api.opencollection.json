@@ -1,0 +1,140 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Images API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Images",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create image with base64 (file param as base64 string)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/:ticket_uuid/ticket_images/:image_uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Attach a new image to a ticket using a base64 encoded file.<br/>\n          When the image belongs to a form field attachment, validation errors may be returned (e.g. field does not exist, max attachments exceeded, ticket locked, or field permission denied)."
+        },
+        {
+          "info": {
+            "name": "Update the caption of an image",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/:ticket_uuid/ticket_images/:image_uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "image_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Currently we only support updating the image caption"
+        },
+        {
+          "info": {
+            "name": "Delete an image from a ticket",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/:ticket_uuid/ticket_images/:image_uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "image_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an image from a ticket"
+        },
+        {
+          "info": {
+            "name": "Create image with multipart upload (file param as multipart)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/:ticket_uuid/ticket_images/:image_uuid/create_multipart",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Attach a new image to a ticket using multipart upload.<br/>\n          When the image belongs to a form field attachment, validation errors may be returned (e.g. field does not exist, max attachments exceeded, ticket locked, or field permission denied)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

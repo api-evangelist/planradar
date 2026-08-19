@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Notifications API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Notifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all new notification",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/notifications/:type",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "Only allowed type: (system, tickets, downloads)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum is 500, default is 25"
+              }
+            ]
+          },
+          "docs": "Get all new notification"
+        },
+        {
+          "info": {
+            "name": "Mark all notifications as read",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/notifications/:type/mark_as_read",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "Only allowed type: (system, tickets, downloads)"
+              }
+            ]
+          },
+          "docs": "Mark all notifications as read"
+        },
+        {
+          "info": {
+            "name": "get the count of all unread notifications for each type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/notifications/check_new",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "get the count of all unread notifications for each type"
+        },
+        {
+          "info": {
+            "name": "Toggle the is_read flag of one notification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/notifications/:notification_id/toggle_read",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "notification_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Toggle the is_read flag of one notification"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

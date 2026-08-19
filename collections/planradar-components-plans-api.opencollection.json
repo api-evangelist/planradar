@@ -1,0 +1,361 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Components-Plans API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Components-Plans",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve all components",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/components",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum is 500, default is 100"
+              },
+              {
+                "name": "last_sync_date",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "layout",
+                "value": "",
+                "type": "query",
+                "description": "Only allowed value is `simple` to retrieve a smaller response for general purpose components listing"
+              }
+            ]
+          },
+          "docs": "Retrieve all components"
+        },
+        {
+          "info": {
+            "name": "Creates component and plan and updates plan",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/components",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for creating a component aka layer. It is possible to create both a layer and a plan or only a layer. In order to create a layer without a plan you need to send a layer name and order.\n      This API is also used for creating a plan for an empty component and updating an already exisiting plan. In order to create or update a plan the id of the component must be set. "
+        },
+        {
+          "info": {
+            "name": "Retrieve one component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/components/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve one component"
+        },
+        {
+          "info": {
+            "name": "Updates name and parent of a specific component",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/components/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": " id of the component"
+              }
+            ]
+          },
+          "docs": "This API is used for updating the name and parent_id of a specific component. You can chose whether you update both or only one of them."
+        },
+        {
+          "info": {
+            "name": "Deletes specific component",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/components/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id of the component"
+              }
+            ]
+          },
+          "docs": "This API is used for deleting a specific component including all its sub-components and plans based on its id."
+        },
+        {
+          "info": {
+            "name": "Deletes all plan revisions of a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/components/:id/delete_plan_revisions",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id of the component, set it to 0 if you want to delete the plan revisions of all components of a project"
+              },
+              {
+                "name": "delete_all",
+                "value": "",
+                "type": "query",
+                "description": "must be true if the id of the project is 0"
+              }
+            ]
+          },
+          "docs": "This API is used for deleting all the plan revisions aka versions of a specific component based on its id."
+        },
+        {
+          "info": {
+            "name": "Deletes all bim model revisions of a specific component",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/components/:id/delete_bim_model_revisions",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id of the component, set it to 0 if you want to delete all bim model revisions of all components of a project"
+              },
+              {
+                "name": "delete_all",
+                "value": "",
+                "type": "query",
+                "description": "must be true if the id of the project is 0"
+              }
+            ]
+          },
+          "docs": "This API is used for deleting all the bim model revisions aka versions of a specific component based on its id."
+        },
+        {
+          "info": {
+            "name": "Retrieve all the plans which is belong to component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/components/:component_id/plans",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve all the plans which is belong to component"
+        },
+        {
+          "info": {
+            "name": "Updates order of components",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/components/update_components_order",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for updating the order of specific components of a project."
+        },
+        {
+          "info": {
+            "name": "Returns a specific plan of a component ",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/components/:component_id/plans/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id of the plan"
+              }
+            ]
+          },
+          "docs": "This API returns a specific plan of a component based on its id."
+        },
+        {
+          "info": {
+            "name": "Deletes a specific plan of a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/components/:component_id/plans/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id of the plan"
+              }
+            ]
+          },
+          "docs": "This API is used for deleting a specific plan of a component based on its id."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

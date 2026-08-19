@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Ticket Imports API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ticket Imports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload file with read content",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/ticket_imports",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Upload file with read content"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

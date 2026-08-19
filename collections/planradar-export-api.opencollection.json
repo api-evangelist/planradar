@@ -1,0 +1,209 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Export API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Export Tickets as an Excel File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/export/xls",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "Used to filter tickets based on any conditions of the related model, filter[author_id]=1 will list all tickets related to this author id, similar to filter[author.id]=1, the second one will use the condition based on the user table such a filter is available filter[author.email]=test@email.com, for multiple values for the same filter use filter[id][]=PN&filter[id][]=nE,,,, available models are: customer, ticket_type, project, component, status, ticket, author, assigned_to, updated_by"
+              },
+              {
+                "name": "apply_filter",
+                "value": "",
+                "type": "query",
+                "description": "ID of the custom filter to be applied before returning the data"
+              },
+              {
+                "name": "timezone_offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "By default it will export all the tickets, if filters added, it will only export filtered data"
+        },
+        {
+          "info": {
+            "name": "Export Tickets as an Excel File using POST",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/export/xls",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "template_id",
+                "value": "",
+                "type": "query",
+                "description": "ID of the template to be used for the export"
+              },
+              {
+                "name": "apply_filter",
+                "value": "",
+                "type": "query",
+                "description": "ID of the custom filter to be applied before returning the data"
+              }
+            ]
+          },
+          "docs": "Export tickets as Excel file. by default it will export all tickets matching the provided filter, if no filter is provided all tickets will be exported\n      <br />Check ticket loading API for more details about the filters that can be provided"
+        },
+        {
+          "info": {
+            "name": "Export Tickets as a PDF File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/export/pdf",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "Used to filter tickets based on any conditions of the related model, filter[author_id]=1 will list all tickets related to this author id, similar to filter[author.id]=1, the second one will use the condition based on the user table such a filter is available filter[author.email]=test@email.com, for multiple values for the same filter use filter[id][]=PN&filter[id][]=nE,,,, available models are: customer, ticket_type, project, component, status, ticket, author, assigned_to, updated_by"
+              },
+              {
+                "name": "apply_filter",
+                "value": "",
+                "type": "query",
+                "description": "ID of the custom filter to be applied before returning the data"
+              },
+              {
+                "name": "template_id",
+                "value": "",
+                "type": "query",
+                "description": "ID of the template to be used for the export OPTIONAL"
+              },
+              {
+                "name": "timezone_offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "By default it will export all the tickets, if filters added, it will only export filtered data, ticket will be added with a job, id of the job will be returned or an error message\n      <b>timezone_offset</b><br />\n      Is used to convert all dates included in the PDF document to the correct timezone. the value should be the difference in minutes between UTC and your location."
+        },
+        {
+          "info": {
+            "name": "Export Tickets as a PDF File with POST request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/export/pdf",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "apply_filter",
+                "value": "",
+                "type": "query",
+                "description": "ID of the custom filter to be applied before returning the data"
+              },
+              {
+                "name": "template_id",
+                "value": "",
+                "type": "query",
+                "description": "ID of the template to be used for the export"
+              },
+              {
+                "name": "timezone_offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "By default it will export all the tickets, if filters added, it will only export filtered data, ticket will be added with a job, id of the job will be returned or an error message\n      <b>timezone_offset</b><br />\n      Is used to convert all dates included in the PDF document to the correct timezone. the value should be the difference in minutes between UTC and your location."
+        },
+        {
+          "info": {
+            "name": "Check if export is finished",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/:customer_id/check_if_finished/:uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "UUID of the export job (returned when the export was triggered)."
+              },
+              {
+                "name": "direct_url",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, the response includes a `direct_url` field containing a short-lived pre-signed S3 URL for direct download. Supported export types: `pdf`, `single_pdf`, `xls`, `csv`, `zip`. Omit (or set `false`) to receive only the standard export metadata."
+              }
+            ]
+          },
+          "docs": "Polls the status of an asynchronous export identified by `uuid`. Returns the export metadata once it is ready. Pass `direct_url=true` to additionally receive a short-lived pre-signed S3 URL in the response (`direct_url` field) that lets the client download the exported file directly, without going through the `/download` redirect endpoint. The pre-signed URL is only generated for export types `pdf`, `single_pdf`, `xls`, `csv` (when the file exists in S3) and `zip`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

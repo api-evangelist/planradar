@@ -1,0 +1,178 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Project Reports Templates API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Project Reports Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns all report templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/site_report_templates",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "search keyword based on which report templates are returned"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "sets the number of pages for the returned report templates"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "sets the number of report templates that should be returned per page <br/>Maximum is 500, default is 100"
+              }
+            ]
+          },
+          "docs": "This API returns all report templates of the logged in customer. Without any extra parameters it will return the first 100 report templates ordered by ascending id. Extra parameters can be added to sort the results. The sort is always ascending unless the field name is prefixed with a minus (U+002D HYPHEN-MINUS, \"-\") i.e. `-id` or `id`.<br /><b>Report Template Sorting:</b> Report Templates can be sorted by id: sequential-id, name: title, author: users-id, creation date: created-at or update date"
+        },
+        {
+          "info": {
+            "name": "Creates report template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/site_report_templates",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for creating a report template "
+        },
+        {
+          "info": {
+            "name": "Returns specific report template",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/site_report_templates/:uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "unique identifier of the report template"
+              }
+            ]
+          },
+          "docs": "This API returns a specific report template based on its uuid."
+        },
+        {
+          "info": {
+            "name": "Updates specific report template",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/:customer_id/site_report_templates/:uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "unique identifier of the report template"
+              }
+            ]
+          },
+          "docs": "This API is used for updating a specific report template based on its uuid."
+        },
+        {
+          "info": {
+            "name": "Deletes specific report template",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/:customer_id/site_report_templates/:uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "unique identifier of the report template"
+              }
+            ]
+          },
+          "docs": "This API is used for deleting a specific report template based on its uuid."
+        },
+        {
+          "info": {
+            "name": "Clones specific report template",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/site_report_templates/:uuid/clone",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "unique identifier of the report template that should be cloned"
+              }
+            ]
+          },
+          "docs": "This API is used for cloning a specific report template based on its uuid."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

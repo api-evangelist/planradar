@@ -1,0 +1,4250 @@
+{
+  "item": [
+    {
+      "id": "86ea35c6-0722-4cb9-95ec-8e9df1b8c04b",
+      "name": "Tickets V2",
+      "description": {
+        "content": "All operations on PlanRadar tickets",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7928d82a-8adf-426e-b879-17e3d081b09c",
+          "name": "Retrieve journals for all accessible tickets in a project",
+          "request": {
+            "name": "Retrieve journals for all accessible tickets in a project",
+            "description": {
+              "content": "Retrieve journal entries for every ticket the caller can access within the given project,\nin a single API call. Intended to replace individual `GET /tickets/{uuid}/journals` calls\nduring ERP sync integrations.\n\nCounts as **1 API call**. Only returns journals from tickets the user has access to within\nthe specified project. Field-level and document permissions are respected. Each journal\nentry includes `ticket-uuid` for mapping back to its ticket.\n\n**Pagination:** default 50, max 100 (server-enforced). Results ordered chronologically.\n\n**Typical sync flow:**\n1. `GET /tickets/journals?last_sync_date=...` with the timestamp from your last sync (this endpoint)\n2. Process changes, store new sync timestamp\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "journals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "last_sync_date",
+                  "value": "<string>",
+                  "description": "ISO 8601 datetime. Only return journal entries created on or after this datetime. Use for incremental sync — pass the timestamp from your last successful sync."
+                },
+                {
+                  "disabled": false,
+                  "key": "prop_keys",
+                  "value": "<string>,<string>",
+                  "description": "Comma-separated list of journal_details.prop_key values to filter by (e.g. status_id, assigned_to_id). When provided, only journals with a matching detail row are returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number (1-based). Defaults to 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "pagesize",
+                  "value": "<integer>",
+                  "description": "Number of journal entries per page. Default: 50. Maximum: 100 (server-enforced, values above 100 are clamped)."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) Encoded customer ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) Encoded project ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "20e7f760-43cc-4010-9896-8959bfc6a5f3",
+              "name": "Paginated — page and pagesize control the window",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "journals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "last_sync_date",
+                      "value": "2026-03-20T10:15:00Z"
+                    },
+                    {
+                      "key": "prop_keys",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pagesize",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) Encoded customer ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) Encoded project ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c92a25eb-9135-4263-91d5-128dc62dc2a2",
+              "name": "Unauthorized — missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "journals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "last_sync_date",
+                      "value": "2026-03-20T10:15:00Z"
+                    },
+                    {
+                      "key": "prop_keys",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pagesize",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) Encoded customer ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) Encoded project ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "60d49e74-8427-4b47-9dbe-f087aca0119e",
+              "name": "Caller is not a member of the project",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "journals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "last_sync_date",
+                      "value": "2026-03-20T10:15:00Z"
+                    },
+                    {
+                      "key": "prop_keys",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pagesize",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) Encoded customer ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) Encoded project ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b701cedd-74a2-4316-95cd-9edd545b6033",
+          "name": "Returns all tickets",
+          "request": {
+            "name": "Returns all tickets",
+            "description": {
+              "content": "This API returns all tickets of a specific project. <br />\n      Without any extra parameters it will return the first 100 tickets ordered by ascending ID. Extra parameters can be added to filter and sort the results.<br />\n      <b>Ticket Sorting:</b>\n      Tickets can be sorted by their attributes like component_id, priority_id etc. .\n      The sort is always ascending unless the field name is prefixed with a minus (U+002D HYPHEN-MINUS, “-“) i.e. `-id` or `id`.\n      <br /><b>Example: </b> `/tickets?sort=-component_id`<br />\n      <b>Ticket Filtring:</b>\n      You can use one of your created filters by providing its id to the `apply_filter` parameter. Moreover, you can use the on-fly filters.<br />\n      <b>On-Fly Filters:</b>\n      You can filter tickets based on the value of any of their attributes using structured filter parameters. Both simple and advanced formats are supported.<br />\n      <b>Simple Format:</b> `filter[{field}]={value}` - Direct field-value filtering<br />\n      <b>Advanced Format:</b> `filter[{field}][][predicate]={predicate}&filter[{field}][][value][]={value}` - Complex filtering with predicates<br />\n      <b>Simple Format Examples:</b><br />\n      • Filter by status: `/tickets?filter[status_id]=1` (Open tickets)<br />\n      • Filter by priority: `/tickets?filter[priority_id]=3` (High priority)<br />\n      • Multiple simple filters: `/tickets?filter[status_id]=1&filter[priority_id]=3`<br />\n      <b>Advanced Format Examples:</b><br />\n      • Filter by status with 'in' predicate: `/tickets?filter[status_id][][predicate]=in&filter[status_id][][value][]=1&filter[status_id][][value][]=2`<br />\n      • Filter by multiple conditions: `/tickets?filter[status_id][][predicate]=in&filter[status_id][][value][]=1&filter[priority_id][][predicate]=eq&filter[priority_id][][value][]=3`<br />\n      • Text search with 'like': `/tickets?filter[subject][][predicate]=like&filter[subject][][value][]=urgent`<br />\n      • Date range filtering: `/tickets?filter[created_at][][predicate]=between&filter[created_at][][value][]=2024-01-01&filter[created_at][][value][]=2024-12-31`<br />\n      <b>Available Predicates:</b> eq, neq, in, not_in, like, not_like, between, has, has_not, le, ge<br/>\n      <b>Image Loading:</b>\n      You can set load_images to true if you want the images of a ticket to be returned as well<br />\n      <b>Status Dictionary:</b> [1 (lm)= Open, 2 (ol) = In-Progress, 3 (ma) = Resolved, 4 (ex) = Feedback, 5 (gk) = Closed, 6 (ky) = Rejected]\n      <b>Priority Dictionary:</b> [1 = Low, 2 = Normal, 3 = High]\n\n      ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "sets the number of pages for the returned tickets"
+                },
+                {
+                  "disabled": false,
+                  "key": "pagesize",
+                  "value": "<integer>",
+                  "description": "sets the number of tickets that should be returned per page <br/>Maximum is 500, default is 100"
+                },
+                {
+                  "disabled": false,
+                  "key": "last_sync_date",
+                  "value": "<string>",
+                  "description": "is a Unix Timestamp. If it is set, only tickets that were created after that timestamp will be returned"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[status_id]",
+                  "value": "<string>",
+                  "description": "Simple status ID filter. Use status codes: 1=Open, 2=In-Progress, 3=Resolved, 4=Feedback, 5=Closed, 6=Rejected. Example: filter[status_id]=1 - Structured filter parameter supporting multiple conditions and predicates. You can use either simple or advanced format.<br/>\n      <b>Status ID Mapping:</b> 1 (lm)=Open, 2 (ol)=In-Progress, 3 (ma)=Resolved, 4 (ex)=Feedback, 5 (gk)=Closed, 6 (ky)=Rejected<br/>\n      <b>Simple Format:</b> filter[{field}]={value} - Example: filter[status_id]=1<br/>\n      <b>Advanced Format:</b> filter[{field}][][predicate]={predicate}&filter[{field}][][value][]={value}<br/>\n      <b>Supported Fields:</b> status_id, priority-id, assigned-to-id, author-id, subject, created-at, due-date, etc.<br/>\n      <b>Predicates:</b> eq (equals), neq (not equals), in (in list), not_in (not in list), like (contains), not_like (not contains), between (range), has (has value), has_not (no value), le (less/equal), ge (greater/equal)<br/>\n      <b>Examples:</b><br/>\n      • Simple: filter[status_id]=1 for filtering tickets with status 1<br/>\n      • Advanced: filter[status_id][][predicate]=in&filter[status_id][][value][]=1&filter[status_id][][value][]=2 for filtering tickets with status 1 or 2"
+                },
+                {
+                  "disabled": false,
+                  "key": "apply_filter",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "load_images",
+                  "value": "<boolean>",
+                  "description": "sets whether or not the images of a ticket should be returned"
+                },
+                {
+                  "disabled": false,
+                  "key": "can_have_parent",
+                  "value": "<boolean>",
+                  "description": "load only ticket that could have parent"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "keyword, based on which the tickets will be filtered"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) Set project_id to `0` if you want to load the tickets of all projects"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "09c4f921-23f1-4b20-8a2f-5fd9cfc88b8b",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pagesize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "last_sync_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[status_id]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "apply_filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "load_images",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "can_have_parent",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) Set project_id to `0` if you want to load the tickets of all projects"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "930371d2-c484-4eea-9d02-5d6a62401fae",
+          "name": "Creates ticket",
+          "request": {
+            "name": "Creates ticket",
+            "description": {
+              "content": "This API is used for creating a ticket.<br/>\n      <b>customer-id</b>: Can be set to null in the request body to create a ticket without a customer association (used for form field attachment pre-upload tickets).<br/>\n      The response includes <b>typed_values_metadata</b> which contains metadata about form field attachments (e.g. has_attachments per field_id).<br/><br/>\n      <b>Note:</b> Do not modify the <code>meta-options</code> attribute - it is reserved for internal use.\n      <br /><br />\n      <b>Ticket Example:</b>\n      <br />\n      <pre>\n      {\n        \"data\": {\n          \"attributes\": {\n            \"uuid\": \"35b03889-e759-4ded-b848-24337eea10d2\",\n            \"subject\": \"After the Banality Post-Painterly Art of Misfortune\",\n            \"typed-values\": {\n              \"tf37e04757dabbca63\": 33.52511960017461,\n              \"tf601be06c9a1c46f7\": \"1989-06-05T23:16:06.412+00:00\",\n              \"tfd4367f50e84a9408\": \"Arbitrary Sustainability Daring to Defy Dysfunction\"\n            },\n            \"assigned-to-id\": \"gpk\",\n            \"status-id\": \"ma\",\n            \"component-id\": \"nyk\",\n            \"ticket-type-id\": \"obk\",\n            \"customer-id\": \"ymjxnx\"\n          }\n        }\n      }\n      </pre>",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"ticket-type-id\": \"<string>\",\n      \"component-id\": \"<string>\",\n      \"subject\": \"<string>\",\n      \"parent-id\": \"<string>\",\n      \"status-id\": \"<string>\",\n      \"priority-id\": \"<string>\",\n      \"assigned-to-id\": \"<string>\",\n      \"assignee-type\": \"<string>\",\n      \"due-date\": \"<date>\",\n      \"closed-at\": \"<date>\",\n      \"extension-date\": \"<string>\",\n      \"typed-values\": \"<object>\",\n      \"subscribers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"progress\": \"<integer>\",\n      \"plan-x\": \"<number>\",\n      \"plan-y\": \"<number>\",\n      \"uuid\": \"<string>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bf6fafae-0d17-46a7-b08c-2c63894c3467",
+              "name": "Ticket Not Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"ticket-type-id\": \"<string>\",\n      \"component-id\": \"<string>\",\n      \"subject\": \"Ticket title\",\n      \"parent-id\": \"<string>\",\n      \"status-id\": \"<string>\",\n      \"priority-id\": \"<string>\",\n      \"assigned-to-id\": \"<string>\",\n      \"assignee-type\": \"<string>\",\n      \"due-date\": \"<date>\",\n      \"closed-at\": \"<date>\",\n      \"extension-date\": \"<string>\",\n      \"typed-values\": {\n        \"tf37e04757dabbca63\": 33.5,\n        \"tfd4367f50e84a9408\": \"some text\",\n        \"tf00a1b2c3d4e5f601\": 1\n      },\n      \"subscribers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"progress\": \"<integer>\",\n      \"plan-x\": \"<number>\",\n      \"plan-y\": \"<number>\",\n      \"uuid\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d473554f-11e6-419a-9d74-5782d5105757",
+          "name": "Returns tickets positions",
+          "request": {
+            "name": "Returns tickets positions",
+            "description": {
+              "content": "This API returns all tickets positions of a specific project without pagination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "tickets_position"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2e932a36-3466-40f9-88c1-0939eaf52cf4",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "tickets_position"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "de969d33-16d6-4c7f-a2fd-d06eaf405d87",
+          "name": "Exports filtered tickets as Excel file",
+          "request": {
+            "name": "Exports filtered tickets as Excel file",
+            "description": {
+              "content": " This API is used for exporting tickets as an Excel file based on their filter ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "export",
+                "xls"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pagesize",
+                  "value": "<integer>",
+                  "description": "Maximum is 500, default is 100"
+                },
+                {
+                  "disabled": false,
+                  "key": "last_sync_date",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "apply_filter",
+                  "value": "<string>",
+                  "description": "filterid, based on which the tickets should be filtered"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "keyword, based on which the tickets should be filtered"
+                },
+                {
+                  "disabled": false,
+                  "key": "async",
+                  "value": "<boolean>",
+                  "description": "Set to true to force asynchronous (background) processing. When enabled, the response returns a job ID instead of the file directly."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "82d292b2-b638-4812-a6a0-9e9b6018b0de",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "export",
+                    "xls"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pagesize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "last_sync_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "apply_filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "async",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "edaf7982-8284-400a-a46a-3d23aeb897ef",
+          "name": "Exports specific ticket",
+          "request": {
+            "name": "Exports specific ticket",
+            "description": {
+              "content": "This API is used for exporting a specific ticket based on its uuid.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                ":uuid",
+                "single_ticket_export"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pagesize",
+                  "value": "<integer>",
+                  "description": "Maximum is 500, default is 100"
+                },
+                {
+                  "disabled": false,
+                  "key": "last_sync_date",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "timezone_offset",
+                  "value": "<integer>",
+                  "description": " -timestamp, is the difference between local time and the worlwide UTC time "
+                },
+                {
+                  "disabled": false,
+                  "key": "async",
+                  "value": "<boolean>",
+                  "description": "Set to true to force asynchronous (background) processing. When enabled, the response returns a job ID instead of the file directly."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) unique identifier of the ticket"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "be8f754a-9346-4496-b4fb-5032895cdab0",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    ":uuid",
+                    "single_ticket_export"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pagesize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "last_sync_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timezone_offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "async",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) unique identifier of the ticket"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "61951a9f-d38b-4f77-ba3c-3b56be1abc5f",
+          "name": "Returns specific ticket",
+          "request": {
+            "name": "Returns specific ticket",
+            "description": {
+              "content": "This API returns a specific ticket based on its uuid.<br/>\n      The response includes a <b>typed_values_metadata</b> attribute, which is a JSON object containing metadata about typed field values.\n      For form field attachment fields, it includes <code>has_attachments</code> per field_id.<br/>\n      Example: <code>{ \"ft123456789\": { \"has_attachments\": true } }</code><br/><br/>\n      <b>Note:</b> Do not modify the <code>meta-options</code> attribute - it is reserved for internal use.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) unique identifier of the ticket"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "376a712a-3bb0-4405-b998-ad339bf612bd",
+              "name": "Ticket Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) unique identifier of the ticket"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cbb1ccec-e6bf-4ce0-acd4-75bc4b034649",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) unique identifier of the ticket"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c89488cf-a4b1-4abc-a388-271e6604b972",
+          "name": "Deletes specific ticket",
+          "request": {
+            "name": "Deletes specific ticket",
+            "description": {
+              "content": "This API is used for deleting a specific ticket based on its uuid.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) unique identifier of the ticket"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "da77c153-ab6d-48dc-9842-6606d3198e6a",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) unique identifier of the ticket"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5b6bb6fa-f8de-421e-b6f3-453381d142c6",
+          "name": "Updates specific ticket",
+          "request": {
+            "name": "Updates specific ticket",
+            "description": {
+              "content": "This API is used for updating the details of a specific ticket based on its uuid.<br/>\n      The response includes <b>typed_values_metadata</b> which contains metadata about form field attachments (e.g. has_attachments per field_id).<br/><br/>\n      <b>Note:</b> Do not modify the <code>meta-options</code> attribute - it is reserved for internal use.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "clean_up_assets",
+                  "value": "<boolean>",
+                  "description": "If set to true, triggers a background job to remove any orphaned assets (images, documents, audios, videos) that no longer belong to the ticket"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) unique identifier of the ticket"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"ticket-type-id\": \"<string>\",\n      \"component-id\": \"<string>\",\n      \"subject\": \"<string>\",\n      \"parent-id\": \"<string>\",\n      \"status-id\": \"<string>\",\n      \"priority-id\": \"<string>\",\n      \"assigned-to-id\": \"<string>\",\n      \"assignee-type\": \"<string>\",\n      \"due-date\": \"<date>\",\n      \"closed-at\": \"<date>\",\n      \"extension-date\": \"<string>\",\n      \"typed-values\": \"<object>\",\n      \"subscribers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"progress\": \"<integer>\",\n      \"plan-x\": \"<number>\",\n      \"plan-y\": \"<number>\",\n      \"uuid\": \"<string>\"\n    }\n  },\n  \"title\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b5f36cdf-211d-436b-a262-ecee184509b8",
+              "name": "Ticket Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "clean_up_assets",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) unique identifier of the ticket"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"ticket-type-id\": \"<string>\",\n      \"component-id\": \"<string>\",\n      \"subject\": \"Ticket title\",\n      \"parent-id\": \"<string>\",\n      \"status-id\": \"<string>\",\n      \"priority-id\": \"<string>\",\n      \"assigned-to-id\": \"<string>\",\n      \"assignee-type\": \"<string>\",\n      \"due-date\": \"<date>\",\n      \"closed-at\": \"<date>\",\n      \"extension-date\": \"<string>\",\n      \"typed-values\": {\n        \"tf37e04757dabbca63\": 33.5,\n        \"tfd4367f50e84a9408\": \"some text\",\n        \"tf00a1b2c3d4e5f601\": 1\n      },\n      \"subscribers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"progress\": \"<integer>\",\n      \"plan-x\": \"<number>\",\n      \"plan-y\": \"<number>\",\n      \"uuid\": \"<string>\"\n    }\n  },\n  \"title\": 2505\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "981647f0-0813-43bc-90ce-9129aabdfc1f",
+          "name": "Marks specific ticket as seen",
+          "request": {
+            "name": "Marks specific ticket as seen",
+            "description": {
+              "content": "This API is used for marking a specific ticket as seen if the request is done by the ticket asignee, else it returns whether or not the ticket was marked as seen. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                ":uuid",
+                "mark_as_seen"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) unique identifier of the ticket"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e0e7597d-5d7e-49b0-82a1-6148fac459bc",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    ":uuid",
+                    "mark_as_seen"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) unique identifier of the ticket"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4a69ec9b-5a52-40f4-964e-88226df142b3",
+          "name": "Exports filtered tickets as PDF",
+          "request": {
+            "name": "Exports filtered tickets as PDF",
+            "description": {
+              "content": " This API is used for exporting tickets to pdf files based on their filter. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "export",
+                "pdf"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pagesize",
+                  "value": "<integer>",
+                  "description": "Maximum is 500, default is 100"
+                },
+                {
+                  "disabled": false,
+                  "key": "last_sync_date",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[status_id]",
+                  "value": "<string>",
+                  "description": "Simple status ID filter. Use status codes: 1=Open, 2=In-Progress, 3=Resolved, 4=Feedback, 5=Closed, 6=Rejected. Example: filter[status_id]=1 - Structured filter parameter supporting multiple conditions and predicates. You can use either simple or advanced format.<br/>\n      <b>Status ID Mapping:</b> 1 (lm)=Open, 2 (ol)=In-Progress, 3 (ma)=Resolved, 4 (ex)=Feedback, 5 (gk)=Closed, 6 (ky)=Rejected<br/>\n      <b>Simple Format:</b> `filter[{field}]={value}` - Direct field-value filtering<br/>\n      <b>Advanced Format:</b> `filter[{field}][][predicate]={predicate}&filter[{field}][][value][]={value}` - Complex filtering with predicates<br/>\n      <b>Supported Fields:</b> status_id, priority-id, assigned-to-id, author-id, subject, created-at, due-date, etc.<br/>\n      <b>Predicates:</b> eq (equals), neq (not equals), in (in list), not_in (not in list), like (contains), not_like (not contains), between (range), has (has value), has_not (no value), le (less/equal), ge (greater/equal)<br/>\n      <b>Simple Format Examples:</b><br/>\n      • Filter by status: `filter[status_id]=1` (Open tickets)<br/>\n      • Filter by priority: `filter[priority-id]=3` (High priority)<br/>\n      • Multiple simple filters: `filter[status_id]=1&filter[priority-id]=3`<br/>\n      <b>Advanced Format Examples:</b><br/>\n      • Status filtering with 'in': `filter[status_id][][predicate]=in&filter[status_id][][value][]=1&filter[status_id][][value][]=2`<br/>\n      • Text search with 'like': `filter[subject][][predicate]=like&filter[subject][][value][]=urgent`<br/>\n      • Date range filtering: `filter[created-at][][predicate]=between&filter[created-at][][value][]=2024-01-01&filter[created-at][][value][]=2024-12-31`<br/>\n      • Complex multiple conditions: `filter[status_id][][predicate]=eq&filter[status_id][][value][]=1&filter[priority-id][][predicate]=eq&filter[priority-id][][value][]=3`"
+                },
+                {
+                  "disabled": false,
+                  "key": "apply_filter",
+                  "value": "<string>",
+                  "description": "filterid, based on which the tickets should be filtered"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "keyword, based on which the tickets should be filtered"
+                },
+                {
+                  "disabled": false,
+                  "key": "async",
+                  "value": "<boolean>",
+                  "description": "Set to true to force asynchronous (background) processing. When enabled, the response returns a job ID instead of the file directly."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8713eaab-ae14-46cc-ac18-d9d0cc2547ee",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "export",
+                    "pdf"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pagesize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "last_sync_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[status_id]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "apply_filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "async",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "20531a16-2a41-4a11-86f1-f5eebb8be8bf",
+          "name": "Returns all recurring reminders",
+          "request": {
+            "name": "Returns all recurring reminders",
+            "description": {
+              "content": "This API returns all recurring reminders of the tickets of the logged in customer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "load_recurring_reminders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "sets the number of pages for the returned reminders"
+                },
+                {
+                  "disabled": false,
+                  "key": "pagesize",
+                  "value": "<integer>",
+                  "description": "sets the number of reminders that should be returned per page <br> Maximum is 500, default is 100"
+                },
+                {
+                  "disabled": false,
+                  "key": "last_sync_date",
+                  "value": "<string>",
+                  "description": "is a Unix Timestamp. If it is set, only reminders that were created after that timestamp will be returned"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "84a6406f-4bf4-4585-817a-151f30a5d15d",
+              "name": "unsupported accept header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "load_recurring_reminders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pagesize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "last_sync_date",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f1c5a961-8899-400f-aeba-6586b3bad8fd",
+          "name": "Returns the count of tickets per ticket type",
+          "request": {
+            "name": "Returns the count of tickets per ticket type",
+            "description": {
+              "content": "This API returns the count of tickets per ticket types. Extra parameters can be added to filter the results.\n      <br> <b>Ticket Filtering </b>\n      You can filter the results by one of your created filters by providing its id to the apply_filter parameter.\n      <br><b>Example:  </b>ticket_types_stats?apply_filter=jpg\n      <br>Moreover, the results can be filtered based on any condition of the related model.\n      filter[author_id]=1 will list all tickets related to this author id.\n      filter[author_email]=1 will list all tickets related to this author email.\n      Multiple filters can be used at the same time.\n      <br><b>Example:  </b> filter[id][]=PN&filter[id][]=nE\n      <br><b>Available Models</b>: customer, ticket_type, project, component, status, ticket, author, assigned_to, updated_by, due_by, overdue_by, creation_period",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "ticket_types_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "filter",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "apply_filter",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "64e0f103-1bc3-424c-88fb-287e70e675f7",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "ticket_types_stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "apply_filter",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "750ff035-855e-462c-8d33-31f553049750",
+          "name": "Updates multiple tickets at once",
+          "request": {
+            "name": "Updates multiple tickets at once",
+            "description": {
+              "content": "This API is used for updating multiple tickets at once based on the provided filteration. However, no filter will update all the data of the project.\n      <br />\n      <b>Filtering </b>\n      You can filter the tickets by one of your created filters by providing its id to the apply_filter attribute.\n      Moreover, the tickets can be filtered based on any condition of the related model. These have to be set in the filter object of the body.\n      Multiple filters can be used at the same time.\n      <br />\n      Example:\n      <br />\n\n      {\n        \"apply_filter\":\"mod\",\n        \"filter\":{\n           \"uuid\":[\n              {\n                 \"predicate\":\"in\",\n                 \"value\":[\n                    \"b404f669-e02a-4273-bcff-aac72b31386f\",\n                    \"fa30521c-bf68-4246-b50f-29fd9c91ee5f\"\n                 ]\n              }\n           ]\n        },\n        \"data\":{\n           \"attributes\":{\n              \"priority-id\":\"ol\"\n           },\n           \"obk\":{\n              \"tf37e04757dabbca63\":\"4\",\n              \"tf7ae8b29ea4b4c1e9\":[\n                 \"makw\"\n              ],\n              \"typed-values-metadata\":{\n                 \"tf37e04757dabbca63\":{\n                    \"note\":\"observation details\",\n                    \"has_attachments\":true\n                 }\n              }\n           }\n        }\n     }\n\n      <br /><br />\n      <b>CheckList Fields in Batch Update</b><br />\n      When updating CheckList fields (CustomFields::CheckListType), typed-values-metadata must be placed inside the ticket_type_id bucket alongside the typed values. The server extracts it automatically.<br />\n      <b>Silent Skip Behavior:</b> If a checklist field requires a mandatory note or attachment and the metadata is not provided, the checklist field update is silently skipped for that ticket. Other fields in the same batch update are still applied normally.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "batch_update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"apply_filer\": \"<string>\",\n  \"data\": {\n    \"attributes\": {\n      \"field-name\": \"<string>\"\n    },\n    \"ticket_type_id\": {\n      \"typed-field-id\": \"<string>\",\n      \"typed-values-metadata\": \"<object>\"\n    }\n  },\n  \"filter\": {\n    \"uuid\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"component_id\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "88661323-8606-4f5a-8d31-c0b0200f2bde",
+              "name": "Tickets Updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "batch_update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apply_filer\": \"<string>\",\n  \"data\": {\n    \"attributes\": {\n      \"field-name\": \"<string>\"\n    },\n    \"ticket_type_id\": {\n      \"typed-field-id\": \"<string>\",\n      \"typed-values-metadata\": \"<object>\"\n    }\n  },\n  \"filter\": {\n    \"uuid\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"component_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 6037,\n  \"subject\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eac1e9d5-7fef-49e8-94df-cd8549f205f3",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "batch_update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apply_filer\": \"<string>\",\n  \"data\": {\n    \"attributes\": {\n      \"field-name\": \"<string>\"\n    },\n    \"ticket_type_id\": {\n      \"typed-field-id\": \"<string>\",\n      \"typed-values-metadata\": \"<object>\"\n    }\n  },\n  \"filter\": {\n    \"uuid\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"component_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1a89b14e-ee15-413a-9b7c-2b9fedd13474",
+          "name": "Updates multiple tickets with array",
+          "request": {
+            "name": "Updates multiple tickets with array",
+            "description": {
+              "content": "This API is used for updating multiple tickets at once based on the uuid.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "multi_update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": [\n    {\n      \"attributes\": {\n        \"uuid\": \"<string>\",\n        \"subject\": \"<string>\",\n        \"parent-id\": \"<string>\",\n        \"status-id\": \"<string>\",\n        \"priority-id\": \"<string>\",\n        \"assigned-to-id\": \"<string>\",\n        \"assignee-type\": \"<string>\",\n        \"due-date\": \"<string>\",\n        \"closed-at\": \"<string>\",\n        \"extension-date\": \"<string>\",\n        \"typed-values\": \"<object>\",\n        \"subscribers\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"progress\": \"<integer>\",\n        \"plan-x\": \"<number>\",\n        \"plan-y\": \"<number>\"\n      }\n    },\n    {\n      \"attributes\": {\n        \"uuid\": \"<string>\",\n        \"subject\": \"<string>\",\n        \"parent-id\": \"<string>\",\n        \"status-id\": \"<string>\",\n        \"priority-id\": \"<string>\",\n        \"assigned-to-id\": \"<string>\",\n        \"assignee-type\": \"<string>\",\n        \"due-date\": \"<string>\",\n        \"closed-at\": \"<string>\",\n        \"extension-date\": \"<string>\",\n        \"typed-values\": \"<object>\",\n        \"subscribers\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"progress\": \"<integer>\",\n        \"plan-x\": \"<number>\",\n        \"plan-y\": \"<number>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "83dd4e65-49a8-4d32-ac83-a7c701f9f804",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "multi_update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": [\n    {\n      \"attributes\": {\n        \"uuid\": \"<string>\",\n        \"subject\": \"<string>\",\n        \"parent-id\": \"<string>\",\n        \"status-id\": \"<string>\",\n        \"priority-id\": \"<string>\",\n        \"assigned-to-id\": \"<string>\",\n        \"assignee-type\": \"<string>\",\n        \"due-date\": \"<string>\",\n        \"closed-at\": \"<string>\",\n        \"extension-date\": \"<string>\",\n        \"typed-values\": \"<object>\",\n        \"subscribers\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"progress\": \"<integer>\",\n        \"plan-x\": \"<number>\",\n        \"plan-y\": \"<number>\"\n      }\n    },\n    {\n      \"attributes\": {\n        \"uuid\": \"<string>\",\n        \"subject\": \"<string>\",\n        \"parent-id\": \"<string>\",\n        \"status-id\": \"<string>\",\n        \"priority-id\": \"<string>\",\n        \"assigned-to-id\": \"<string>\",\n        \"assignee-type\": \"<string>\",\n        \"due-date\": \"<string>\",\n        \"closed-at\": \"<string>\",\n        \"extension-date\": \"<string>\",\n        \"typed-values\": \"<object>\",\n        \"subscribers\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"progress\": \"<integer>\",\n        \"plan-x\": \"<number>\",\n        \"plan-y\": \"<number>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f146d569-a816-47ac-ba1b-221099291185",
+          "name": "Deletes multiple tickets at once",
+          "request": {
+            "name": "Deletes multiple tickets at once",
+            "description": {
+              "content": "This API is used for deleting multiple tickets at once based on the provided filteration. However, no filter will delete all the data of the project.\n      <br />\n      <b>Filtering </b>\n      You can filter the tickets by one of your created filters by providing its id to the apply_filter attribute.\n      Moreover, the tickets can be filtered based on any condition of the related model. These have to be set in the filter object of the body.\n      Multiple filters can be used at the same time.\n      <br />\n      Example:\n\n      {\n        \"filter\":{\n           \"ticket-type-id\":[\n              {\n                 \"predicate\":\"in\",\n                 \"value\":[\n                    \"obk\"\n                 ]\n              }\n           ],\n           \"uuid\":[\n              {\n                 \"predicate\":\"in\",\n                 \"value\":[\n                    \"d25072e3-a184-477f-9de5-9574354618f5\",\n                    \"3b87bf27-3a35-4984-86a2-d38c8c1f50e6\"\n                 ]\n              }\n           ]\n        }\n     }\n     ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "batch_delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"apply_filer\": \"<string>\",\n  \"filter\": {\n    \"uuid\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"component_id\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c895dca2-8122-4004-9f02-f8c090575305",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "batch_delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apply_filer\": \"<string>\",\n  \"filter\": {\n    \"uuid\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"component_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "142ec8a2-0e64-4cce-b375-a239213ae1f6",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "batch_delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apply_filer\": \"<string>\",\n  \"filter\": {\n    \"uuid\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"component_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e75d0590-e991-4084-85f8-4e851b8101a0",
+          "name": "Duplicates multiple tickets at once",
+          "request": {
+            "name": "Duplicates multiple tickets at once",
+            "description": {
+              "content": "This API is used for duplicating multiple tickets at once based on the provided filteration.\n      <br />\n      <b>Filtering </b>\n      You can filter the tickets by one of your created filters by providing its id to the apply_filter attribute.\n      Moreover, the tickets can be filtered based on any condition of the related model. These have to be set in the filter object of the body.\n      Multiple filters can be used at the same time.\n      <br />\n      Example:\n\n      {\n        \"filter\":{\n           \"uuid\":[\n              {\n                 \"predicate\":\"in\",\n                 \"value\":[\n                    \"d25072e3-a184-477f-9de5-9574354618f5\",\n                    \"3b87bf27-3a35-4984-86a2-d38c8c1f50e6\"\n                 ]\n              }\n           ]\n        },\n        \"data\": {\n          \"attributes\": {\n            \"component_id\": \"encoded_component_id\"\n          }\n        }\n     }\n     ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "batch_duplicate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"uuid\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": {\n    \"attributes\": {\n      \"component_id\": \"<string>\"\n    }\n  },\n  \"apply_filer\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e0b65fa6-fda1-4c16-9cf8-b9610a22c898",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "batch_duplicate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filter\": {\n    \"uuid\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": {\n    \"attributes\": {\n      \"component_id\": \"<string>\"\n    }\n  },\n  \"apply_filer\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0d835ce3-eb84-472b-8e15-fa343e8d8483",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "batch_duplicate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filter\": {\n    \"uuid\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"data\": {\n    \"attributes\": {\n      \"component_id\": \"<string>\"\n    }\n  },\n  \"apply_filer\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "008c2b2d-c44f-40c9-b735-f76411c071b6",
+          "name": "Creates multiple tickets at once",
+          "request": {
+            "name": "Creates multiple tickets at once",
+            "description": {
+              "content": "This API is used for creating multiple tickets in a single request.\n      All tickets in one request are created in the project from the URL path; cross-project bulk creation is not supported.\n      <br /><br />\n      <b>Required Fields</b><br />\n      Each ticket object requires at minimum <code>ticket-type-id</code> and <code>component-id</code>. All other fields are optional.\n      All IDs in the request body must be encoded (same encoding used across all PlanRadar APIs).\n      Field names use dash-case (e.g. <code>ticket-type-id</code>, <code>status-id</code>) consistent with the JSON:API convention used in other endpoints.\n      <br /><br />\n      <b>Background Processing</b><br />\n      All bulk create requests are processed as a background job. The immediate response is HTTP <code>201</code> with body <code>{\"count\": N, \"method\": \"job\", \"job_id\": \"&lt;uuid&gt;-&lt;timestamp&gt;\"}</code> — there is no synchronous mode and no per-ticket <code>results</code> array in the HTTP response.\n      <br />\n      <b>Tracking completion</b><br />\n      The <code>job_id</code> can be tracked two ways:\n      <ul>\n        <li><b>Polling:</b> call <code>GET .../tickets/bulk_create_status?job_id=&lt;job_id&gt;</code> to read the current status (<code>queued</code>, <code>processing</code>, <code>completed</code>, or <code>failed</code>) together with the <code>total</code>/<code>succeeded</code>/<code>failed</code> counts. The status is retained for 24 hours.</li>\n        <li><b>WebSocket push:</b> per-ticket outcomes are also delivered via a WebSocket message on channel <code>user_{customer_id}_{user_id}</code> when the job completes (see below).</li>\n      </ul>\n      The WebSocket payload contains\n      <code>bulk-create-progress</code>, <code>bulk-create-succeeded</code> (count of tickets created), and <code>bulk-create-failed</code> (count of failures); on a service-level failure it contains <code>bulk-create-error: true</code>. Individual ticket UUIDs are not included in the WebSocket payload.\n      <br />\n      Only one bulk create job can run at a time per project. If one is already running, the request returns <code>422</code>.\n      <br /><br />\n      <b>Partial Failures</b><br />\n      The job processes each ticket independently — invalid tickets fail in isolation while the rest are still created. The HTTP response is the same regardless of partial failures; the per-ticket success/failure counts arrive via the WebSocket message described above.\n      <br /><br />\n      <b>Limits</b><br />\n      The default maximum is 100 tickets per request. This can be configured per account via the <code>bulk_create_tickets_limit</code> customer setting.\n      Exceeding the limit returns HTTP <code>422</code> with the error message.\n      <br /><br />\n      <b>Idempotency</b><br />\n      Each ticket can include a client-generated <code>uuid</code>. If a ticket with that UUID already exists in the system,\n      the existing ticket is returned as a success without creating a duplicate. This allows safe retries of failed or timed-out requests.\n      <br /><br />\n      <b>Callbacks and Side Effects</b><br />\n      Each ticket is created through the standard ticket creation pipeline, which means:\n      <ul>\n        <li>Journal entries are created for each new ticket</li>\n        <li>Webhooks are triggered for each created ticket</li>\n        <li>Subscribers receive notifications as configured</li>\n        <li>Custom field validations (<code>typed-values</code>) are enforced per ticket type</li>\n      </ul>\n      <br />\n      <b>Error Responses</b><br />\n      <ul>\n        <li><code>201</code> — Job enqueued (final per-ticket outcomes are delivered via WebSocket)</li>\n        <li><code>403</code> — User does not have create permission in the URL project</li>\n        <li><code>422</code> — Request-level validation failed: empty/missing <code>tickets</code> array, limit exceeded, or another bulk create job already running</li>\n      </ul>\n      <br />\n      <b>Request Example:</b>\n      <pre>\n{\n  \"tickets\": [\n    {\n      \"ticket-type-id\": \"obk\",\n      \"component-id\": \"lzm\",\n      \"subject\": \"Fix plumbing in unit 4A\",\n      \"status-id\": \"lm\",\n      \"priority-id\": \"ma\",\n      \"assigned-to-id\": \"oll\",\n      \"typed-values\": { \"tfabc123\": \"some value\" },\n      \"uuid\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"subscribers\": [{ \"id\": \"oll\", \"type\": \"User\" }]\n    },\n    {\n      \"ticket-type-id\": \"obk\",\n      \"component-id\": \"lzm\",\n      \"subject\": \"Inspect fire alarm system\"\n    }\n  ]\n}\n      </pre>\n      ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "bulk_create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) Encoded customer ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) Encoded project ID — all tickets in the request are created in this project"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tickets\": [\n    {\n      \"ticket-type-id\": \"<string>\",\n      \"component-id\": \"<string>\",\n      \"subject\": \"<string>\",\n      \"status-id\": \"<string>\",\n      \"priority-id\": \"<string>\",\n      \"assigned-to-id\": \"<string>\",\n      \"due-date\": \"<date>\",\n      \"typed-values\": \"<object>\",\n      \"uuid\": \"<string>\",\n      \"subscribers\": [\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"ticket-type-id\": \"<string>\",\n      \"component-id\": \"<string>\",\n      \"subject\": \"<string>\",\n      \"status-id\": \"<string>\",\n      \"priority-id\": \"<string>\",\n      \"assigned-to-id\": \"<string>\",\n      \"due-date\": \"<date>\",\n      \"typed-values\": \"<object>\",\n      \"uuid\": \"<string>\",\n      \"subscribers\": [\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\"\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bd8c9e82-a9c9-490b-81be-3568bda57970",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "bulk_create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) Encoded customer ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) Encoded project ID — all tickets in the request are created in this project"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tickets\": [\n    {\n      \"ticket-type-id\": \"<string>\",\n      \"component-id\": \"<string>\",\n      \"subject\": \"<string>\",\n      \"status-id\": \"<string>\",\n      \"priority-id\": \"<string>\",\n      \"assigned-to-id\": \"<string>\",\n      \"due-date\": \"<date>\",\n      \"typed-values\": \"<object>\",\n      \"uuid\": \"<string>\",\n      \"subscribers\": [\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"ticket-type-id\": \"<string>\",\n      \"component-id\": \"<string>\",\n      \"subject\": \"<string>\",\n      \"status-id\": \"<string>\",\n      \"priority-id\": \"<string>\",\n      \"assigned-to-id\": \"<string>\",\n      \"due-date\": \"<date>\",\n      \"typed-values\": \"<object>\",\n      \"uuid\": \"<string>\",\n      \"subscribers\": [\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"type\": \"<string>\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "adef04c6-a816-4e2b-ac79-99b655dfafe6",
+          "name": "Returns the status of a bulk create job",
+          "request": {
+            "name": "Returns the status of a bulk create job",
+            "description": {
+              "content": "Returns the current status of a bulk create job previously enqueued via the\n      <code>bulk_create</code> endpoint. Poll this endpoint with the <code>job_id</code> returned by\n      <code>bulk_create</code> to track progress and completion.\n      <br /><br />\n      <b>Status values</b>\n      <ul>\n        <li><code>queued</code> — the job has been enqueued but has not started yet.</li>\n        <li><code>processing</code> — the job is currently creating tickets.</li>\n        <li><code>completed</code> — the job finished; <code>succeeded</code>/<code>failed</code> hold the per-ticket counts.</li>\n        <li><code>failed</code> — the job failed before completing; <code>error</code> holds the reason.</li>\n      </ul>\n      The status is retained for 24 hours after the job is enqueued, after which this endpoint returns <code>404</code>.\n      <br /><br />\n      <b>Error Responses</b>\n      <ul>\n        <li><code>400</code> — missing or malformed <code>job_id</code>.</li>\n        <li><code>404</code> — no job found for the given <code>job_id</code> (unknown, expired, or belonging to another account).</li>\n      </ul>\n      ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "bulk_create_status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "job_id",
+                  "value": "<string>",
+                  "description": "(Required) Job identifier returned by the bulk_create endpoint (<code>&lt;uuid&gt;-&lt;timestamp&gt;</code> format)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) Encoded customer ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) Encoded project ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "99f4a66f-80ba-4da1-9238-cd752471571b",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "bulk_create_status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "job_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) Encoded customer ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) Encoded project ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "afb7e084-71c1-46d3-9f7d-d496326cc147",
+          "name": "Returns all journals of a ticket",
+          "request": {
+            "name": "Returns all journals of a ticket",
+            "description": {
+              "content": "This API returns all journals of a specific ticket based on its uuid. Extra parameters can be added to filter and sort the results.\n      <br /><b>Journals Sorting:</b>\n      Journals can be sorted by their attributes. The sort is always ascending unless the field name is prefixed with a minus (U+002D HYPHEN-MINUS, “-“) i.e. `-id` or `id`\n      <br /><b>Example: </b> `/journals?sort=-created_on`\n      <br /><b>Journals Filtering:</b>\n      Journals can be filtered by type. If filter is not set, all journal types will be returned.\n      <br /><b>Example: </b> `/journals?filter=3`<br />\n      <b>Filter Dictionary:</b> [1 = comments, 2 = media, 3 = journals]\n      ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                ":uuid",
+                "journals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "filter",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "sets the number of pages for the returned journals"
+                },
+                {
+                  "disabled": false,
+                  "key": "pagesize",
+                  "value": "<integer>",
+                  "description": "sets the number of journals that should be returned per page. Maximum is 500, default is 100"
+                },
+                {
+                  "disabled": false,
+                  "key": "last_sync_date",
+                  "value": "<string>",
+                  "description": "is a Unix Timestamp. If it is set, only journals that were created after that timestamp will be returned"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) unique identifier of the ticket"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4ae17503-84d7-415b-8e7b-d863960a7f33",
+              "name": "Ticket Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    ":uuid",
+                    "journals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pagesize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "last_sync_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) unique identifier of the ticket"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c74ae296-1211-411c-b6bf-54a81c93ffc3",
+          "name": "Adds a comment to a specific ticket",
+          "request": {
+            "name": "Adds a comment to a specific ticket",
+            "description": {
+              "content": " This API is used for adding a comment to a specific ticket based on its uuid. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                ":uuid",
+                "comment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) unique identifier of the ticket"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"comment\": \"<string>\",\n      \"created_on\": \"<string>\"\n    }\n  },\n  \"title\": 6650\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8ee43ca1-02f5-408a-9b40-5123fcd6876b",
+              "name": "Ticket Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    ":uuid",
+                    "comment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) unique identifier of the ticket"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"comment\": \"Hello World!\",\n      \"created_on\": \"<string>\"\n    }\n  },\n  \"title\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aa0e21ac-5341-419f-81b1-08ab3af10cdd",
+          "name": " Returns subtickets of a specific ticket",
+          "request": {
+            "name": " Returns subtickets of a specific ticket",
+            "description": {
+              "content": "This API returns all the subtickets of a specific ticket based on its uuid.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                ":uuid",
+                "subtickets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include_typed_values",
+                  "value": "<string>",
+                  "description": "true to retrive typed values with subtickets"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) unique identifier of the ticket"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c5121dd0-19e5-4ff8-819d-1c7600cd9b8f",
+              "name": "Ticket Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    ":uuid",
+                    "subtickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include_typed_values",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) unique identifier of the ticket"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d507f2c9-10fe-42e3-881d-38d50d056b95",
+          "name": "Returns the recurring reminder of a ticket",
+          "request": {
+            "name": "Returns the recurring reminder of a ticket",
+            "description": {
+              "content": "This API returns the details of a recurring reminder of a specific ticket based on its uuid",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                ":uuid",
+                "recurring_reminder_details"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) unique identifier of the ticket"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "eb01674d-58d9-4dc1-9a35-7453c60f969e",
+              "name": "Recurring Reminder Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    ":uuid",
+                    "recurring_reminder_details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) unique identifier of the ticket"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4dd1182e-67b9-43b6-b10c-9e2cb80becf8",
+          "name": "Returns the gantt task of a ticket",
+          "request": {
+            "name": "Returns the gantt task of a ticket",
+            "description": {
+              "content": "This API returns the details of a gantt task of a specific ticket based on its uuid",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                ":uuid",
+                "gantt_task"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) unique identifier of the ticket"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3d492120-7a5d-49bc-b437-13d1d0362c9c",
+              "name": "gantt task Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    ":uuid",
+                    "gantt_task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) unique identifier of the ticket"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b63d03b7-f742-4ab2-a501-69f0d8e5bb5c",
+          "name": "Creates or updates a recurring reminder of a ticket",
+          "request": {
+            "name": "Creates or updates a recurring reminder of a ticket",
+            "description": {
+              "content": "This API is used for creating/updating a recurrring reminder of a specific ticket based on its uuid.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                ":uuid",
+                "recurring_reminders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) unique identifier of the ticket"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"notes\": \"<string>\",\n      \"is_active\": \"<boolean>\",\n      \"raw_schedule\": \"<object>\"\n    }\n  },\n  \"title\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1649bf89-85a1-46d3-8984-e1185647f75d",
+              "name": "Ticket Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    ":uuid",
+                    "recurring_reminders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) unique identifier of the ticket"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"notes\": \"Note\",\n      \"is_active\": \"<boolean>\",\n      \"raw_schedule\": \"<object>\"\n    }\n  },\n  \"title\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "27b00385-1971-457d-90bb-7484b606f1c0",
+    "name": "PlanRadar's API Documentation Approval Requests V2 Tickets V2 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>",
+      "type": "text/plain"
+    }
+  }
+}

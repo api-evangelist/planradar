@@ -1,0 +1,481 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Approval Requests V2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "create new approval request for the current versions of the selected nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/nodes",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "create new approval request for the current versions of the selected nodes"
+        },
+        {
+          "info": {
+            "name": "create new approval request for one version",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/version",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "create new approval request for one version"
+        },
+        {
+          "info": {
+            "name": "load approval requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "current_view_id",
+                "value": "",
+                "type": "query",
+                "description": "tickets|documents|created-by-you|pending"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "load approval requests for a project or all approval requests a cross all projects if 0 "
+        },
+        {
+          "info": {
+            "name": "create new approval request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Creates a new approval request. For ticket approvals, `approval_workflow_id` is optional: omit it to create an on-demand approval request (no workflow link)."
+        },
+        {
+          "info": {
+            "name": "load approval requests sub menu items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/sidebar_entries",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "load approval requests menu items along with their icons and extra details"
+        },
+        {
+          "info": {
+            "name": "load one approval request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "load one approval request"
+        },
+        {
+          "info": {
+            "name": "Update approval request",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update approval request"
+        },
+        {
+          "info": {
+            "name": "delete approval request",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "delete approval request"
+        },
+        {
+          "info": {
+            "name": "load approval request by ticket UUID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/for_ticket/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "UUID of the ticket"
+              }
+            ]
+          },
+          "docs": "Returns the approval request that is linked to the given ticket UUID through its steps"
+        },
+        {
+          "info": {
+            "name": "check if the provided version is part of another pending request or not and load that request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/validate_file/:version_uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "check if the provided version is part of another pending request or not and load that request"
+        },
+        {
+          "info": {
+            "name": "validate files for approval request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/validate_nodes",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "select_all",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "validate files for approval request"
+        },
+        {
+          "info": {
+            "name": "returns the calculated dates and duration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/dates_and_duration_calculation",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "steps",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "returns the calculated dates and duration"
+        },
+        {
+          "info": {
+            "name": "check if the approval request can be reopened",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/:id/can_be_reopened",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns whether a completed or canceled approval request can be reopened"
+        },
+        {
+          "info": {
+            "name": "load a plan-type approval request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/:id/load_plan_request",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Load the details of a plan approval request including steps, approvers, and plan references"
+        },
+        {
+          "info": {
+            "name": "update a plan-type approval request",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/:id/update_plan_request",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update the status of a plan approval request (e.g. cancel or reopen)"
+        },
+        {
+          "info": {
+            "name": "submit approval decision for files",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/:approval_request_id/approvals",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "approval_request_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Submit an approval or rejection decision for file versions in an approval request step"
+        },
+        {
+          "info": {
+            "name": "submit approval decision for plans",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/:approval_request_id/approvals/plans",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "approval_request_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Submit an approval or rejection decision for plans in an approval request step"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

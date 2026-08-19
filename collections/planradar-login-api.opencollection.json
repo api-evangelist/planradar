@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Login API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Login",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Extend the current user session",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/extend_session"
+          },
+          "docs": "Validates the current user and pushes `session[:auto_session_expires_at]` forward by the user's `timeout_interval` (defaults to 30 minutes). Returns 204 when authenticated, 401 otherwise."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1376,3 +1376,9 @@ tools:
   method: POST
   path: /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos
   source_operation: openapi/planradar-openapi-original.json#POST /api/v1/{customer_id}/projects/{project_id}/tickets/{ticket_uuid}/ticket_videos
+deployment:
+  mode: none
+  verified: derived
+  tools: 273
+  checked: '2026-08-12'
+  source: catalog MCP census

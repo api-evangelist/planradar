@@ -1,0 +1,66 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Roles V2 API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Roles V2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve all roles for a customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/roles",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Number of roles per page (default: 100, max: 500)"
+              },
+              {
+                "name": "last_sync_date",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp. Only roles updated after this time are returned"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Filter roles by name (case-insensitive)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort field. Prefix with '-' for descending. e.g. 'name', '-created-on', 'is-admin-role'"
+              }
+            ]
+          },
+          "docs": "Returns all roles defined for the customer account. Supports pagination, search, sorting, and sync filtering. Each role includes a count-assigned-users attribute representing the number of distinct users assigned to that role across projects."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

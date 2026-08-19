@@ -1,0 +1,163 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Approval Workflows V2 API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Approval Workflows V2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "list approval workflows",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/approval_workflows",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Filter workflows by name (case-insensitive, minimum 3 characters)"
+              }
+            ]
+          },
+          "docs": "list approval workflows"
+        },
+        {
+          "info": {
+            "name": "create new approval workflow",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/approval_workflows",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "create new approval workflow"
+        },
+        {
+          "info": {
+            "name": "load one approval workflow",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/approval_workflows/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "load one approval workflow"
+        },
+        {
+          "info": {
+            "name": "edit one approval workflow",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/approval_workflows/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "edit one approval workflow"
+        },
+        {
+          "info": {
+            "name": "remove one approval workflow",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/approval_workflows/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "remove one approval workflow"
+        },
+        {
+          "info": {
+            "name": "list potential reviewers for a customer as long as they are inhouse|subcontractors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/approval_workflows/reviewers",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "user name"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "list potential reviewers for a customer as long as they are inhouse|subcontractors"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

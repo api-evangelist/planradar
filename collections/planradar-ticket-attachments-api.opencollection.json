@@ -1,0 +1,264 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Ticket Attachments API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ticket Attachments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns all attachments of one ticket",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/tickets/:ticket_uuid/attachments",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "last_sync_date",
+                "value": "",
+                "type": "query",
+                "description": "is a Unix Timestamp. If it is set, only attachments that were created after that timestamp will be returned"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "sets the number of attachments that should be returned per page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "sets the number of pages for the returned attachments"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "limits the response to specific attachment types: images, audios, videos, documents"
+              },
+              {
+                "name": "only_ticket_attachments",
+                "value": "",
+                "type": "query",
+                "description": "when true, excludes form field attachments and returns only regular ticket attachments"
+              }
+            ]
+          },
+          "docs": "This API returns all attachments of one ticket. An attachment can be of type image, audio, video or document.<br />\n      By default, this endpoint returns both ticket attachments and form field attachments. Use <b>only_ticket_attachments=true</b> to exclude form field attachments.<br />\n      Extra parameters can be added to filter and sort the results.<br />\n      <b>Attachment Sorting:</b>\n      The results can be sorted by the attributes of the attachment object e.g title, attachment type, c"
+        },
+        {
+          "info": {
+            "name": "Uploads new attachment ",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/tickets/:ticket_uuid/attachments",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": " This API is used for uploading a new ticket attachment. <br></br> If you want to attach a google drive document the following array structure is necessary </br> &nbsp; data[attributes][attachment][type] - type is google_drive </br> &nbsp; data[attributes][attachment][token] - token is the google drive access token <br></br><b>Supported document types:</b> PDF, Word (doc/docx), Excel (xls/xlsx), CSV, ODS, ODT, DWG, DXF, EML, MSG, RTF, <b>ZIP, RAR</b>. Images, audio and video files are also accep"
+        },
+        {
+          "info": {
+            "name": "Returns one attachment of one ticket",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/tickets/:ticket_uuid/attachments/:attachment_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "attachment_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API returns one attachment of one ticket."
+        },
+        {
+          "info": {
+            "name": "Updates specific attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/tickets/:ticket_uuid/attachments/:attachment_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "attachment_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for updating a specific ticket attachment based on its id."
+        },
+        {
+          "info": {
+            "name": "Deletes specific attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/tickets/:ticket_uuid/attachments/:attachment_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "attachment_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for deleting a specific ticket attachment based on its id."
+        },
+        {
+          "info": {
+            "name": "Deletes multiple attachments at once ",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/tickets/:ticket_uuid/attachments/batch_delete",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for deleting multiple attachments at once."
+        },
+        {
+          "info": {
+            "name": "Exports multiple attachments at once",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/tickets/:ticket_uuid/attachments/batch_export",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for exporting multiple attachments at once."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

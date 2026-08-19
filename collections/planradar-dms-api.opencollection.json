@@ -1,0 +1,1776 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 DMS API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "DMS",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves All nodes [folder|files] for a specific projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort field. Supports: file_attachment_versions.last_modified_at, -file_attachment_versions.last_modified_at (uses COALESCE with created_at as fallback)"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "only_folders",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "folder_on_top",
+                "value": "",
+                "type": "query",
+                "description": "default = true"
+              },
+              {
+                "name": "trashed",
+                "value": "",
+                "type": "query",
+                "description": "true|false"
+              },
+              {
+                "name": "exclude_ticket_documents",
+                "value": "",
+                "type": "query",
+                "description": "true|false"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "search for a specific file"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "\n        * to load all the files and folder under specific parent -> parent_id=uuid,\n        * to load folder or files on the root level no need for query params,\n        * to load the items in the trash bin which are on the root level  ?trashed=true\n        * version.last-modified-at: filter by last modified date (date type, supports ge/le/between/has/has_not). Uses COALESCE(last_modified_at, created_at) for comparison."
+              },
+              {
+                "name": "search_in_all_folders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will load all the files and folders in the project"
+              },
+              {
+                "name": "search_in_all_subfolders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders"
+              },
+              {
+                "name": "show_virtual",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will load all the components and legacy documents"
+              },
+              {
+                "name": "bookmarked",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will load all bookmarked node on specific level other wise search_in_all_subfoldrs should be provided as well to load all the bookmarked nodes by this user"
+              },
+              {
+                "name": "flat_files_list",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will load all files for a specific folder and subfolders if no parent_id is provided it will load all the files in all folders including the root "
+              },
+              {
+                "name": "last_sync_date",
+                "value": "",
+                "type": "query",
+                "description": "is a Unix Timestamp. If it is set, only nodes that were updated after that timestamp will be returned"
+              },
+              {
+                "name": "filter_by_edit_permissions",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false. If set true the listing is scoped to nodes the current user may copy into (folders / DMS root they can write to) — used by the copy-attachments-to-DMS destination picker."
+              }
+            ]
+          },
+          "docs": "list all the nodes"
+        },
+        {
+          "info": {
+            "name": "Create New Node[folder]  or a new file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Create new Node or file. Maximum file size: 100MB for regular uploads, 2GB when using chunking technique.\n\nFor files larger than 100MB, use the chunking technique:\n\n1. Split the file into chunks (recommended: 15MB per chunk)\n2. Upload each chunk to: POST /api/v2/{customer_id}/file_uploads/upload_chunk\n   Required parameters (FormData):\n   - data[attributes][file]: The chunk blob\n   - data[attributes][file-id]: Unique file ID (format: customer_id.uuid.filename)\n   - data[attributes][original-file"
+        },
+        {
+          "info": {
+            "name": "execute a bulk update action",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": " for a single file move you will need to add a filter as query param like this ?filter[uuid][][predicate]=eq&filter[uuid][][value]=23dfg3gd23-.....\n                                                                                 and add parent_id as form data and this is will be the destination,"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query",
+                "description": "the id of the current folder you are in this needs to be added if you are in non root folder"
+              },
+              {
+                "name": "search_in_all_folders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will update all the files and folders in the project"
+              },
+              {
+                "name": "search_in_all_subfolders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders"
+              }
+            ]
+          },
+          "docs": "execute bulk update actions in bulk"
+        },
+        {
+          "info": {
+            "name": "Create New Ticket Attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/ticket_attachments/:ticket_uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path",
+                "description": "the uuid of the ticket that you want to attach the file to"
+              }
+            ]
+          },
+          "docs": "Create new Ticket Attachment. The response now includes <b>ticket_uuid</b> and <b>field_id</b> (if the attachment is linked to a form field) in the serialized attachment attributes.<br></br><b>Supported document types:</b> PDF, Word (doc/docx), Excel (xls/xlsx), CSV, ODS, ODT, DWG, DXF, EML, MSG, RTF, <b>ZIP, RAR</b>. Images, audio and video files are also accepted."
+        },
+        {
+          "info": {
+            "name": "Create New Form Field Attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/form_field_attachments/:ticket_uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path",
+                "description": "the uuid of the ticket that you want to attach the file to"
+              }
+            ]
+          },
+          "docs": "Create new form field Attachment"
+        },
+        {
+          "info": {
+            "name": "Update a Form Field Attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/form_field_attachments/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "UUID or ID of the file attachment to update"
+              }
+            ]
+          },
+          "docs": "Update an existing form field attachment (e.g. rename/caption). The attachment is looked up by its file attachment UUID or ID, not the DMS node ID."
+        },
+        {
+          "info": {
+            "name": "Retrieves All ticket attachments files for a specific projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/ticket_attachments",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "search for a specific file"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "\n        * to load all the files and folder under specific parent -> parent_id=uuid,\n        * to load folder or files on the root level no need for query params,\n        * to load the items in the trash bin which are on the root level  ?trashed=true"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "Applied filters object. Keys are field IDs from the filterable_fields endpoint (type=ticket-attachments).\n        Available ticket filter fields include: ticket.sequential-id, ticket.subject, ticket.status-id, ticket.priority-id,\n        ticket.assigned-to-id, ticket.author-id, ticket.component-id, ticket.approval-status, etc.\n        Each field value is an array of predicate/value objects."
+              },
+              {
+                "name": "last_sync_date",
+                "value": "",
+                "type": "query",
+                "description": "is a Unix Timestamp. If it is set, only ticket attachments that were updated after that timestamp will be returned"
+              }
+            ]
+          },
+          "docs": "list all the nodes"
+        },
+        {
+          "info": {
+            "name": "Retrieves all form field attachments for a specific project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/form_field_attachments",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "search for a specific file"
+              },
+              {
+                "name": "field_id",
+                "value": "",
+                "type": "query",
+                "description": "the form field id to filter attachments by"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "query",
+                "description": "the uuid of the ticket to filter attachments by. Required when using per_field."
+              },
+              {
+                "name": "per_field",
+                "value": "",
+                "type": "query",
+                "description": "When provided with ticket_uuid, limits the number of attachments returned per field. The response meta will include field_id_counts with the total count per field_id."
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "\n        * to load all the files and folder under specific parent -> parent_id=uuid,\n        * to load folder or files on the root level no need for query params,\n        * to load the items in the trash bin which are on the root level  ?trashed=true"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "Applied filters object. Keys are field IDs from the filterable_fields endpoint (type=ticket-attachments).\n        Available ticket filter fields include: ticket.sequential-id, ticket.subject, ticket.status-id, ticket.priority-id,\n        ticket.assigned-to-id, ticket.author-id, ticket.component-id, ticket.approval-status, etc.\n        Each field value is an array of predicate/value objects."
+              }
+            ]
+          },
+          "docs": "List all form field attachments. When ticket_uuid and per_field are provided, returns a limited number of attachments per field along with field_id_counts in the response meta."
+        },
+        {
+          "info": {
+            "name": "Delete Ticket Attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/ticket_attachments/delete",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "query",
+                "description": "the uuid of the ticket that you want to delete the attachment from"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Delete a Ticket Attachment"
+        },
+        {
+          "info": {
+            "name": "Delete Form Field Attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/form_field_attachments/delete",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "query",
+                "description": "the uuid of the ticket that the form field attachment belongs to"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Delete one or more form field attachments. Uses the same delete mechanism as ticket attachments but scoped to form field attachments."
+        },
+        {
+          "info": {
+            "name": "Retrieves all attachments (ticket + form field) for a specific project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/attachments",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "search for a specific file"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "query",
+                "description": "filter by ticket UUID"
+              },
+              {
+                "name": "only_ticket_attachments",
+                "value": "",
+                "type": "query",
+                "description": "true|false - when true, only returns ticket attachments (excludes form field attachments)"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "Applied filters object. Keys are field IDs from the filterable_fields endpoint (type=ticket-attachments).\n        Available ticket filter fields include: ticket.sequential-id, ticket.subject, ticket.status-id, ticket.priority-id,\n        ticket.assigned-to-id, ticket.author-id, ticket.component-id, ticket.approval-status, etc.\n        Each field value is an array of predicate/value objects."
+              }
+            ]
+          },
+          "docs": "Combined endpoint that lists both ticket attachments and form field attachments for a project. Supports the same pagination, sorting, and filtering as the ticket_attachments and form_field_attachments endpoints."
+        },
+        {
+          "info": {
+            "name": "Delete attachments (ticket or form field)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/attachments/delete",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "query",
+                "description": "the uuid of the ticket that the attachment belongs to"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Combined delete endpoint that works for both ticket attachments and form field attachments."
+        },
+        {
+          "info": {
+            "name": "show node[folder] or file details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "display folder/file details"
+        },
+        {
+          "info": {
+            "name": "update node[folder] or file",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path",
+                "description": "the id of the node that you want to update uuid can be used as well"
+              },
+              {
+                "name": "show_virtual",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will only update the components and legacy documents, needed in case of update to these components or documents"
+              },
+              {
+                "name": "move_to_all_files",
+                "value": "",
+                "type": "query",
+                "description": "true|false this is needed when moving a component to all files"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "update folder/file name or move folder/file  under different folder"
+        },
+        {
+          "info": {
+            "name": "mark node[folder] or file as deleted",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path",
+                "description": "the id of the node that you want to mark as deleted uuid can be used as well"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "mark nodes/files as deleted if they are already in the trash bin 'delete from trash bin' "
+        },
+        {
+          "info": {
+            "name": "create another copy under different folder for a file/folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/copy",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path",
+                "description": "the id of the node that you want to copy uuid can be used as well"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "path",
+                "description": "you will need to include this if you copy something that is not in the root level"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "copy_to_all_files",
+                "value": "",
+                "type": "query",
+                "description": "this value needs to be true when copying a document from documents by layers to all files "
+              }
+            ]
+          },
+          "docs": "create a new copy from a folder/file under different folder"
+        },
+        {
+          "info": {
+            "name": "move file or folder to the trash bin",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/trash",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path",
+                "description": "the id of the node that you want to mark as deleted uuid can be used as well"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query",
+                "description": "you will need to include this if you trash something that is not in the root level"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "move nodes/files to the trash bin"
+        },
+        {
+          "info": {
+            "name": "execute a bulk trash",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/trash",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search_in_all_folders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will trash all the files and folders in the project"
+              },
+              {
+                "name": "search_in_all_subfolders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders"
+              }
+            ]
+          },
+          "docs": "execute bulk trash actions "
+        },
+        {
+          "info": {
+            "name": "restore file/folder from trash bin",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/restore",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path",
+                "description": "the id of the node that you want to restore from trash bin uuid can be used as well"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "path",
+                "description": "you will need to include this if you restore something that is not in the root level in the trash bin"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "restore nodes/files to the trash bin"
+        },
+        {
+          "info": {
+            "name": "execute a bulk copy , this is only works with files !",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/copy",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "to copy 2 files in bulk the query param will look like this\n          ?filter[uuid][][predicate]=eq&filter[uuid][][value]=sdfs83sd-...&filter[uuid][][predicate]=eq&filter[uuid][][value]=kjlsf83-..."
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query",
+                "description": "this has to be included if your current folder is not in the root level"
+              },
+              {
+                "name": "search_in_all_folders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will copy all the files and folders in the project"
+              },
+              {
+                "name": "search_in_all_subfolders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders"
+              },
+              {
+                "name": "copy_to_all_files",
+                "value": "",
+                "type": "query",
+                "description": "this value needs to be true when copying a document from documents by layers to all files "
+              }
+            ]
+          },
+          "docs": "execute bulk update actions in bulk"
+        },
+        {
+          "info": {
+            "name": "execute a bulk restore",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/restore",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search_in_all_folders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will restore all the files and folders in the project"
+              },
+              {
+                "name": "search_in_all_subfolders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders"
+              }
+            ]
+          },
+          "docs": "execute bulk update actions in bulk"
+        },
+        {
+          "info": {
+            "name": "execute bulk delete",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/delete",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search_in_all_folders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will delete all the files and folders in the project"
+              },
+              {
+                "name": "search_in_all_subfolders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders"
+              }
+            ]
+          },
+          "docs": "execute bulk update actions in bulk"
+        },
+        {
+          "info": {
+            "name": "toggle the control access switch",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:id/toggle",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "enable/disable control access for a specific node"
+        },
+        {
+          "info": {
+            "name": "restore permissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:id/restore_permissions",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "enable/disable control access for a specific node"
+        },
+        {
+          "info": {
+            "name": "validate before copying files to tickets",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/copy_to_tickets_validation",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "to copy 2 files in bulk the query param will look like this\n          ?filter[uuid][][predicate]=eq&filter[uuid][][value]=sdfs83sd-...&filter[uuid][][predicate]=eq&filter[uuid][][value]=kjlsf83-..."
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query",
+                "description": "this has to be included if your current folder is not in the root level"
+              },
+              {
+                "name": "search_in_all_folders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will copy all the files and folders in the project"
+              },
+              {
+                "name": "search_in_all_subfolders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders"
+              },
+              {
+                "name": "copy_to_all_files",
+                "value": "",
+                "type": "query",
+                "description": "this value needs to be true when copying a document from documents by layers to all files "
+              }
+            ]
+          },
+          "docs": "validate the files before copying them to tickets, this is to make sure that the files are not too large and the total size and the type of the files are allowed based on the ticketing system requirements"
+        },
+        {
+          "info": {
+            "name": "validate before copying ticket attachments to DMS",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/copy_attachments_to_dms_validation",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "Selects ticket attachments by their file_attachment uuid (same contract as the ticket-attachments listing / delete endpoints). Example for two files in bulk:\n          ?filter[uuid][][predicate]=in&filter[uuid][][value][]=sdfs83sd-...&filter[uuid][][value][]=kjlsf83-..."
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query",
+                "description": "Optional. UUID of the destination DMS folder. Omit to target the DMS root (\"All Files\"). Must be a folder when present — file / virtual_component destinations are rejected."
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "query",
+                "description": "Optional. Scopes the source listing to a single ticket; otherwise selection is driven entirely by the uuid filter. Required when `field_id` is provided (422 otherwise)."
+              },
+              {
+                "name": "field_id",
+                "value": "",
+                "type": "query",
+                "description": "Optional. Scopes the copy to a single form field (a CustomFields::AttachmentType field id, e.g. `tf…`). When set, only that field's attachments are copied and a `ticket_uuid` is required. When omitted, field (form-field) attachments are ignored entirely — only general ticket attachments are copied."
+              }
+            ]
+          },
+          "docs": "Validate the selected ticket attachments before copying them into DMS. Surfaces scan / processed / file_data issues, the per-customer max-attachments limit (`copy_to_dms_max_limit`, default 10) and resolves the target folder (or DMS root when parent_id is omitted). When `field_id` is omitted, field (form-field) attachments are ignored — only general ticket attachments are eligible."
+        },
+        {
+          "info": {
+            "name": "copy ticket attachments to DMS",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/copy_attachments_to_dms",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "Selects ticket attachments by their file_attachment uuid (same contract as the ticket-attachments listing / delete endpoints). Example for two files in bulk: ?filter[uuid][][predicate]=in&filter[uuid][][value][]=sdfs83sd-...&filter[uuid][][value][]=kjlsf83-..."
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "query",
+                "description": "Optional. Scopes the source listing to a single ticket; otherwise selection is driven by the uuid filter. Required when `field_id` is provided (422 otherwise)."
+              },
+              {
+                "name": "field_id",
+                "value": "",
+                "type": "query",
+                "description": "Optional. Scopes the copy to a single form field (a CustomFields::AttachmentType field id, e.g. `tf…`). When set, only that field's attachments are copied and a `ticket_uuid` is required. When omitted, field (form-field) attachments are ignored entirely — only general ticket attachments are copied."
+              }
+            ]
+          },
+          "docs": "Copy ticket attachments into DMS in bulk. Enqueues `Dms::CopyAttachmentsJob` which writes one DMS node per source attachment under the destination folder (or DMS root when parent_id is omitted), clones the S3 objects, emits a `copy_to_dms` activity log per created node, writes a `file_copied_to_dms` ticket journal on the source ticket, and sends the completion WebSocket message below. When `field_id` is omitted, field (form-field) attachments are ignored — only general ticket attachments are cop"
+        },
+        {
+          "info": {
+            "name": "validate before copying files to tickets",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/copy_to_tickets",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "to copy 2 files in bulk the query param will look like this\n          ?filter[uuid][][predicate]=eq&filter[uuid][][value]=sdfs83sd-...&filter[uuid][][predicate]=eq&filter[uuid][][value]=kjlsf83-..."
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query",
+                "description": "this has to be included if your current folder is not in the root level"
+              },
+              {
+                "name": "search_in_all_folders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will copy all the files and folders in the project"
+              },
+              {
+                "name": "search_in_all_subfolders",
+                "value": "",
+                "type": "query",
+                "description": "true|false default value is false if set true this will load all the dms nodes scoped by a specific parent, if no parent_id provided it will just work like search_in_all_folders"
+              },
+              {
+                "name": "copy_to_all_files",
+                "value": "",
+                "type": "query",
+                "description": "this value needs to be true when copying a document from documents by layers to all files "
+              }
+            ]
+          },
+          "docs": "Copy files from DMS to tickets in bulk. Enqueues a background job that sends a\n          WebSocket message on completion."
+        },
+        {
+          "info": {
+            "name": "Retrieves All the bookmarks for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/bookmarks",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "list all the bookmarks"
+        },
+        {
+          "info": {
+            "name": "Create New bookmark",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/bookmarks",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Create new bookmark"
+        },
+        {
+          "info": {
+            "name": "delete bookmark",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/bookmarks/:bookmark_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "bookmark_id",
+                "value": "",
+                "type": "path",
+                "description": "the id of the bookmark that you want to delete"
+              }
+            ]
+          },
+          "docs": "delete the bookmarks only current logged in user will be able to delete his bookmarks"
+        },
+        {
+          "info": {
+            "name": "Retrieves DMS sections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/sidebar_sections",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "retrieve all the DMS sidebar sections based on the payment plan"
+        },
+        {
+          "info": {
+            "name": "Retrieves DMS activity logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/logs/:item_type/:item_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "item_type",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "item_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "retrieve all the DMS activity logs for models"
+        },
+        {
+          "info": {
+            "name": "Retrieves DMS files size for a specific project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/files_size",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves DMS files size for a specific project"
+        },
+        {
+          "info": {
+            "name": "load the file attachment version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/versions",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "load the file attachment version"
+        },
+        {
+          "info": {
+            "name": "upload new version of the file attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/versions",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "upload new version of the file attachment"
+        },
+        {
+          "info": {
+            "name": "load file attachment version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/versions/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "send the file version uuid"
+              }
+            ]
+          },
+          "docs": "load file attachment version details"
+        },
+        {
+          "info": {
+            "name": "delete file attachment version",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/versions/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "send the file version uuid"
+              }
+            ]
+          },
+          "docs": "delete file attachment version"
+        },
+        {
+          "info": {
+            "name": "Restore file attachment version",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/versions/:id/restore",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "send the file version uuid"
+              }
+            ]
+          },
+          "docs": "Restore file attachment version"
+        },
+        {
+          "info": {
+            "name": "Retrieves All permissions  for a specific node",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "list node permissions"
+        },
+        {
+          "info": {
+            "name": "create a permission entry for a specific role|user to access specific node",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "create a permission entry for a node"
+        },
+        {
+          "info": {
+            "name": "update access|permission type for a permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "permission id"
+              }
+            ]
+          },
+          "docs": "change the permissions type except for admins "
+        },
+        {
+          "info": {
+            "name": "delete access permission for the list",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/:node_id/permissions/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "list roles and users to add them to folder permissions"
+        },
+        {
+          "info": {
+            "name": "list roles and users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/dms/nodes/list_roles_and_users",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "list roles and users to add them to folder permissions"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

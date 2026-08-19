@@ -1,0 +1,488 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Project Reports API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Project Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns all reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/site_reports",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "search keyword based on which reports are returned"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "sets the number of pages for the returned reports"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "sets the number of reports that should be returned per page <br/>Maximum is 500, default is 100"
+              }
+            ]
+          },
+          "docs": "This API returns all Project Reports aka project reports of a specfic project based on its id. Without any extra parameters it will return the first 100 reports ordered by ascending ID. Extra parameters can be added to sort the results. The sort is always ascending unless the field name is prefixed with a minus (U+002D HYPHEN-MINUS, \"-\") i.e. `-id` or `id`.<br /><b>Report Sorting:</b> Reports can be sorted by id: sequential-id, name: title, template: site-report-template-id, status: status, auth"
+        },
+        {
+          "info": {
+            "name": "Creates report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/site_reports",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for creating a site report aka project report based on a report template."
+        },
+        {
+          "info": {
+            "name": "Returns specific report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/site_reports/:uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "unique identifier of the report"
+              }
+            ]
+          },
+          "docs": "This API returns a specific site report aka project report based on its uuid."
+        },
+        {
+          "info": {
+            "name": "Updates specfic report",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/site_reports/:uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "unique identifier of the report"
+              }
+            ]
+          },
+          "docs": "This API is used for updating a specific site report aka project report based on its uuid."
+        },
+        {
+          "info": {
+            "name": "Deletes specific report",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/site_reports/:uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for deleting a specific site report aka project report based on its uuid."
+        },
+        {
+          "info": {
+            "name": "Attaches image to specific report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/site_reports/:site_report_uuid/image",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "site_report_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for attaching an image to a specific project report."
+        },
+        {
+          "info": {
+            "name": "Updates image caption",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/site_reports/:site_report_uuid/image/:image_uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "site_report_uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "image_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for updating the caption of a specfic image that is attached to a specific site report aka project report. Only the caption of the image of a draft can be updated."
+        },
+        {
+          "info": {
+            "name": "Deletes specific image",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/site_reports/:site_report_uuid/image/:image_uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "site_report_uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "image_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for deleting a specific image that is attached to a specific site report aka project report. Only an image of a draft can be deleted."
+        },
+        {
+          "info": {
+            "name": "Clones specific report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/site_reports/:site_report_uuid/clone",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "site_report_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for cloning a specific site report aka project report."
+        },
+        {
+          "info": {
+            "name": "Exports reports as Excel file",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/site_reports/export_reports",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "This API is used for exporting one or multiple project reports as an Excel file. It takes the id/s of the report/s and exports it/them.<br > <b>Example:</b> export_reports?ids[]=wjb&ids[]=nak<br > Reports can be sorted before being exported. They can be sorted by id: sequential-id, name: title, template: site-report-template-id, status: status, author: user-id, creation date: created-at and update date: updated-at. The sort is always ascending unless the field name is prefixed with a minus (U+00"
+        },
+        {
+          "info": {
+            "name": "Exports reports as PDF file",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/site_reports/download_combined_reports",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "This API is used for exporting one or multiple project reports as a PDF file. It takes the id/s of the report/s and exports it/them.<br ><b>Example:</b> download_combined_reports?ids[]=bjk&ids[]=pxq<br > in this API the user can exporting all project reports as a PDF file. It takes the -id/s of the report/s to exclued it/them from exports.<br ><b>Example:</b> download_combined_reports?export_all=true&-ids[]=doqnn&-ids[]=zxgdp<br > Reports can be sorted before being exported. They can be sorted b"
+        },
+        {
+          "info": {
+            "name": "Attach Ticket to Site report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/site_reports/:site_report_id/site_report_tickets/attach_tickets",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "site_report_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum is 500, default is 100"
+              },
+              {
+                "name": "last_sync_date",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "apply_filter",
+                "value": "",
+                "type": "query",
+                "description": "filterid, based on which the tickets should be filtered"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "keyword, based on which the tickets should be filtered"
+              }
+            ]
+          },
+          "docs": "Add ticket to site report"
+        },
+        {
+          "info": {
+            "name": "Unattach tickets from site report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/site_reports/:site_report_id/site_report_tickets/unattach_tickets",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "site_report_uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum is 500, default is 100"
+              },
+              {
+                "name": "last_sync_date",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "apply_filter",
+                "value": "",
+                "type": "query",
+                "description": "filterid, based on which the tickets should be filtered"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "keyword, based on which the tickets should be filtered"
+              }
+            ]
+          },
+          "docs": "Unattach tickets from site report"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

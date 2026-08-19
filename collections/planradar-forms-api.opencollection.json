@@ -1,0 +1,153 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Forms API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Forms",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns specific ticket type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/ticket_types/:ticket_type_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_type_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API returns a specific ticket type based on its id."
+        },
+        {
+          "info": {
+            "name": "Updates specific ticket type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/:customer_id/ticket_types/:ticket_type_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_type_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for updating a specific ticket type based on its id."
+        },
+        {
+          "info": {
+            "name": "Deletes specific ticket type",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/:customer_id/ticket_types/:ticket_type_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_type_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for deleting a specific ticket type based on its id."
+        },
+        {
+          "info": {
+            "name": "Returns all ticket types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/ticket_types",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "last_sync_date",
+                "value": "",
+                "type": "query",
+                "description": "is a Unix Timestamp. If it is set, only ticket types that were created after that timestamp will be returned"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "sets the number of pages for the returned ticket types"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "sets the number of ticket types that should be returned per page <br/>Maximum is 500, default is 100"
+              },
+              {
+                "name": "apply_form_display_permission",
+                "value": "",
+                "type": "query",
+                "description": "(KFT-338) when <code>true</code>, filters to forms the caller's role(s) can see via <code>capabilities.visible_to</code>. Watchers bypass. Default <code>false</code>."
+              },
+              {
+                "name": "apply_form_edit_permission",
+                "value": "",
+                "type": "query",
+                "description": "(KFT-338) when <code>true</code>, filters to forms the caller's role(s) can edit via <code>capabilities.editable_by</code>. Watchers bypass. Default <code>false</code>."
+              }
+            ]
+          },
+          "docs": "This API returns all ticket types of the logged in customer."
+        },
+        {
+          "info": {
+            "name": "Creates ticket type",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/ticket_types",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for creating a ticket type.\n       <br />\n       <b>Example:</b>\n       <br />\n\n        {\n        \"data\": {\n          \"attributes\": {\n            \"name\": \"tickettypeone\",\n            \"capabilities\": {\n              \"has-media\": true,\n              \"has-plan-position\": true,\n              \"store-geolocation-data\": false,\n              \"has-comments\": false,\n              \"has-due-date-extension\": true,\n              \"has-recurring-reminders\": false,\n              \"has-signature\":"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

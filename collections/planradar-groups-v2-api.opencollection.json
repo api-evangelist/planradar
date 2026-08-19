@@ -1,0 +1,179 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Groups V2 API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Groups V2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/groups",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "ymjxnx",
+                "type": "path",
+                "description": "Customer ID"
+              },
+              {
+                "name": "page",
+                "value": "1",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "pagesize",
+                "value": "25",
+                "type": "query",
+                "description": "Number of records per page"
+              },
+              {
+                "name": "check_inhouse",
+                "value": "",
+                "type": "query",
+                "description": "Include groups_have_inhouse_users in meta"
+              },
+              {
+                "name": "q",
+                "value": "[object Object]",
+                "type": "query",
+                "description": "Ransack search parameter. Use q[search_i_cont] to search across name, leader name, leader email, and project name."
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "On-fly filters using field IDs from the filterable_fields endpoint (type=groups). Each filter specifies a field ID, a predicate, and one or more values.<br/><br/><b>Format:</b> <code>filters[{field-id}][0][predicate]={predicate}&filters[{field-id}][0][value]={value}</code><br/><br/><b>Available Fields:</b><br/>- <code>id</code> (integer): Group ID. Predicates: eq, le, ge, neq, between<br/>- <code>name</code> (short_text): Group name. Predicates: eq, neq, starts_with, ends_with, like, not_like<br/>- <code>created-on</code> (date): Creation date. Predicates: eq, le, ge, neq, between, plus relative date predicates<br/>- <code>updated-on</code> (date): Last update date. Predicates: eq, le, ge, neq, between, plus relative date predicates<br/>- <code>leader-id</code> (list): Group leader. Predicates: in, not_in<br/>- <code>leader-email</code> (short_text): Leader email. Predicates: eq, neq, starts_with, ends_with, like, not_like<br/>- <code>leader-tel</code> (short_text): Leader phone number. Predicates: eq, neq, starts_with, ends_with, like, not_like<br/>- <code>members</code> (list): Group members. Predicates: in, not_in<br/>- <code>projects</code> (list): Linked projects. Predicates: in, not_in<br/><br/><b>Examples:</b><br/>- Filter by leader: <code>filters[leader-id][0][predicate]=in&filters[leader-id][0][value][0]=abc</code><br/>- Filter by name: <code>filters[name][0][predicate]=like&filters[name][0][value]=engineering</code><br/>- Filter by date: <code>filters[created-on][0][predicate]=ge&filters[created-on][0][value]=2024-01-01</code><br/>- Multiple filters: <code>filters[leader-id][0][predicate]=in&filters[leader-id][0][value][0]=abc&filters[name][0][predicate]=like&filters[name][0][value]=test</code>"
+              }
+            ]
+          },
+          "docs": "List groups"
+        },
+        {
+          "info": {
+            "name": "Create group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/groups",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "ymjxnx",
+                "type": "path",
+                "description": "Customer ID"
+              }
+            ]
+          },
+          "docs": "Create group"
+        },
+        {
+          "info": {
+            "name": "Show group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/groups/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "ymjxnx",
+                "type": "path",
+                "description": "Customer ID"
+              },
+              {
+                "name": "id",
+                "value": "grp123",
+                "type": "path",
+                "description": "Group ID"
+              },
+              {
+                "name": "page",
+                "value": "1",
+                "type": "query",
+                "description": "Projects page number (1-indexed). Paginates the projects relationship."
+              },
+              {
+                "name": "pagesize",
+                "value": "50",
+                "type": "query",
+                "description": "Projects page size (max 200, default 50)"
+              },
+              {
+                "name": "q[name_i_cont]",
+                "value": "alpha",
+                "type": "query",
+                "description": "Case-insensitive substring filter applied to the projects relationship"
+              }
+            ]
+          },
+          "docs": "Show group"
+        },
+        {
+          "info": {
+            "name": "Update group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v2/:customer_id/groups/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "ymjxnx",
+                "type": "path",
+                "description": "Customer ID"
+              },
+              {
+                "name": "id",
+                "value": "grp123",
+                "type": "path",
+                "description": "Group ID"
+              }
+            ]
+          },
+          "docs": "Update group"
+        },
+        {
+          "info": {
+            "name": "Delete group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/groups/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "ymjxnx",
+                "type": "path",
+                "description": "Customer ID"
+              },
+              {
+                "name": "id",
+                "value": "grp123",
+                "type": "path",
+                "description": "Group ID"
+              }
+            ]
+          },
+          "docs": "Delete group"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

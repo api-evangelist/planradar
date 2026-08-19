@@ -1,0 +1,173 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 videos API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "videos",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves all videos by ticket",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/:ticket_uuid/ticket_videos/list",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves all videos by ticket"
+        },
+        {
+          "info": {
+            "name": "Get the details of one video",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/:ticket_uuid/ticket_videos/:video_uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "video_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get the details of one video"
+        },
+        {
+          "info": {
+            "name": "Update Video caption",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/:ticket_uuid/ticket_videos/:video_uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "video_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update Video caption"
+        },
+        {
+          "info": {
+            "name": "Delete an video from a ticket",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/:ticket_uuid/ticket_videos/:video_uuid",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "video_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an video from a ticket"
+        },
+        {
+          "info": {
+            "name": "Create video with base64 or file attachement)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/tickets/:ticket_uuid/ticket_videos",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "\n        -Video duration should not exceed 30 sec.\n        -If you will upload video as base64 attach the value to `base64` key and you must fill video-content-type key.\n        -If you will upload video as binary attach the value to `video` key and you donot need to fill video-content-type key.\n        -Caption cannot exceed 250 chars, validation error will be returned.<br/>\n        When the video belongs to a form field attachment, validation errors may be returned (e.g. field does not exist, "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

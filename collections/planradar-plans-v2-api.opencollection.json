@@ -1,0 +1,154 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Plans V2 API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Plans V2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns specific plan of a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/plans/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id of the plan"
+              }
+            ]
+          },
+          "docs": "This API returns a specific plan of a component based on its id."
+        },
+        {
+          "info": {
+            "name": "Update specific plan of a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/plans/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id of the plan"
+              }
+            ]
+          },
+          "docs": "This API update a specific plan of a component based on its id."
+        },
+        {
+          "info": {
+            "name": "Returns all plans of a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/plans",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "is_simple",
+                "value": "",
+                "type": "query",
+                "description": "send is_simple with true for retrieving simple plan versions data"
+              }
+            ]
+          },
+          "docs": "This API returns all plans of a component based on the component's id."
+        },
+        {
+          "info": {
+            "name": "Skip approval request for this plan",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/plans/:id/skip_approval_request",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Plan ID"
+              }
+            ]
+          },
+          "docs": "This api will remove the plan from an approval request if it belong to one and delete the approval request if it the last one included"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

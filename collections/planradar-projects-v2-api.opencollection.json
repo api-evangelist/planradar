@@ -1,0 +1,153 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Projects V2 API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Projects V2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get project groups for selected project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/project_groups",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "order_by",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order_how",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get project groups for selected project"
+        },
+        {
+          "info": {
+            "name": "Returns all memberships of a specific project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/memberships",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "use 0 to return the memberships of all projects of the logged in customer"
+              }
+            ]
+          },
+          "docs": "This API returns all the users that are members of a specific project and their permissions. "
+        },
+        {
+          "info": {
+            "name": "Returns all projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/my_projects",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API returns all projects of the logged in customer."
+        },
+        {
+          "info": {
+            "name": "Returns a paginated list of projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination."
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Number of projects per page."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort expression. Defaults to project name ascending."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Filters projects by name."
+              },
+              {
+                "name": "include_archived",
+                "value": "",
+                "type": "query",
+                "description": "When present, archived projects are included in the result."
+              },
+              {
+                "name": "load_all",
+                "value": "",
+                "type": "query",
+                "description": "When present, returns all matching projects without pagination."
+              },
+              {
+                "name": "load_template",
+                "value": "",
+                "type": "query",
+                "description": "When true, scopes the result to projects relevant for the templates flow."
+              }
+            ]
+          },
+          "docs": "Returns projects the current user has access to, scoped by their customer permission. Users with the report_templates permission (and without limited_projects) receive all account projects so templates can be assigned across the account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,750 @@
+{
+  "item": [
+    {
+      "id": "4ed8d785-e56f-4b13-8088-ee6cf88795b8",
+      "name": "Export",
+      "description": {
+        "content": "Export tickets as Excel or PDF files",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c87ff3da-d333-442e-bfd8-186dfba06698",
+          "name": "Export Tickets as an Excel File",
+          "request": {
+            "name": "Export Tickets as an Excel File",
+            "description": {
+              "content": "By default it will export all the tickets, if filters added, it will only export filtered data",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "export",
+                "xls"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "filter",
+                  "value": "<string>",
+                  "description": "Used to filter tickets based on any conditions of the related model, filter[author_id]=1 will list all tickets related to this author id, similar to filter[author.id]=1, the second one will use the condition based on the user table such a filter is available filter[author.email]=test@email.com, for multiple values for the same filter use filter[id][]=PN&filter[id][]=nE,,,, available models are: customer, ticket_type, project, component, status, ticket, author, assigned_to, updated_by"
+                },
+                {
+                  "disabled": false,
+                  "key": "apply_filter",
+                  "value": "<string>",
+                  "description": "ID of the custom filter to be applied before returning the data"
+                },
+                {
+                  "disabled": false,
+                  "key": "timezone_offset",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4e194f85-f8db-468d-b629-c703b6b9a5ef",
+              "name": "unsupported accept header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "export",
+                    "xls"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "apply_filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timezone_offset",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "885c7d7e-5e2f-4cac-9915-38f792427ec2",
+          "name": "Export Tickets as an Excel File using POST",
+          "request": {
+            "name": "Export Tickets as an Excel File using POST",
+            "description": {
+              "content": "Export tickets as Excel file. by default it will export all tickets matching the provided filter, if no filter is provided all tickets will be exported\n      <br />Check ticket loading API for more details about the filters that can be provided",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "export",
+                "xls"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "template_id",
+                  "value": "<string>",
+                  "description": "ID of the template to be used for the export"
+                },
+                {
+                  "disabled": false,
+                  "key": "apply_filter",
+                  "value": "<string>",
+                  "description": "ID of the custom filter to be applied before returning the data"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"uuid\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a652586f-6be3-460f-972c-9ff91f8ed146",
+              "name": "unsupported accept header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "export",
+                    "xls"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "template_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "apply_filter",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e8097905-f076-4016-97ee-b5ff7b5935d5",
+          "name": "Export Tickets as a PDF File",
+          "request": {
+            "name": "Export Tickets as a PDF File",
+            "description": {
+              "content": "By default it will export all the tickets, if filters added, it will only export filtered data, ticket will be added with a job, id of the job will be returned or an error message\n      <b>timezone_offset</b><br />\n      Is used to convert all dates included in the PDF document to the correct timezone. the value should be the difference in minutes between UTC and your location.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "export",
+                "pdf"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "filter",
+                  "value": "<string>",
+                  "description": "Used to filter tickets based on any conditions of the related model, filter[author_id]=1 will list all tickets related to this author id, similar to filter[author.id]=1, the second one will use the condition based on the user table such a filter is available filter[author.email]=test@email.com, for multiple values for the same filter use filter[id][]=PN&filter[id][]=nE,,,, available models are: customer, ticket_type, project, component, status, ticket, author, assigned_to, updated_by"
+                },
+                {
+                  "disabled": false,
+                  "key": "apply_filter",
+                  "value": "<string>",
+                  "description": "ID of the custom filter to be applied before returning the data"
+                },
+                {
+                  "disabled": false,
+                  "key": "template_id",
+                  "value": "<string>",
+                  "description": "ID of the template to be used for the export OPTIONAL"
+                },
+                {
+                  "disabled": false,
+                  "key": "timezone_offset",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"filter\": {\n        \"uuid\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"template-id\": \"<string>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1eb24025-bfbb-475d-b593-6d2351be6621",
+              "name": "unsupported accept header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "export",
+                    "pdf"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "apply_filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "template_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timezone_offset",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"filter\": {\n        \"uuid\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"template-id\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "918d0d48-94db-4dab-a4bf-aee9bcb83ae6",
+          "name": "Export Tickets as a PDF File with POST request",
+          "request": {
+            "name": "Export Tickets as a PDF File with POST request",
+            "description": {
+              "content": "By default it will export all the tickets, if filters added, it will only export filtered data, ticket will be added with a job, id of the job will be returned or an error message\n      <b>timezone_offset</b><br />\n      Is used to convert all dates included in the PDF document to the correct timezone. the value should be the difference in minutes between UTC and your location.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "tickets",
+                "export",
+                "pdf"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "apply_filter",
+                  "value": "<string>",
+                  "description": "ID of the custom filter to be applied before returning the data"
+                },
+                {
+                  "disabled": false,
+                  "key": "template_id",
+                  "value": "<string>",
+                  "description": "ID of the template to be used for the export"
+                },
+                {
+                  "disabled": false,
+                  "key": "timezone_offset",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"uuid\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7fb4c8ca-52ee-46b6-9003-6c3bd4c9a3dd",
+              "name": "unsupported accept header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "tickets",
+                    "export",
+                    "pdf"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apply_filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "template_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timezone_offset",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "260d9b27-569a-4e17-ae55-01c458cd088c",
+          "name": "Check if export is finished",
+          "request": {
+            "name": "Check if export is finished",
+            "description": {
+              "content": "Polls the status of an asynchronous export identified by `uuid`. Returns the export metadata once it is ready. Pass `direct_url=true` to additionally receive a short-lived pre-signed S3 URL in the response (`direct_url` field) that lets the client download the exported file directly, without going through the `/download` redirect endpoint. The pre-signed URL is only generated for export types `pdf`, `single_pdf`, `xls`, `csv` (when the file exists in S3) and `zip`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                ":customer_id",
+                "check_if_finished",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "direct_url",
+                  "value": "<boolean>",
+                  "description": "When `true`, the response includes a `direct_url` field containing a short-lived pre-signed S3 URL for direct download. Supported export types: `pdf`, `single_pdf`, `xls`, `csv`, `zip`. Omit (or set `false`) to receive only the standard export metadata."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) UUID of the export job (returned when the export was triggered)."
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d903ee3c-815e-48fb-8bb4-61a1806cb49a",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    ":customer_id",
+                    "check_if_finished",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "direct_url",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) UUID of the export job (returned when the export was triggered)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f3bcff50-16bd-446d-bd04-c9dbb107ac23",
+    "name": "PlanRadar's API Documentation Approval Requests V2 Export API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "item": [
+    {
+      "id": "14398dca-4229-4701-b252-b3bf4a2f0c33",
+      "name": "Forms V2",
+      "description": {
+        "content": "Get your PlanRadar forms",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f4b08c72-0641-41f1-a973-5bb84d6b30a3",
+          "name": "Returns all ticket types of a specific project",
+          "request": {
+            "name": "Returns all ticket types of a specific project",
+            "description": {
+              "content": "This API returns all forms aka ticket_types of a specific project or all the projects the user is involved in.</br>",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                ":customer_id",
+                "projects",
+                ":project_id",
+                "ticket_types",
+                "ticket_type_project"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "last_sync_date",
+                  "value": "<string>",
+                  "description": "is a Unix Timestamp. If it is set, only ticket types that were created after that timestamp will be returned"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "sets the number of pages for the returned ticket types"
+                },
+                {
+                  "disabled": false,
+                  "key": "pagesize",
+                  "value": "<integer>",
+                  "description": "sets the number of ticket types that should be returned per page<br/>Maximum is 500, default is 100"
+                },
+                {
+                  "disabled": false,
+                  "key": "apply_form_display_permission",
+                  "value": "<boolean>",
+                  "description": "(KFT-338) when <code>true</code>, filters bound ticket_type_projects to forms the caller's role can see (<code>capabilities.visible_to</code> match or unrestricted). Watchers bypass. Results are cached per flag value. Default <code>false</code>."
+                },
+                {
+                  "disabled": false,
+                  "key": "apply_form_edit_permission",
+                  "value": "<boolean>",
+                  "description": "(KFT-338) when <code>true</code>, filters bound ticket_type_projects to forms the caller's role can edit (<code>capabilities.editable_by</code> match or unrestricted). Independent of the display flag. Default <code>false</code>."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customer_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) if you want to load the ticket types of all projects set the project_id to 0"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-PlanRadar-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ea55d832-4525-4690-8bcf-3fa0bfae8962",
+              "name": "Unsupported Accept Header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    ":customer_id",
+                    "projects",
+                    ":project_id",
+                    "ticket_types",
+                    "ticket_type_project"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "last_sync_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pagesize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "apply_form_display_permission",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "apply_form_edit_permission",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customer_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) if you want to load the ticket types of all projects set the project_id to 0"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-PlanRadar-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a123ddc0-bc16-4e84-9fdd-ee333ee3be00",
+    "name": "PlanRadar's API Documentation Approval Requests V2 Forms V2 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>",
+      "type": "text/plain"
+    }
+  }
+}

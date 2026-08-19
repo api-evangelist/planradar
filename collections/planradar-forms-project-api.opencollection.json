@@ -1,0 +1,217 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Forms / Project API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Forms / Project",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns all project ticket types of a specific project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/ticket_types_project",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "last_sync_date",
+                "value": "",
+                "type": "query",
+                "description": "is a Unix Timestamp. If it is set, only project ticket types that were created after that timestamp will be returned"
+              },
+              {
+                "name": "apply_form_display_permission",
+                "value": "",
+                "type": "query",
+                "description": "When true, only forms visible to the caller's role are returned (role-based form visibility, KFT-519). Watchers bypass the filter."
+              },
+              {
+                "name": "apply_form_edit_permission",
+                "value": "",
+                "type": "query",
+                "description": "When true, only forms editable by the caller's role are returned. Combine with apply_form_display_permission to intersect."
+              }
+            ]
+          },
+          "docs": "This API returns all the ticket types that are assigned to a specific project based on its id"
+        },
+        {
+          "info": {
+            "name": "ADD Ticket Type To Project ",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/ticket_types_project",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": " This API is used for assigning a specific ticket type to a project as well as linking its lists if required. "
+        },
+        {
+          "info": {
+            "name": "Load one ticket type assigned to a project with the relation data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/ticket_types_project/:ticket_type_project_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_type_project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Load one ticket type assigned to a project with the relation data"
+        },
+        {
+          "info": {
+            "name": "Creates project ticket type ",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/ticket_types_project/:ticket_type_project_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": " This API is used for assigning a specific ticket type to a project as well as linking its lists if required. "
+        },
+        {
+          "info": {
+            "name": "Updates project ticket type assigned to a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/ticket_types_project/:ticket_type_project_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_type_project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": " This API is used for updating a specific ticket type assigned to a project as well as linking its lists if required. "
+        },
+        {
+          "info": {
+            "name": "Updates the ticket type assigned to a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/ticket_types_project/:ticket_type_project_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_type_project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Updates the ticket type assigned to a project"
+        },
+        {
+          "info": {
+            "name": "Deletes the link between a ticket type and a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/:customer_id/projects/:project_id/ticket_types_project/:ticket_type_project_id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ticket_type_project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for removing a specific ticket type from a project. If a ticket type is removed from a project all the tickets of that ticket type will be deleted as well."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

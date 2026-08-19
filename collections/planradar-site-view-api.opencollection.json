@@ -1,0 +1,729 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Site View API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Site View",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve all runs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/runs",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter[name]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[path]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[resolution]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[fps]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[state]",
+                "value": "",
+                "type": "query",
+                "description": "Available values : queued, running, success, failed, bad"
+              },
+              {
+                "name": "filter[stage]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[meta]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[start_point]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[start_ts]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[start_angle_rad]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[id]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[is_valid]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[is_outdoor]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "last_sync_date",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "include",
+                "value": "layer,trajectories",
+                "type": "query",
+                "description": "\n      Available includes:\n      * layer\n      * trajectories"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum is 500, default is 100"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Example: `name` is name ascending `-name` is name decending"
+              }
+            ]
+          },
+          "docs": "Retrieve all runs"
+        },
+        {
+          "info": {
+            "name": "Create Run ",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/runs",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Create Run "
+        },
+        {
+          "info": {
+            "name": "Retrieve run",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/runs/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include",
+                "value": "layer,trajectories",
+                "type": "query",
+                "description": "\n      Available includes:\n        layer\n        trajectories"
+              }
+            ]
+          },
+          "docs": "Retrieve run"
+        },
+        {
+          "info": {
+            "name": "Updates specific run",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/runs/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for updating a specific run based on its uuid."
+        },
+        {
+          "info": {
+            "name": "Deletes specific run",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/runs/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for deleting a specific run based on its uuid."
+        },
+        {
+          "info": {
+            "name": "Retrieve all points",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/points",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "filter[trajectory_id]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[traj_type]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[x]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[y]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[angle_rad]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[idx]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[id]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[capture_id]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[single_frame_date_group]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[capture_name]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[created_at]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[updated_at]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum is 500, default is 100"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Example: `name` is name ascending `-name` is name decending"
+              }
+            ]
+          },
+          "docs": "Retrieve all points"
+        },
+        {
+          "info": {
+            "name": "Retrieve one point",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/points/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include",
+                "value": "timecell,trajectory",
+                "type": "query",
+                "description": "\n      Available includes:\n        timecell\n        trajectory"
+              }
+            ]
+          },
+          "docs": "Retrieve one point"
+        },
+        {
+          "info": {
+            "name": "Retrieve point history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/points/:point_id/point_history",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "point_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve point history"
+        },
+        {
+          "info": {
+            "name": "Retrieve all runs attachments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/attachments",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "trajectory_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "point_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum is 500, default is 100"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Example: `name` is name ascending `-name` is name decending"
+              }
+            ]
+          },
+          "docs": "Retrieve all runs attachments"
+        },
+        {
+          "info": {
+            "name": "Create Run attachments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/attachments",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Create Run attachments"
+        },
+        {
+          "info": {
+            "name": "Retrieve Runs Attachments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/attachments/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve Runs Attachments"
+        },
+        {
+          "info": {
+            "name": "Updates specific run attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/attachments/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for updating a specific run attachment based on its id."
+        },
+        {
+          "info": {
+            "name": "Deletes specific run attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/attachments/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This API is used for deleting a specific run attachments based on its id."
+        },
+        {
+          "info": {
+            "name": "Retrieve all point ids that have attachments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:component_id/site_view/attachments/highlight_points",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "component_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieve all point ids that have attachments"
+        },
+        {
+          "info": {
+            "name": "Retrieve Site View licenses info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/site_view_licenses_info",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve Site View licenses info"
+        },
+        {
+          "info": {
+            "name": "request site view access",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/site_view_access_request",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "request site view access"
+        },
+        {
+          "info": {
+            "name": "Retrieve Site View Access Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/get_site_view_access_status",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve Site View Access Status"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

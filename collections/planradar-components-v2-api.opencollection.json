@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Components V2 API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Components V2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns all components of a project based on its id.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/project_components",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "last_sync_date",
+                "value": "",
+                "type": "query",
+                "description": " is a Unix Timestamp. If it is set, only components that were created after that timestamp will be returned"
+              }
+            ]
+          },
+          "docs": "This API returns all components of a project."
+        },
+        {
+          "info": {
+            "name": "Returns specific project component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/components/:id",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": " id of the component"
+              }
+            ]
+          },
+          "docs": "This API returns a specific project component based on its id."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

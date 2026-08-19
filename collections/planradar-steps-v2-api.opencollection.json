@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PlanRadar's API Documentation Approval Requests V2 Steps V2 API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Steps V2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "create new step for already completed approval requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/:customer_id/projects/:project_id/approval_requests/:approval_request_id/steps",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "approval_request_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "this is only for creating steps for completed approval requests"
+        },
+        {
+          "info": {
+            "name": "update step in global workflow",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v2/:customer_id/approval_workflows/:approval_workflow_id/steps/:step_id/update_workflow_step",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "approval_workflow_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "step_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "this api only for updating workflow steps"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
