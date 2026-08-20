@@ -33,6 +33,17 @@ modified: '2026-07-20'
 tags:
 - Company
 - Construction
+- Real-Estate
+- Project Management
+- Documentation
+- Defect Management
+- Field Service
+- Facility Management
+- BIM
+- Software-as-a-Service
+tags_raw:
+- Company
+- Construction
 - Real Estate
 - Project Management
 - Documentation
@@ -237,6 +248,8 @@ apis:
   humanURL: https://www.planradar.com/api-docs/index.html
   baseURL: https://www.planradar.com/api/v1
   tags:
+  - Image
+  tags_raw:
   - Images
   properties:
   - type: OpenAPI
@@ -321,6 +334,8 @@ apis:
   humanURL: https://www.planradar.com/api-docs/index.html
   baseURL: https://www.planradar.com/api/v1
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
@@ -377,6 +392,8 @@ apis:
   humanURL: https://www.planradar.com/api-docs/index.html
   baseURL: https://www.planradar.com/api/v1
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -546,6 +563,8 @@ apis:
   humanURL: https://www.planradar.com/api-docs/index.html
   baseURL: https://www.planradar.com/api/v1
   tags:
+  - Videos
+  tags_raw:
   - videos
   properties:
   - type: OpenAPI
