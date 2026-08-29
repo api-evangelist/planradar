@@ -8,6 +8,18 @@ description: PlanRadar is a SaaS platform for construction and real estate docum
   PlanRadar Connect, built on Workato, layers 200+ no-code integrations on top of the API for tools such
   as SharePoint, Power BI, Salesforce, Procore, SAP, Jira and Slack.
 url: https://raw.githubusercontent.com/api-evangelist/planradar/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
@@ -574,6 +586,9 @@ apis:
   - type: Documentation
     url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
 common:
+- type: CapabilityMap
+  url: capabilities/planradar-capability-edges.yml
+  name: PlanRadar Business Capability Map
 - type: DomainSecurity
   url: security/planradar-domain-security.yml
 - type: Authentication
