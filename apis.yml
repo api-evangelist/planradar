@@ -576,7 +576,7 @@ apis:
   humanURL: https://www.planradar.com/api-docs/index.html
   baseURL: https://www.planradar.com/api/v1
   tags:
-  - Videos
+  - Video
   tags_raw:
   - videos
   properties:
