@@ -1,0 +1,51 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://www.planradar.com/pricing/
+sources:
+- https://www.planradar.com/pricing/
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T120546
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: per-seat
+published: true
+note: Per-user-per-month pricing shown in USD (monthly/annual toggle, other currencies available). Open
+  API access included in Pro and Enterprise. An innovation fee of 4% of annual fee is charged from the
+  second billing period. SiteView pricing requires speaking with a representative.
+plan_count: 4
+currency: USD
+plans:
+- name: Basic
+  price_text: $ 32 /month
+  price: 32
+  currency: USD
+  period: month
+  unit: per user
+  included_quota: Max. 1 User; Unlimited Subcontractors & Watchers; 10 Digital Plans; Basic Report Template;
+    E-mail support within 72 working hours
+- name: Starter
+  price_text: $ 107 /month
+  price: 107
+  currency: USD
+  period: month
+  unit: per user
+  included_quota: Unlimited Subcontractors & Watchers; 30 Digital Plans per user; Basic Report Template;
+    E-mail support within 48 working hours
+- name: Pro
+  price_text: $ 159 /month
+  price: 159
+  currency: USD
+  period: month
+  unit: per user
+  included_quota: 100 Digital Plans per user; 1 BIM-Model per user; Custom Template Builder; Project Reports;
+    PlanRadar Connect & Open API access; E-mail support within 24 working hours
+- name: Enterprise
+  price_text: Contact sales
+  period: none
+  included_quota: Unlimited Digital Plans; Unlimited BIM-Models; Document Versioning; User metrics; E-mail
+    support within 6 working hours
+rate_limit_statements:
+- Yes, you can purchase a maximum of 10 licenses per account via Self-Service
+- '*Shared workspace usage limits apply.'

@@ -587,6 +587,8 @@ apis:
   - type: Documentation
     url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
 common:
+- type: Plans
+  url: plans/planradar-plans-pricing.yml
 - type: CapabilityMap
   url: capabilities/planradar-capability-edges.yml
   name: PlanRadar Business Capability Map
