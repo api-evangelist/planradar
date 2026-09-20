@@ -11,8 +11,42 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 3
+edge_count: 7
 edges:
+- tag: Projects
+  spec_file: planradar-projects-api-openapi.yml
+  capability_id: BC-900.30
+  capability_id_l1: BC-900
+  capability_name: Project Management
+  confidence: 0.8
+  evidence: POST /api/v1/{customer_id}/projects 'Creates project'; 'Adds specific user/s to project';
+    'Updates specific member role of project'
+  reason: Full project lifecycle and project team membership management — clearly project execution management
+    rather than any technical object.
+  recovered_from: sweep-20260829T005356Z-edges.json
+- tag: Projects V2
+  spec_file: planradar-projects-v2-api-openapi.yml
+  capability_id: BC-900.30
+  capability_id_l1: BC-900
+  capability_name: Project Management
+  confidence: 0.75
+  evidence: GET /api/v2/{customer_id}/projects 'Returns a paginated list of projects'; 'Returns all memberships
+    of a specific project'
+  reason: Read surface over projects, project groups and memberships — project management, though read-only
+    and thinner than the v1 tag.
+  recovered_from: sweep-20260829T005356Z-edges.json
+- tag: Users V1
+  spec_file: planradar-users-v1-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: Creates user / Deletes a specific user of a customer / Downgrades user to subcontractor /
+    Activates deactivated user
+  reason: CRUD over platform user accounts including activation/deactivation and role downgrade — user
+    account provisioning and access administration, i.e. identity & access management, not HR employee
+    records.
+  recovered_from: sweep-20260829T005356Z-edges.json
 - tag: DMS
   spec_file: planradar-dms-api-openapi.yml
   capability_id: BC-5060.20
@@ -48,3 +82,16 @@ edges:
     project — i.e. development and control of project schedules, which is Planning & Scheduling in a capital
     programme/project controls sense for this construction-documentation vendor. Alternative reading (generic
     project management, BC-900.30) exists, hence not maximal confidence.
+- tag: Plans V2
+  spec_file: planradar-plans-v2-api-openapi.yml
+  capability_id: BC-1130.20
+  capability_id_l1: BC-1130
+  capability_name: Drawing Management
+  confidence: 0.7
+  evidence: '"Returns all plans of a component", "Update specific plan of a component", "Skip approval
+    request for this plan"'
+  reason: In PlanRadar 'plans' are the building/floor plan drawings attached to project components, and
+    these endpoints manage their retrieval, update and approval routing — controlled drawing lifecycle
+    and approvals. Mapped to Drawing Management under Engineering Document Management; some residual ambiguity
+    about drawing vs generic document control.
+  recovered_from: vertical-engineering-services-edges.json
