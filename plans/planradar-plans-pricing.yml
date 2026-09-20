@@ -10,6 +10,11 @@ provenance:
   grounding: every price_text was found verbatim in the fetched page text
 audience: business-product
 pricing_basis: per-seat
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-09-20'
+  managed_tier: Basic
 published: true
 note: Per-user-per-month pricing shown in USD (monthly/annual toggle, other currencies available). Open
   API access included in Pro and Enterprise. An innovation fee of 4% of annual fee is charged from the
