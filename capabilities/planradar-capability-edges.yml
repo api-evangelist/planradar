@@ -1,0 +1,50 @@
+slug: planradar
+provider: PlanRadar
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Infrastructure
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: DMS
+  spec_file: planradar-dms-api-openapi.yml
+  capability_id: BC-5060.20
+  capability_id_l1: BC-5060
+  capability_name: Common Data Environment
+  confidence: 0.72
+  evidence: GET '/projects/{project_id}/dms/nodes    Retrieves All nodes [folder|files] for a specific
+    projects'; POST '/dms/nodes/ticket_attachments/{ticket_uuid}    Create New Ticket Attachment'
+  reason: 'A project-scoped document management system: folders, files, versions and attachments for construction
+    documentation. That is management of the shared project information environment (common data environment),
+    not generic file upload plumbing, because everything is scoped to a construction project and its tickets/forms.'
+- tag: Approval Requests V2
+  spec_file: planradar-approval-requests-v2-api-openapi.yml
+  capability_id: BC-5060.20
+  capability_id_l1: BC-5060
+  capability_name: Common Data Environment
+  confidence: 0.7
+  evidence: POST '/approval_requests/version    create new approval request for one version'; GET '/approval_requests/validate_file/{version_uuid}    check
+    if the provided version is part of another pending request'
+  reason: 'Operations create and track approval requests against document/file versions and DMS nodes
+    inside a construction project, i.e. formal review and control of project information — the common
+    data environment discipline. Not a generic workflow engine: the objects being approved are project
+    file versions. Confidence moderate because it could also be argued as generic contract/quality approval.'
+- tag: Gantt V2
+  spec_file: planradar-gantt-v2-api-openapi.yml
+  capability_id: BC-5020.30
+  capability_id_l1: BC-5020
+  capability_name: Planning & Scheduling
+  confidence: 0.7
+  evidence: GET /projects/{project_id}/gantt_tasks "Retrieves All Phases for a specific projects"; "Create
+    New Phase/Task"; "Import Gantt Tasks"; "Attach Ticket to Phase/Task"
+  reason: Operations create, update, clone, import and export Gantt phases/tasks within a construction
+    project — i.e. development and control of project schedules, which is Planning & Scheduling in a capital
+    programme/project controls sense for this construction-documentation vendor. Alternative reading (generic
+    project management, BC-900.30) exists, hence not maximal confidence.
