@@ -1,16 +1,10 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
-  title: PlanRadar's API Documentation Approval Requests V2 Components-Plans API
+  title: PlanRadar's API Documentation Components Plans API
   version: '2.0'
-  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
-basePath: /
-schemes:
-- https
-- http
-consumes:
-- application/json
-produces:
-- application/json
+  description: Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.
+servers:
+- url: /
 tags:
 - name: Components-Plans
   description: Create PlanRadar Components/Plans
@@ -22,39 +16,47 @@ paths:
       - Components-Plans
       security:
       - apiKey: []
-      produces:
-      - application/json
       parameters:
       - name: customer_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: project_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: page
         in: query
-        type: integer
+        schema:
+          type: integer
       - name: pagesize
         in: query
-        type: integer
         description: Maximum is 500, default is 100
+        schema:
+          type: integer
       - name: last_sync_date
         in: query
-        type: string
+        schema:
+          type: string
       - name: layout
         in: query
-        type: string
         description: Only allowed value is `simple` to retrieve a smaller response for general purpose components listing
+        schema:
+          type: string
       responses:
         '404':
           description: Plan Not Found
+      operationId: getApiV1ByCustomerIdProjectsByProjectIdComponents
+      x-operation-id-source: derived
     post:
       summary: Creates component and plan and updates plan
       tags:
       - Components-Plans
-      description: "This API is used for creating a component aka layer. It is possible to create both a layer and a plan or only a layer. In order to create a layer without a plan you need to send a layer name and order.\n      This API is also used for creating a plan for an empty component and updating an already exisiting plan. In order to create or update a plan the id of the component must be set. "
+      description: 'This API is used for creating a component aka layer. It is possible to create both a layer and a plan or only a layer. In order to create a layer without a plan you need to send a layer name and order.
+
+        This API is also used for creating a plan for an empty component and updating an already exisiting plan. In order to create or update a plan the id of the component must be set.'
       x-websocket-response:
       - channel: components_{projectId}
         message_type: defectradar_components (progress)
@@ -81,84 +83,77 @@ paths:
               type: integer
       security:
       - apiKey: []
-      produces:
-      - application/json
       parameters:
       - name: customer_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: project_id
         in: path
-        type: string
         required: true
-      - name: data[][attributes][file]
-        in: formData
-        type: file
-        description: file that contains the plan - is required if you want to create a plan
-      - name: data[][attributes][file-name]
-        in: formData
-        type: string
-        description: name of the file that contains the plan
-      - name: data[][attributes][file-content-type]
-        in: formData
-        type: string
-        description: 'content type of the file - example: application/pdf'
-      - name: data[][attributes][file][link]
-        in: formData
-        type: string
-        description: you can send the file url instead of the file itself
-      - name: data[][attributes][file][name]
-        in: formData
-        type: string
-        description: ' specifies the file name if the url of the file was sent'
-      - name: data[][attributes][file][type]
-        in: formData
-        type: string
-        description: specifies the content-type of the file if the url of the file was sent
-      - name: data[][attributes][is-base64]
-        in: formData
-        type: boolean
-        description: Set to true if you pass content in attributes as base64 string
-      - name: data[][attributes][layers][][page]
-        in: formData
-        type: integer
-        description: the number of pages of the uploaded file that contains the plan - is required if a file has been uploaded
-      - name: data[][attributes][layers][][name]
-        in: formData
-        type: string
-        description: is optional if a file has been uploaded - is the name of the uploaded file by default
-      - name: data[][attributes][layers][][rotation]
-        in: formData
-        type: integer
-        description: ' degree of the rotation of a specific page of the plan  - example: 0, 90, 180, 270'
-      - name: data[][attributes][layers][][parent-id]
-        in: formData
-        type: string
-        description: parent id of the layer
-      - name: data[][attributes][layers][][order]
-        in: formData
-        type: integer
-        description: 'order of the layer example: 1 ( = first layer of a project )'
-      - name: data[][attributes][layers][][reposition-tickets]
-        in: formData
-        type: boolean
-        description: ' sets whether or not tickets will be repositioned for this plan'
-      - name: data[][attributes][layers][][component-id]
-        in: formData
-        type: string
-        description: id of the component - must be set if a plan is created for an empty component or an exisiting plan is updated
-      - name: data[][attributes][layers][][model-id]
-        in: formData
-        type: string
-        description: add model id to upload a new version of the model file
-      - name: data[][attributes][layers][][model-title]
-        in: formData
-        type: string
-        description: to set the model title
+        schema:
+          type: string
       responses:
         '404':
           description: Component Creation Failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data[][attributes][file]:
+                  type: string
+                  description: file that contains the plan - is required if you want to create a plan
+                  format: binary
+                data[][attributes][file-name]:
+                  type: string
+                  description: name of the file that contains the plan
+                data[][attributes][file-content-type]:
+                  type: string
+                  description: 'content type of the file - example: application/pdf'
+                data[][attributes][file][link]:
+                  type: string
+                  description: you can send the file url instead of the file itself
+                data[][attributes][file][name]:
+                  type: string
+                  description: ' specifies the file name if the url of the file was sent'
+                data[][attributes][file][type]:
+                  type: string
+                  description: specifies the content-type of the file if the url of the file was sent
+                data[][attributes][is-base64]:
+                  type: boolean
+                  description: Set to true if you pass content in attributes as base64 string
+                data[][attributes][layers][][page]:
+                  type: integer
+                  description: the number of pages of the uploaded file that contains the plan - is required if a file has been uploaded
+                data[][attributes][layers][][name]:
+                  type: string
+                  description: is optional if a file has been uploaded - is the name of the uploaded file by default
+                data[][attributes][layers][][rotation]:
+                  type: integer
+                  description: ' degree of the rotation of a specific page of the plan  - example: 0, 90, 180, 270'
+                data[][attributes][layers][][parent-id]:
+                  type: string
+                  description: parent id of the layer
+                data[][attributes][layers][][order]:
+                  type: integer
+                  description: 'order of the layer example: 1 ( = first layer of a project )'
+                data[][attributes][layers][][reposition-tickets]:
+                  type: boolean
+                  description: ' sets whether or not tickets will be repositioned for this plan'
+                data[][attributes][layers][][component-id]:
+                  type: string
+                  description: id of the component - must be set if a plan is created for an empty component or an exisiting plan is updated
+                data[][attributes][layers][][model-id]:
+                  type: string
+                  description: add model id to upload a new version of the model file
+                data[][attributes][layers][][model-title]:
+                  type: string
+                  description: to set the model title
+      operationId: postApiV1ByCustomerIdProjectsByProjectIdComponents
+      x-operation-id-source: derived
   /api/v1/{customer_id}/projects/{project_id}/components/{id}:
     get:
       summary: Retrieve one component
@@ -166,24 +161,27 @@ paths:
       - Components-Plans
       security:
       - apiKey: []
-      produces:
-      - application/json
       parameters:
       - name: customer_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: project_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       responses:
         '404':
           description: Plan Not Found
+      operationId: getApiV1ByCustomerIdProjectsByProjectIdComponentsById
+      x-operation-id-source: derived
     put:
       summary: Updates name and parent of a specific component
       tags:
@@ -191,44 +189,48 @@ paths:
       description: This API is used for updating the name and parent_id of a specific component. You can chose whether you update both or only one of them.
       security:
       - apiKey: []
-      produces:
-      - application/json
       parameters:
       - name: customer_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: project_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: id
         in: path
-        type: string
         description: ' id of the component'
         required: true
-      - name: component
-        in: body
         schema:
-          type: object
-          properties:
-            data:
-              type: object
-              properties:
-                attributes:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                      description: new name of the component
-                      example: updatedname
-                    parent_id:
-                      type: string
-                      description: new parent id of the component
-                      example: byk
+          type: string
       responses:
         '404':
           description: Component Update Failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: new name of the component
+                          example: updatedname
+                        parent_id:
+                          type: string
+                          description: new parent id of the component
+                          example: byk
+      operationId: putApiV1ByCustomerIdProjectsByProjectIdComponentsById
+      x-operation-id-source: derived
     delete:
       summary: Deletes specific component
       tags:
@@ -236,25 +238,28 @@ paths:
       description: This API is used for deleting a specific component including all its sub-components and plans based on its id.
       security:
       - apiKey: []
-      produces:
-      - application/json
       parameters:
       - name: customer_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: project_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: id
         in: path
-        type: string
         description: id of the component
         required: true
+        schema:
+          type: string
       responses:
         '404':
           description: Component Not Found
+      operationId: deleteApiV1ByCustomerIdProjectsByProjectIdComponentsById
+      x-operation-id-source: derived
   /api/v1/{customer_id}/projects/{project_id}/components/{id}/delete_plan_revisions:
     post:
       summary: Deletes all plan revisions of a component
@@ -263,29 +268,33 @@ paths:
       description: This API is used for deleting all the plan revisions aka versions of a specific component based on its id.
       security:
       - apiKey: []
-      produces:
-      - application/json
       parameters:
       - name: customer_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: project_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: id
         in: path
-        type: string
         required: true
         description: id of the component, set it to 0 if you want to delete the plan revisions of all components of a project
+        schema:
+          type: string
       - name: delete_all
         in: query
-        type: boolean
         description: must be true if the id of the project is 0
+        schema:
+          type: boolean
       responses:
         '404':
           description: Plan Revisions Not Found
+      operationId: postApiV1ByCustomerIdProjectsByProjectIdComponentsByIdDeletePlanRevisions
+      x-operation-id-source: derived
   /api/v1/{customer_id}/projects/{project_id}/components/{id}/delete_bim_model_revisions:
     post:
       summary: Deletes all bim model revisions of a specific component
@@ -294,134 +303,148 @@ paths:
       description: This API is used for deleting all the bim model revisions aka versions of a specific component based on its id.
       security:
       - apiKey: []
-      produces:
-      - application/json
       parameters:
       - name: customer_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: project_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: id
         in: path
-        type: string
         required: true
         description: id of the component, set it to 0 if you want to delete all bim model revisions of all components of a project
+        schema:
+          type: string
       - name: delete_all
         in: query
-        type: boolean
         description: must be true if the id of the project is 0
+        schema:
+          type: boolean
       responses:
         '404':
           description: Bim Model Revisions Not Found
+      operationId: postApiV1ByCustomerIdProjectsByProjectIdComponentsByIdDeleteBimModelRevisions
+      x-operation-id-source: derived
   /api/v1/{customer_id}/projects/{project_id}/components/{component_id}/plans:
     get:
       summary: Retrieve all the plans which is belong to component
       tags:
       - Components-Plans
-      produces:
-      - application/json
       parameters:
       - name: customer_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: project_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: component_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       responses:
         '404':
           description: Plan Not Found
+      operationId: getApiV1ByCustomerIdProjectsByProjectIdComponentsByComponentIdPlans
+      x-operation-id-source: derived
   /api/v1/{customer_id}/projects/{project_id}/components/update_components_order:
     put:
       summary: Updates order of components
       tags:
       - Components-Plans
       description: This API is used for updating the order of specific components of a project.
-      produces:
-      - application/json
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: project_id
         in: path
-        type: string
         required: true
-      - name: components
-        in: body
         schema:
-          type: object
-          properties:
-            data:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    example: nygw
-                    description: id of the component of which the order is changed
-                  type:
-                    type: string
-                    example: defectradar-components
-                    description: 'type of the component of which the order is changed '
-                  attributes:
+          type: string
+      responses:
+        '404':
+          description: Plans Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
                     type: object
                     properties:
                       id:
                         type: string
+                        example: nygw
                         description: id of the component of which the order is changed
-                      order:
-                        type: integer
-                        description: new order of the component
-                      parent-id:
-                        type: integer
-                        description: parent-id of the component
-              description: ' includes the data of the components of which the order is changed as well as their new order'
-      responses:
-        '404':
-          description: Plans Not Found
+                      type:
+                        type: string
+                        example: defectradar-components
+                        description: 'type of the component of which the order is changed '
+                      attributes:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            description: id of the component of which the order is changed
+                          order:
+                            type: integer
+                            description: new order of the component
+                          parent-id:
+                            type: integer
+                            description: parent-id of the component
+                  description: ' includes the data of the components of which the order is changed as well as their new order'
+      operationId: putApiV1ByCustomerIdProjectsByProjectIdComponentsUpdateComponentsOrder
+      x-operation-id-source: derived
   /api/v1/{customer_id}/projects/{project_id}/components/{component_id}/plans/{id}:
     get:
-      summary: 'Returns a specific plan of a component '
+      summary: Returns a specific plan of a component
       tags:
       - Components-Plans
       description: This API returns a specific plan of a component based on its id.
-      produces:
-      - application/json
       parameters:
       - name: customer_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: project_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: component_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: id
         in: path
-        type: string
         description: id of the plan
         required: true
+        schema:
+          type: string
       responses:
         '404':
           description: Plan Not Found
+      operationId: getApiV1ByCustomerIdProjectsByProjectIdComponentsByComponentIdPlansById
+      x-operation-id-source: derived
     delete:
       summary: Deletes a specific plan of a component
       tags:
@@ -429,34 +452,39 @@ paths:
       security:
       - apiKey: []
       description: This API is used for deleting a specific plan of a component based on its id.
-      produces:
-      - application/json
       parameters:
       - name: customer_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: project_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: component_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: id
         in: path
-        type: string
         description: id of the plan
         required: true
+        schema:
+          type: string
       responses:
         '404':
           description: Plan Not Found
-securityDefinitions:
-  apiKey:
-    type: apiKey
-    name: X-PlanRadar-API-Key
-    in: header
+      operationId: deleteApiV1ByCustomerIdProjectsByProjectIdComponentsByComponentIdPlansById
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: X-PlanRadar-API-Key
+      in: header
 externalDocs:
   description: Find out more about our development portal
   url: https://www.planradar.com/knowledge-base-overview/

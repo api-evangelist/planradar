@@ -1,16 +1,10 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
   title: PlanRadar's API Documentation Approval Requests V2 API
   version: '2.0'
-  description: "Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.<br />\n        <h5>Rate Limits</h5>30 requests per minute per account, aggregated across all tokens.<br />\n        If the threshold is exceeded, a 5-minute cooldown is applied to the account, aggregated across all tokens.<br />\n        During the cooldown period, further requests may be rejected until the cooldown ends.<br />\n        In rare cases, an endpoint may have a different rate limit than the default. When that happens, the differing limit will be explicitly stated in the API documentation for that endpoint.<br />\n        <h5>Access Key</h5>In order to be able to access any API you have to create an access token.Therefore you have to follow these steps:-\n        <ul>\n          <li>Go to your profile page and click on Personal Access Tokens on the left side bar</li><li>Click on the 'Create Access Token' top right button in order to create a new access token.</li><li>Copy the created token and paste it into the field that pops up when you click on the 'Authorize' button </li><li>Note: you can copy the token only once.</li><li>Now you can easily access any API</li>\n        </ul>\n        <h5>V2 APIs</h5>We are currently working on upgrading all our APIs to v2, and we recommend that you use v2 APIs if it is available.\n        <p>V2 APIs are faster, robust and more flexible than v1 APIs</p>"
-basePath: /
-schemes:
-- https
-- http
-consumes:
-- application/json
-produces:
-- application/json
+  description: Welcome to PlanRadar's API documentation, here you can find all the details about our APIs as well as test them online.
+servers:
+- url: /
 tags:
 - name: Approval Requests V2
   description: Create and manage approval requests for documents, plans, and tickets
@@ -20,238 +14,251 @@ paths:
       summary: create new approval request for the current versions of the selected nodes
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
-      - name: request
-        in: body
         schema:
-          type: object
-          properties:
-            data:
-              type: object
-              properties:
-                attributes:
-                  type: object
-                  properties:
-                    subject:
-                      type: string
-                      default: Subject
-                    due_date:
-                      type: string
-                      default: 1/1/2023
-                    message:
-                      type: string
-                      default: Message
-                    approvers:
-                      type: array
-                      items:
-                        type: string
-                      default:
-                      - oll
-                    nodes_to_approve:
-                      type: array
-                      items:
-                        type: string
-                      default:
-                      - lm
+          type: string
+          default: '100003'
       responses:
         '404':
           description: Requests Not Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        subject:
+                          type: string
+                          default: Subject
+                        due_date:
+                          type: string
+                          default: 1/1/2023
+                        message:
+                          type: string
+                          default: Message
+                        approvers:
+                          type: array
+                          items:
+                            type: string
+                          default:
+                          - oll
+                        nodes_to_approve:
+                          type: array
+                          items:
+                            type: string
+                          default:
+                          - lm
+      operationId: postApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsNodes
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests/version:
     post:
       summary: create new approval request for one version
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
-      - name: request
-        in: body
         schema:
-          type: object
-          properties:
-            data:
-              type: object
-              properties:
-                attributes:
-                  type: object
-                  properties:
-                    subject:
-                      type: string
-                      default: Subject
-                    due_date:
-                      type: string
-                      default: 1/1/2023
-                    message:
-                      type: string
-                      default: Message
-                    steps:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          approvers:
-                            type: array
-                            items:
-                              type: string
-                          due_date:
-                            type: string
-                          duration:
-                            type: integer
-                          required_reviewers:
-                            type: integer
-                            nullable: true
-                            description: 'N-of-M: minimum reviewers needed to complete the step. NULL or omitted means all reviewers required.'
-                      default:
-                      - approvers:
-                        - oll
-                        due_date: 1/1/2023
-                        duration: 1
-                        required_reviewers: 1
-                    version_uuid:
-                      type: string
-                      default: d31f314e-48fd-41d1-90a0-241fb43bc59e
-                    approval_workflow_id:
-                      type: string
-                      default: 8d532921-c254-4480-b1ce-aa28b64bd802
+          type: string
+          default: '100003'
       responses:
         '404':
           description: Requests Not Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        subject:
+                          type: string
+                          default: Subject
+                        due_date:
+                          type: string
+                          default: 1/1/2023
+                        message:
+                          type: string
+                          default: Message
+                        steps:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              approvers:
+                                type: array
+                                items:
+                                  type: string
+                              due_date:
+                                type: string
+                              duration:
+                                type: integer
+                              required_reviewers:
+                                type:
+                                - integer
+                                - 'null'
+                                description: 'N-of-M: minimum reviewers needed to complete the step. NULL or omitted means all reviewers required.'
+                          default:
+                          - approvers:
+                            - oll
+                            due_date: 1/1/2023
+                            duration: 1
+                            required_reviewers: 1
+                        version_uuid:
+                          type: string
+                          default: d31f314e-48fd-41d1-90a0-241fb43bc59e
+                        approval_workflow_id:
+                          type: string
+                          default: 8d532921-c254-4480-b1ce-aa28b64bd802
+      operationId: postApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsVersion
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests:
     post:
       summary: create new approval request
       tags:
       - Approval Requests V2
       description: 'Creates a new approval request. For ticket approvals, `approval_workflow_id` is optional: omit it to create an on-demand approval request (no workflow link).'
-      produces:
-      - application/json
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
-      - name: request
-        in: body
         schema:
-          type: object
-          properties:
-            data:
-              type: object
-              properties:
-                attributes:
-                  type: object
-                  properties:
-                    subject:
-                      type: string
-                      default: Subject
-                    due_date:
-                      type: string
-                      default: 1/1/2023
-                    message:
-                      type: string
-                      default: Message
-                    steps:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          approvers:
-                            type: array
-                            items:
-                              type: string
-                          due_date:
-                            type: string
-                          duration:
-                            type: integer
-                          required_reviewers:
-                            type: integer
-                            nullable: true
-                            description: 'N-of-M: minimum reviewers needed to complete the step. NULL or omitted means all reviewers required.'
-                      default:
-                      - approvers:
-                        - qhas
-                        due_date: 2026-07-02 09:28:12 +0000
-                        duration: 1
-                      - approvers:
-                        - xqed
-                        due_date: 2026-07-02 09:28:12 +0000
-                        duration: 1
-                    files_to_approve:
-                      type: array
-                      items:
-                        type: string
-                      default:
-                      - lm
-                      description: only with documents approvals
-                    approval_workflow_id:
-                      type: string
-                      nullable: true
-                      default: e5006451-88e1-406e-bb51-76eb97cff234
-                      description: Optional for ticket approvals. Omit (or send null) to create an on-demand ticket approval request without linking to a workflow.
-                    ticket_id:
-                      type: string
-                      default: oll
-                      description: only with ticket approvals
+          type: string
+          default: '100003'
       responses:
         '404':
           description: Requests Not Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        subject:
+                          type: string
+                          default: Subject
+                        due_date:
+                          type: string
+                          default: 1/1/2023
+                        message:
+                          type: string
+                          default: Message
+                        steps:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              approvers:
+                                type: array
+                                items:
+                                  type: string
+                              due_date:
+                                type: string
+                              duration:
+                                type: integer
+                              required_reviewers:
+                                type:
+                                - integer
+                                - 'null'
+                                description: 'N-of-M: minimum reviewers needed to complete the step. NULL or omitted means all reviewers required.'
+                          default:
+                          - approvers:
+                            - qhas
+                            due_date: 2026-07-02 09:28:12 +0000
+                            duration: 1
+                          - approvers:
+                            - xqed
+                            due_date: 2026-07-02 09:28:12 +0000
+                            duration: 1
+                        files_to_approve:
+                          type: array
+                          items:
+                            type: string
+                          default:
+                          - lm
+                          description: only with documents approvals
+                        approval_workflow_id:
+                          type:
+                          - string
+                          - 'null'
+                          default: e5006451-88e1-406e-bb51-76eb97cff234
+                          description: Optional for ticket approvals. Omit (or send null) to create an on-demand ticket approval request without linking to a workflow.
+                        ticket_id:
+                          type: string
+                          default: oll
+                          description: only with ticket approvals
+      operationId: postApiV2ByCustomerIdProjectsByProjectIdApprovalRequests
+      x-operation-id-source: derived
     get:
       summary: load approval requests
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
-      description: 'load approval requests for a project or all approval requests a cross all projects if 0 '
+      description: load approval requests for a project or all approval requests a cross all projects if 0
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: current_view_id
         in: query
-        type: string
         description: tickets|documents|created-by-you|pending
+        schema:
+          type: string
       - name: filter
         in: query
         schema:
@@ -375,550 +382,600 @@ paths:
       responses:
         '200':
           description: Requests Found
-          schema:
-            type: object
-            required:
-            - data
-            - meta
-            properties:
-              data:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                    type:
-                      type: string
-                    attributes:
-                      type: object
-                      properties:
-                        subject:
-                          type: string
-                        current_user_status:
-                          type: string
-                          nullable: true
-                          description: Approval status from the current user's perspective
-                          enum:
-                          - pending
-                          - awaiting_your_approval
-                          - approved
-                          - approved_with_comments
-                          - rejected
-                          - canceled
-                          - skipped
-                          - none
-                        approvables:
-                          type: array
-                          items:
-                            type: object
-                            required:
-                            - status
-                            properties:
-                              name:
-                                type: string
-                                description: Name of the approvable (files/plans)
-                              mime_type:
-                                type: string
-                                description: MIME type (files/plans)
-                              link:
-                                type: string
-                                description: API path to the approvable (files/plans)
-                              revision:
-                                type: integer
-                                description: File revision number (files only)
-                              node_name:
-                                type: string
-                                description: Name of the parent node (files only)
-                              sequential_id:
-                                type: string
-                                description: Sequential ID (tickets)
-                              status_id:
-                                type: string
-                                nullable: true
-                                description: Encoded status ID (tickets)
-                              subject:
-                                type: string
-                                description: Subject (tickets)
-                              ticket_uuid:
-                                type: string
-                                description: UUID (tickets)
-                              status:
-                                type: string
-                                description: Approval status of the approvable
-                                enum:
-                                - pending
-                                - approved
-                                - rejected
-                                - canceled
-                                - skipped
-                                - none
-              meta:
+          content:
+            application/json:
+              schema:
                 type: object
                 required:
-                - count
+                - data
+                - meta
                 properties:
-                  count:
-                    type: integer
-                    description: Total number of approval requests
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                        attributes:
+                          type: object
+                          properties:
+                            subject:
+                              type: string
+                            current_user_status:
+                              type:
+                              - string
+                              - 'null'
+                              description: Approval status from the current user's perspective
+                              enum:
+                              - pending
+                              - awaiting_your_approval
+                              - approved
+                              - approved_with_comments
+                              - rejected
+                              - canceled
+                              - skipped
+                              - none
+                            approvables:
+                              type: array
+                              items:
+                                type: object
+                                required:
+                                - status
+                                properties:
+                                  name:
+                                    type: string
+                                    description: Name of the approvable (files/plans)
+                                  mime_type:
+                                    type: string
+                                    description: MIME type (files/plans)
+                                  link:
+                                    type: string
+                                    description: API path to the approvable (files/plans)
+                                  revision:
+                                    type: integer
+                                    description: File revision number (files only)
+                                  node_name:
+                                    type: string
+                                    description: Name of the parent node (files only)
+                                  sequential_id:
+                                    type: string
+                                    description: Sequential ID (tickets)
+                                  status_id:
+                                    type:
+                                    - string
+                                    - 'null'
+                                    description: Encoded status ID (tickets)
+                                  subject:
+                                    type: string
+                                    description: Subject (tickets)
+                                  ticket_uuid:
+                                    type: string
+                                    description: UUID (tickets)
+                                  status:
+                                    type: string
+                                    description: Approval status of the approvable
+                                    enum:
+                                    - pending
+                                    - approved
+                                    - rejected
+                                    - canceled
+                                    - skipped
+                                    - none
+                  meta:
+                    type: object
+                    required:
+                    - count
+                    properties:
+                      count:
+                        type: integer
+                        description: Total number of approval requests
         '404':
           description: Requests Not Found
+      operationId: getApiV2ByCustomerIdProjectsByProjectIdApprovalRequests
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests/sidebar_entries:
     get:
       summary: load approval requests sub menu items
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       description: load approval requests menu items along with their icons and extra details
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       responses:
         '404':
           description: Requests Not Found
+      operationId: getApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsSidebarEntries
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}:
     get:
       summary: load one approval request
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       responses:
         '404':
           description: Requests Not Found
+      operationId: getApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsById
+      x-operation-id-source: derived
     put:
       summary: Update approval request
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: id
         in: path
-        type: string
         required: true
-      - name: request
-        in: body
         schema:
-          type: object
-          properties:
-            data:
-              type: object
-              properties:
-                attributes:
-                  type: object
-                  properties:
-                    status:
-                      type: string
-                      default: canceled
+          type: string
       responses:
         '404':
           description: Requests Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          default: canceled
+      operationId: putApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsById
+      x-operation-id-source: derived
     delete:
       summary: delete approval request
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       responses:
         '404':
           description: Requests Not Deleted
+      operationId: deleteApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsById
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests/for_ticket/{id}:
     get:
       summary: load approval request by ticket UUID
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       description: Returns the approval request that is linked to the given ticket UUID through its steps
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: id
         in: path
-        type: string
         description: UUID of the ticket
         required: true
+        schema:
+          type: string
       responses:
         '422':
           description: No approval request found for the given ticket UUID
+      operationId: getApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsForTicketById
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests/validate_file/{version_uuid}:
     get:
-      summary: check if the provided version is part of another pending request or not and load that request
+      summary: check if the provided version is part of another pending request or not and…
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: version_uuid
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       responses:
         '404':
           description: version uuid not existed
         '422':
           description: this version is already part of another file request
+      operationId: getApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsValidateFileByVersionUuid
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests/validate_nodes:
     post:
       summary: validate files for approval request
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: select_all
         in: query
-        type: boolean
-      - name: request
-        in: body
         schema:
-          type: object
-          properties:
-            data:
-              type: object
-              properties:
-                attributes:
-                  type: object
-                  properties:
-                    files_to_validate:
-                      type: array
-                      items:
-                        type: string
-                        default: 4de4d2e2-76e9-4126-898c-116d23b7b64c
+          type: boolean
       responses:
         '404':
           description: file not valid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        files_to_validate:
+                          type: array
+                          items:
+                            type: string
+                            default: 4de4d2e2-76e9-4126-898c-116d23b7b64c
+      operationId: postApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsValidateNodes
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests/dates_and_duration_calculation:
     get:
       summary: returns the calculated dates and duration
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: steps
         in: path
-        type: string
-        default: steps[][order]=1&steps[][due_date]=2024/06/28&steps[][duration]=
         required: true
+        schema:
+          type: string
+          default: steps[][order]=1&steps[][due_date]=2024/06/28&steps[][duration]=
       responses:
         '422':
           description: invalid value provided
+      operationId: getApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsDatesAndDurationCalculation
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}/can_be_reopened:
     get:
       summary: check if the approval request can be reopened
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       description: Returns whether a completed or canceled approval request can be reopened
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       responses:
         '404':
           description: Request Not Found
+      operationId: getApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsByIdCanBeReopened
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}/load_plan_request:
     get:
       summary: load a plan-type approval request
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       description: Load the details of a plan approval request including steps, approvers, and plan references
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: id
         in: path
-        type: string
         required: true
+        schema:
+          type: string
       responses:
         '404':
           description: Request Not Found
+      operationId: getApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsByIdLoadPlanRequest
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests/{id}/update_plan_request:
     put:
       summary: update a plan-type approval request
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       description: Update the status of a plan approval request (e.g. cancel or reopen)
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: id
         in: path
-        type: string
         required: true
-      - name: request
-        in: body
         schema:
-          type: object
-          properties:
-            data:
-              type: object
-              properties:
-                attributes:
-                  type: object
-                  properties:
-                    status:
-                      type: string
-                      default: canceled
-                      description: 'New status: canceled, reopened'
+          type: string
       responses:
         '404':
           description: Request Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          default: canceled
+                          description: 'New status: canceled, reopened'
+      operationId: putApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsByIdUpdatePlanRequest
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests/{approval_request_id}/approvals:
     patch:
       summary: submit approval decision for files
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       description: Submit an approval or rejection decision for file versions in an approval request step
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: approval_request_id
         in: path
-        type: string
         required: true
-      - name: request
-        in: body
         schema:
-          type: object
-          properties:
-            data:
-              type: object
-              properties:
-                attributes:
-                  type: object
-                  properties:
-                    status:
-                      type: string
-                      default: approved
-                      description: 'Approval decision: approved or rejected'
-                    message:
-                      type: string
-                      default: Looks good
-                      description: Optional message with the decision
-                    user_files_approval_ids:
-                      type: array
-                      items:
-                        type: string
-                      description: IDs of the user_files_approval records to update
+          type: string
       responses:
         '404':
           description: Approval request not found
         '422':
           description: Invalid approval action
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          default: approved
+                          description: 'Approval decision: approved or rejected'
+                        message:
+                          type: string
+                          default: Looks good
+                          description: Optional message with the decision
+                        user_files_approval_ids:
+                          type: array
+                          items:
+                            type: string
+                          description: IDs of the user_files_approval records to update
+      operationId: patchApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsByApprovalRequestIdApprovals
+      x-operation-id-source: derived
   /api/v2/{customer_id}/projects/{project_id}/approval_requests/{approval_request_id}/approvals/plans:
     put:
       summary: submit approval decision for plans
       tags:
       - Approval Requests V2
-      produces:
-      - application/json
       description: Submit an approval or rejection decision for plans in an approval request step
       security:
       - apiKey: []
       parameters:
       - name: customer_id
         in: path
-        type: string
-        default: '100000'
         required: true
+        schema:
+          type: string
+          default: '100000'
       - name: project_id
         in: path
-        type: string
-        default: '100003'
         required: true
+        schema:
+          type: string
+          default: '100003'
       - name: approval_request_id
         in: path
-        type: string
         required: true
-      - name: request
-        in: body
         schema:
-          type: object
-          properties:
-            data:
-              type: object
-              properties:
-                attributes:
-                  type: object
-                  properties:
-                    status:
-                      type: string
-                      default: approved
-                      description: 'Approval decision: approved or rejected'
-                    message:
-                      type: string
-                      default: Plan approved
-                      description: Optional message with the decision
-                    user_files_approval_ids:
-                      type: array
-                      items:
-                        type: string
-                      description: IDs of the user_files_approval records to update
+          type: string
       responses:
         '404':
           description: Approval request not found
         '422':
           description: Invalid approval action
-securityDefinitions:
-  apiKey:
-    type: apiKey
-    name: X-PlanRadar-API-Key
-    in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          default: approved
+                          description: 'Approval decision: approved or rejected'
+                        message:
+                          type: string
+                          default: Plan approved
+                          description: Optional message with the decision
+                        user_files_approval_ids:
+                          type: array
+                          items:
+                            type: string
+                          description: IDs of the user_files_approval records to update
+      operationId: putApiV2ByCustomerIdProjectsByProjectIdApprovalRequestsByApprovalRequestIdApprovalsPlans
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: X-PlanRadar-API-Key
+      in: header
 externalDocs:
   description: Find out more about our development portal
   url: https://www.planradar.com/knowledge-base-overview/
