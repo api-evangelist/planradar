@@ -46,7 +46,7 @@ modified: '2026-07-20'
 tags:
 - Company
 - Construction
-- Real-Estate
+- Real Estate
 - Project Management
 - Documentation
 - Defect Management
@@ -65,6 +65,7 @@ tags_raw:
 - Facility Management
 - BIM
 - SaaS
+- Real-Estate
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -534,6 +535,8 @@ apis:
   humanURL: https://www.planradar.com/api-docs/index.html
   baseURL: https://www.planradar.com/api/v1
   tags:
+  - Ticketing
+  tags_raw:
   - Tickets
   properties:
   - type: OpenAPI
@@ -571,7 +574,7 @@ apis:
   - type: Documentation
     url: https://help.planradar.com/hc/en-gb/articles/15480453097373-Open-API-Overview
 - aid: planradar:planradar-videos-api
-  name: PlanRadar videos API
+  name: PlanRadar Videos API
   description: The videos API from PlanRadar — 3 operation(s) for videos.
   humanURL: https://www.planradar.com/api-docs/index.html
   baseURL: https://www.planradar.com/api/v1
