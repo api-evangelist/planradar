@@ -242,16 +242,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    List:
-      type: object
-      properties:
-        name:
-          type: string
-          example: newlist
-          description: name of the list - is required
-        customer-id:
-          type: string
-          description: id of the logged in customer
     Entry:
       type: object
       description: -- is optional since a list can be without entries
@@ -268,6 +258,16 @@ components:
         order:
           type: integer
           description: order for each entry
+    List:
+      type: object
+      properties:
+        name:
+          type: string
+          example: newlist
+          description: name of the list - is required
+        customer-id:
+          type: string
+          description: id of the logged in customer
   securitySchemes:
     apiKey:
       type: apiKey
